@@ -9,6 +9,7 @@ defmodule MyAppWeb.FatUserController do
   alias MyApp.Domains
   alias MyApp.Books
   alias MyApp.Library
+  alias MyApp.Blog
   alias MyAppWeb.ScratchpadController
 
   action_fallback MyAppWeb.FallbackController
@@ -19,6 +20,12 @@ defmodule MyAppWeb.FatUserController do
     pages = Wiki.list_pages(user_id)
     tags = Organize.list_tags(user_id)
     future_reads = Reading.list_future_reads_of_user(user_id)
+
+    blog_configuration = case Blog.get_user_subdomain(user_id) do
+      {:ok, blog} -> blog
+      {:error, :not_found} -> nil
+    end
+
     %{entries: books, metadata: cursor_metadata} = Library.list_books(user_id, nil)
 
     scratchpad = case ScratchpadController.fetch_or_create_user_scratchpad(user_id) do
@@ -39,7 +46,8 @@ defmodule MyAppWeb.FatUserController do
       tags: tags,
       books: books,
       scratchpad: scratchpad,
-      tokens: [upload_token]
+      tokens: [upload_token],
+      blog: blog_configuration
     })
   end
 end

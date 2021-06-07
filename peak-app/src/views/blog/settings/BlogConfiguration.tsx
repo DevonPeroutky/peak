@@ -52,7 +52,7 @@ export const BlogSettings = (props: {}) => {
                         <Input
                             prefix={<CompassOutlined className="input-icon" style={{ marginRight: "5px" }}/>}
                             placeholder="Publication Name"
-                            className={"minimal-text-input"}
+                            className={"minimal-text-input blog-setting-input"}
                             bordered={false}
                             disabled={loading}
                         />
@@ -71,7 +71,7 @@ export const BlogSettings = (props: {}) => {
                     >
                         <Input
                             prefix={<CommentOutlined className="input-icon" style={{ marginRight: "5px" }}/>}
-                            className={"minimal-text-input"}
+                            className={"minimal-text-input blog-setting-input"}
                             bordered={false}
                             disabled={loading}
                             placeholder="What is your blog about?"/>
@@ -81,7 +81,7 @@ export const BlogSettings = (props: {}) => {
                         name="subdomain"
                         tooltip={"Changing subdomains is coming!"}
                     >
-                        <SubdomainInput disabled={true}/>
+                        <SubdomainInput disabled={true} className={"minimal-text-input blog-setting-input"}/>
                     </Form.Item>
                 <h3 style={{marginTop: "10px"}}>Coming Soon...</h3>
                 <ul>

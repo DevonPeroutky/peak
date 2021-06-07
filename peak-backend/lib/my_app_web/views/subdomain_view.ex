@@ -12,7 +12,6 @@ defmodule MyAppWeb.SubdomainView do
   end
 
   def render("subdomain.json", %{subdomain: subdomain}) do
-    IO.puts "Subdomain is fine"
     %{id: subdomain.id,
       title: subdomain.title,
       description: subdomain.description,
@@ -20,7 +19,6 @@ defmodule MyAppWeb.SubdomainView do
   end
 
   def render("author.json", %{user: user}) do
-    IO.puts "????"
     %{id: user.id,
       email: user.email,
       image_url: user.image_url,
