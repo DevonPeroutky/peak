@@ -54,7 +54,6 @@ const TopicWiki = (props: {topic_id: string}) => {
     return (
         <div className={"wiki-container"}>
             {/*<PageContextBar topicId={topic_id}/>*/}
-            <PublishModal className={"publish-modal-button"}/>
             <PeakEditor
                 additionalPlugins={[nodeSelectPlugin, wikiTitleEnforcer]}
                 onChange={updatePageContent}
@@ -62,6 +61,7 @@ const TopicWiki = (props: {topic_id: string}) => {
                 initialValue={wikiPageContent}
                 currentPageId={currentPageId}
             />
+            <PublishModal/>
         </div>
     )
 };

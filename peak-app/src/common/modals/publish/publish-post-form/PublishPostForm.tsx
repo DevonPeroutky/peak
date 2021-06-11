@@ -11,9 +11,10 @@ import {PeakPost, POST_TYPE, POST_VISIBILITY} from "component-library";
 import {sleep} from "../../../../chrome-extension/utils/generalUtil";
 import cn from "classnames"
 import {blogUrlFromSubdomain} from "../../../../utils/urls";
-import {ImageUpload} from "../../../image-upload/ImageUpload";
+import {OG_ARTIFACT_TYPE, WIKI_PAGE} from "../../../../redux/slices/posts/types";
+import {PeakNote} from "../../../../redux/slices/noteSlice";
 
-export const PublishPostForm = (props: { page: PeakWikiPage, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
+export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
     const { page, userId, blogConfiguration, setLoading, setUrl } = props
 
     const [selectedTags, setTags] = useState<PeakTag[]>([])
@@ -41,7 +42,9 @@ export const PublishPostForm = (props: { page: PeakWikiPage, blogConfiguration: 
     const publishPost = (values: { title: string, subtitle: string }) => {
         setLoading("publishing")
         const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle)
-        createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload).then(res => {
+        // @ts-ignore
+        const og_artifact_type: OG_ARTIFACT_TYPE = (page.note_type !== undefined) ? page.note_type : WIKI_PAGE
+        createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, og_artifact_type).then(res => {
             sleep(1000).then(_ => {
                 setLoading("published")
                 const baseBlogUrl = blogUrlFromSubdomain(blogConfiguration.subdomain)

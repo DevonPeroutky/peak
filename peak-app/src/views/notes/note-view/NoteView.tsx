@@ -15,6 +15,7 @@ import {PeakTag} from "../../../types";
 import {WebNoteHeaderSection} from "./note-header/web-note-header/WebNoteHeader";
 import {BookHeaderSection} from "./note-header/book-header/BookHeader";
 import {NextGenNoteView} from "../../note-view-v2/NextGenNoteView";
+import {PublishModal} from "../../../common/modals/publish/PublishModal";
 
 export const PeakNoteView = (props) => {
     const history = useHistory()
@@ -49,6 +50,7 @@ export const PeakNoteView = (props) => {
             {renderHeader({ currentNote, selected_tags, title, author, onAuthorChange, onTitleChange})}
             <Divider className={"note-divider"}/>
             <PeakNoteEditor note_id={currentNote.id}/>
+            <PublishModal/>
         </div>
     )
 }

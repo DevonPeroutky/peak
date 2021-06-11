@@ -102,7 +102,7 @@ export function useCurrentPageId() {
  * Use this for getting the current wiki page. Do not use this externally for just getting the page id, as this will come
  * back null for pages that are not wiki Pages.
  */
-export function useCurrentPage() {
+export function useCurrentPage(): PeakWikiPage | PeakNote {
     const history = useHistory()
     const location = useLocation();
     const notes = useNotes()

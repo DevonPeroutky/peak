@@ -27,10 +27,17 @@
   }
 }
 
-.publish-modal-button {
-  z-index: 1;
-  position: absolute;
-  right: -150px;
-  top: 10px;
-  width: 120px;
+.publish-modal-container {
+  color: $text-accent-color;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: calc(-1 * #{$vertical-padding} / 2)!important;
+  padding-top: calc(#{$vertical-padding} / 2)!important;
+
+  .publish-button {
+    margin-left: 25px;
+    z-index: 10;
+  }
 }

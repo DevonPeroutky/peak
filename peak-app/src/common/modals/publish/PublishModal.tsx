@@ -14,28 +14,19 @@ import {useDispatch} from "react-redux";
 import { deletePage } from 'src/redux/slices/wikiPageSlice';
 import { useHistory } from 'react-router-dom';
 import { removePageFromTopic } from 'src/redux/slices/topicSlice';
+import {PeakNote} from "../../../redux/slices/noteSlice";
 
 type PUBLISHING_STATE = "publishing" | "publish" | "published"
-export const PublishModal = (props: { className?: string }) => {
+export const PublishModal = (props: { }) => {
     const history = useHistory()
     const dispatch = useDispatch()
     const currentPage = useCurrentPage()
-    const editorState = useActiveEditorState()
     const [visible, setVisible] = useState(false);
     const [loadingState, setLoading] = useState<PUBLISHING_STATE>("publish")
 
     return (
         <>
-            <Button
-                className={cn("publish-button", props.className)}
-                type="primary"
-                shape="round"
-                disabled={editorState.isSaving}
-                icon={<ShareAltOutlined />}
-                onClick={() => setVisible(true)}
-                size={"large"}>
-                Publish
-            </Button>
+            <PublishModalContainer setVisible={setVisible}/>
             <Modal
                 visible={visible}
                 onOk={() => setVisible(false)}
@@ -72,7 +63,7 @@ export const PublishModal = (props: { className?: string }) => {
 
 const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: any }) => {
     const { loadingState, setLoading } = props
-    const wikiPage: PeakWikiPage = useCurrentPage()
+    const original_artifact: PeakWikiPage | PeakNote = useCurrentPage()
     const user = useCurrentUser()
     const blog: BlogConfiguration = useBlog()
     const [postUrl, setPostUrl] = useState<string>(null)
@@ -80,8 +71,30 @@ const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: an
     switch (loadingState) {
         case "publish":
         case "publishing":
-            return <PublishPostForm page={wikiPage} userId={user.id} blogConfiguration={blog} setLoading={setLoading} setUrl={setPostUrl}/>
+            return <PublishPostForm page={original_artifact} userId={user.id} blogConfiguration={blog} setLoading={setLoading} setUrl={setPostUrl}/>
         case "published":
             return <PublishSuccess postUrl={postUrl}/>
     }
+}
+
+const PublishModalContainer = (props: { setVisible }) => {
+    const editorState = useActiveEditorState()
+
+    return (
+        <div className={"publish-modal-container"}>
+            <span>Ready to share this with the world?</span>
+            <Button
+                className={cn("publish-button")}
+                type="primary"
+                shape="round"
+                ghost={true}
+                disabled={editorState.isSaving}
+                icon={<ShareAltOutlined />}
+                onClick={() => props.setVisible(true)}
+                size={"large"}>
+                Publish to Blog
+            </Button>
+        </div>
+    )
+
 }
