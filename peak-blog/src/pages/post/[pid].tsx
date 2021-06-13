@@ -9,12 +9,15 @@ import {POST_KEY_PREFIX, POSTS_KEY} from "../../data/posts/types";
 import Error from "next/error";
 import Link from "next/link";
 import styles from "../../../styles/Home.module.css";
+import {useAppContext} from "../../data/context";
+import cn from 'classnames';
 
 // TODO: Load the subdomain / author / posts if not done already?
 const Post: NextPage<{}> = (props) => {
     const router = useRouter()
     const post_id: string = router.query["pid"] as string
     const queryClient = useQueryClient()
+    const { subdomain, author } = useAppContext()
 
     const { isLoading, isError, status, data, error } = useQuery<PeakPost, Error>(
         [POST_KEY_PREFIX, post_id],
@@ -39,18 +42,18 @@ const Post: NextPage<{}> = (props) => {
     }
 
     return (
-        <div className={styles.postContainer}>
-            <div className={"flex w-full mb-4 py-8"}>
-                <Link href={"/"}>
-                    <div className={"flex items-center cursor-pointer p-2 -ml-2 hover:bg-gray-200 rounded"}>
-                        <svg viewBox="0 0 1024 1024" focusable="false" data-icon="caret-left" width="1em" height="1em" fill="currentColor" aria-hidden="true">
-                            <path d="M689 165.1L308.2 493.5c-10.9 9.4-10.9 27.5 0 37L689 858.9c14.2 12.2 35 1.2 35-18.5V183.6c0-19.7-20.8-30.7-35-18.5z"/>
-                        </svg>
-                        Home
-                    </div>
-                </Link>
+        <div className={"w-screen flex flex-col justify-center items-center"}>
+            <div className={"w-full divide-gray-50 border-b py-4 flex justify-center items-center"}>
+                <div className={cn(styles.postContainer, "h-12", "flex", "items-center", "justify-between")}>
+                    <Link href={"/"}>
+                        <span className={"leading-snug cursor-pointer hover:text-blue-400"}>{subdomain.title}</span>
+                    </Link>
+                    <button className={"p-2.5 flex justify-center items-center bg-green-500 text-white rounded font-light text-sm"}>Subscribe</button>
+                </div>
             </div>
-            <BlogPost post={data}/>
+            <div className={styles.postContainer}>
+                <BlogPost post={data}/>
+            </div>
         </div>
     )
 }

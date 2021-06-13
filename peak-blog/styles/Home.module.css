@@ -11,7 +11,7 @@
   flex-direction: column;
   width: 50%;
   max-width: 800px;
-  padding-top: 3rem;
+  /*padding-top: 3rem;*/
   justify-content: center;
   align-items: center;
 }

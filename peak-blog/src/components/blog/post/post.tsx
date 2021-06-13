@@ -11,14 +11,14 @@ import Link from "next/link";
 
 export const BlogPost = (props: { post: PeakPost }) => {
     const { post } = props
-    const { author } = useAppContext()
+    const { subdomain, author } = useAppContext()
 
     const titleNode = post.body[0]
     const bodySanTitle: Node[] = post.body.slice(1)
     const title = Node.string(titleNode)
 
     return (
-        <div className={styles.postContainer}>
+        <div className={"py-12"}>
             <h1 className={"mb-2 text-4xl"}>{title}</h1>
             <h2 className={"text-gray-500 text-xl font-light leading-normal mb-4"}>{post.subtitle}</h2>
             <div className={"text-gray-500 text-sm mb-10"}>

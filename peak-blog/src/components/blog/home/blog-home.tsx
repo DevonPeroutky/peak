@@ -37,13 +37,13 @@ export const BlogHome = (props) => {
 
     const posts: PeakPost[] = data.pages.flatMap(page => page.posts)
     return (
-        <div>
+        <div className={"pt-12"}>
             <div className={"flex justify-center items-center flex-col divide-gray-50 border-b pt-12"}>
                 <h1 className={"mb-4"}>{subdomain.title}</h1>
                 <h2 className={"text-gray-500 font-light text-center leading-normal pb-24"}>{subdomain.description}</h2>
                 <div className={"w-full flex items-center pb-4 text-gray-600 font-light justify-between"}>
                     <div className={"flex items-center"}>
-                        <button className={"mr-5 cursor-pointer rounded-full px-4 py-2 border text-sm border-gray-400 hover:border-blue-400 hover:text-blue-400"}>Follow</button>
+                        <button className={"mr-5 cursor-pointer rounded-full px-4 py-2 text-sm border border-gray-400 hover:border-blue-400 hover:text-blue-400"}>Follow</button>
                         <span className={"mr-5 cursor-pointer hover:text-blue-400"}>255 Followers</span>
                         <Link href={"/about"}>
                             <span className={"mr-5 cursor-pointer hover:text-blue-400"}>About Me</span>
