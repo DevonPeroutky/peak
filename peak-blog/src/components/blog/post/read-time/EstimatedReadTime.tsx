@@ -9,6 +9,6 @@ export const EstimateReadTime = (props: { body: Node[], className?: string }) =>
 
    const time = estimatedReadTime(props.body)
    return (
-       <span className={props.className}>{time} minute{(time === 1) ? "" : "s"}</span>
+       <span className={props.className}>{time} minute{(time === 1) ? "" : "s"} read</span>
    )
 }

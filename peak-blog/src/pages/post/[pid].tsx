@@ -22,6 +22,8 @@ const Post: NextPage<{}> = (props) => {
         {
             initialData: () => {
                 if (!post_id) return undefined
+
+                // @ts-ignore
                 const posts: PeakPost[] = queryClient.getQueryData<{pages: PeakPostListResponse}>(POSTS_KEY)?.pages.flatMap(page => page.posts)
                 return (posts) ? posts.find(p => p.id === post_id) : undefined
             }
@@ -29,7 +31,6 @@ const Post: NextPage<{}> = (props) => {
     )
 
     if (isError) {
-        console.log(`THe error: `, error)
         return <Error statusCode={500}/>
     }
 
