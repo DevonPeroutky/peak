@@ -27,7 +27,7 @@ export interface UserSpecificAppState {
     peakWikiState: PeakWikiState
     notes: PeakNote[],
     tokens: PeakAccessToken[],
-    blog_configuration: BlogConfiguration,
+    blogConfiguration: BlogConfiguration,
     posts: PeakPost[]
 }
 
@@ -38,7 +38,7 @@ export interface UserSpecificAppStateResponse {
     notes: PeakNote[]
     pages: PeakWikiPage[]
     scratchpad: PeakWikiPage
-    blog_configuration: BlogConfiguration
+    blogConfiguration: BlogConfiguration
     posts: PeakPost[]
     tokens: PeakAccessToken[]
 }
