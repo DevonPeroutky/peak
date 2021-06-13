@@ -9,6 +9,7 @@
   .publish-post-container {
     display: flex;
     align-items: center;
+    max-width: 575px;
   }
 
   .ant-modal-content {
@@ -37,6 +38,9 @@
   padding-top: calc(#{$vertical-padding} / 2)!important;
 
   .publish-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 25px;
     z-index: 10;
   }

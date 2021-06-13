@@ -25,7 +25,7 @@ export const refresh_upload_token = (userId: string): Promise<PeakAccessToken> =
 }
 
 const useToken = (tokenName: string): PeakAccessToken => {
-    return useSelector<AppState, PeakAccessToken>(state => state.tokens.find(t => t.token_type === tokenName));
+    return useSelector<AppState, PeakAccessToken>(state => state.tokens && state.tokens.find(t => t.token_type === tokenName));
 }
 
 export const useUploadToken = (): () => Promise<PeakAccessToken> => {

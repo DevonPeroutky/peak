@@ -1,0 +1,39 @@
+@import "../../constants/variables";
+
+$height: 250px;
+$width: 440px;
+
+$button-height: 32px;
+$button-width: 175px;
+
+.preview-container {
+  width: $width;
+  height: $height;
+  padding-top: 25px;
+  position: relative;
+
+  .preview-overlay-button {
+    position: absolute;
+    top: calc((#{$height}/2) - (#{$button-height} /2));
+    left: calc((#{$width}/2) - (#{$button-width} /2));
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  .preview-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.form-button-row {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}

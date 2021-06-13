@@ -18,7 +18,7 @@ defmodule MyAppWeb.FatUserView do
       tags: render_many(tags, TagView, "tag.json"),
       notes: render_many(books, BookView, "book.json"),
       scratchpad: render_one(scratchpad, ScratchpadView, "scratchpad.json"),
-      tokens: render_many(tokens, TokenView, "token.json")
+      tokens: render_many(tokens, TokenView, "token.json"),
       blogConfiguration: render_one(blog_configuration, SubdomainView, "show.json")
     }
   end
