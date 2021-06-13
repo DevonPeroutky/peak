@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import {Button, Divider, Form, Input, message, notification, Spin, Tooltip} from "antd";
-import {CommentOutlined, CompassOutlined, RocketOutlined} from "@ant-design/icons/lib";
+import { Button,Form, Input, notification, Spin } from "antd";
+import { CommentOutlined, CompassOutlined } from "@ant-design/icons/lib";
 import {useBlog} from "../../../redux/slices/blog/hooks";
-import {SUBDOMAIN_RULES, SubdomainInput} from 'src/common/inputs/subdomain/SubdomainInput';
+import { SubdomainInput } from 'src/common/inputs/subdomain/SubdomainInput';
 import "./blog-configuration.scss"
 import {BlogConfiguration} from "../../../redux/slices/blog/types";
 import {useCurrentUser} from "../../../utils/hooks";
 import {updateBlogConfiguration} from "../../../redux/slices/blog/blogSlice";
 import {sleep} from "../../../chrome-extension/utils/generalUtil";
 import {blogUrlFromSubdomain} from "../../../utils/urls";
+import {ImageInput} from "../../../common/image-input/ImageInput";
 
 export const BlogSettings = (props: {}) => {
     const blog = useBlog()
@@ -37,7 +38,7 @@ export const BlogSettings = (props: {}) => {
                 onFinish={updateBlog}
             >
                 <Spin spinning={loading}>
-                    <h5>Publish Name</h5>
+                    <h3>Publish Name</h3>
                     <Form.Item
                         name="title"
                         rules={[
@@ -57,7 +58,7 @@ export const BlogSettings = (props: {}) => {
                             disabled={loading}
                         />
                     </Form.Item>
-                    <h5>One-line description</h5>
+                    <h3>One-line description</h3>
                     <Form.Item
                         name="description"
                         rules={[
@@ -76,13 +77,14 @@ export const BlogSettings = (props: {}) => {
                             disabled={loading}
                             placeholder="What is your blog about?"/>
                     </Form.Item>
-                    <h5>Subdomain</h5>
+                    <h3>Subdomain</h3>
                     <Form.Item
                         name="subdomain"
                         tooltip={"Changing subdomains is coming!"}
                     >
                         <SubdomainInput disabled={true} className={"minimal-text-input blog-setting-input"}/>
                     </Form.Item>
+                    <ImageInput/>
                 <h3 style={{marginTop: "10px"}}>Coming Soon...</h3>
                 <ul>
                     <li>Cover images and logos!</li>

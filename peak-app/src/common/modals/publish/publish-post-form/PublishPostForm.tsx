@@ -115,7 +115,8 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
                             bordered={false}
                         />
                     </Form.Item>
-                    <div className={"form-row"} style={{minHeight: "200px"}}>
+                    <div className={"form-row"} style={{minHeight: "200px", marginBottom: "25px"}}>
+                        <h3>Add a cover Image</h3>
                         <ImageInput setImageUrl={setImageUrl}/>
                     </div>
                     <div className={"form-row"}>

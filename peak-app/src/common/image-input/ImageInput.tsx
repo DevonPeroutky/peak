@@ -48,7 +48,6 @@ export const ImageInput = (props: { setImageUrl? }) => {
 
     return (
         <div>
-            <h3>Add a cover Image</h3>
             { (embedUrl) ? imagePreview : imageInput }
         </div>
    )

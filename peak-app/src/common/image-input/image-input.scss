@@ -1,7 +1,7 @@
 @import "../../constants/variables";
 
-$height: 250px;
-$width: 440px;
+$height: 300px;
+$width: 100%;
 
 $button-height: 32px;
 $button-width: 175px;
@@ -9,8 +9,8 @@ $button-width: 175px;
 .preview-container {
   width: $width;
   height: $height;
-  padding-top: 25px;
   position: relative;
+  border: 1px solid $gray-accent-color;
 
   .preview-overlay-button {
     position: absolute;

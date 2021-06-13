@@ -47,9 +47,9 @@ export const ImageUpload = (props: { setImageUrl? }) => {
 
     return (
         <div className={"upload-container"}>
-            <Upload {...uploadProps}>
+            <Upload {...uploadProps} fileList={[]}>
                 <div style={{display: "flex", cursor: "pointer", marginLeft: "10px"}}>
-                    {loading ? <LoadingOutlined /> : null}
+                    {loading ? <LoadingOutlined style={{marginRight: "10px"}}/> : null}
                     <div className={"upload-button-text"}>{ loading ? "Uploading" : "Upload from my computer..." }</div>
                 </div>
             </Upload>
