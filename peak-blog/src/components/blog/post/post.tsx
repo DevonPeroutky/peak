@@ -7,6 +7,7 @@ import {useAppContext} from "../../../data/context";
 import styles from "../../../../styles/Home.module.css";
 import {EstimateReadTime} from "./read-time/EstimatedReadTime";
 import {ConditionalImageLoader} from "../../primitives/image/ConditionalImageLoader";
+import Link from "next/link";
 
 export const BlogPost = (props: { post: PeakPost }) => {
     const { post } = props
@@ -21,7 +22,13 @@ export const BlogPost = (props: { post: PeakPost }) => {
             <h1 className={"mb-2 text-4xl"}>{title}</h1>
             <h2 className={"text-gray-500 text-xl font-light leading-normal mb-4"}>{post.subtitle}</h2>
             <div className={"text-gray-500 text-sm mb-10"}>
-                <span className={"mr-1"}>{author.given_name} {author.family_name}</span> • <span className={"mx-1"}>{moment(post.created_at).format('LL') }</span> • <EstimateReadTime className={"mx-1"} body={post.body}/>
+                <Link href={"/about"}>
+                    <span className={"mr-1 cursor-pointer hover:text-blue-400"}>{author.given_name} {author.family_name}</span>
+                </Link>
+                •
+                <span className={"mx-1"}>{moment(post.created_at).format('LL') }</span>
+                •
+                <EstimateReadTime className={"mx-1"} body={post.body}/>
             </div>
             <ConditionalImageLoader src={post.cover_image} width={"100%"} height={"auto"} layout={"responsive"}/>
             <DisplayEditor value={bodySanTitle} postId={post.id}/>
