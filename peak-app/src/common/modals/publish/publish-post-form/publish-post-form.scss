@@ -1,20 +1,31 @@
 @import "../../../../constants/variables";
-.publish-post-container {
+.publish-post-form-container {
+  text-align: left;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 
-  .col {
+  .subdomain-link {
+    text-decoration: underline;
+    color: $primary-blue;
+  }
+
+  .publish-form {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    width: 45%;
-    padding: 5px 0;
+    min-height: 600px;
 
-    .row {
-      padding-top: 10px;
+    h3 {
+      margin-top: 1rem;
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      min-height: 70px;
     }
   }
-}
-
-.publish-text-input {
-  min-height: 50px;
 }

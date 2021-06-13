@@ -2,6 +2,17 @@ defmodule MyAppWeb.PostView do
   use MyAppWeb, :view
   alias MyAppWeb.PostView
 
+  def render("paginated_index.json", %{posts: posts, cursor_metadata: cursor_metadata}) do
+    %{
+      posts: render_many(posts, PostView, "post.json"),
+      pagination_metadata: %{
+        cursor: cursor_metadata.after,
+        cursorBefore: cursor_metadata.before,
+        limit: cursor_metadata.limit
+      }
+    }
+  end
+
   def render("index.json", %{posts: posts}) do
     %{posts: render_many(posts, PostView, "post.json")}
   end
@@ -16,8 +27,11 @@ defmodule MyAppWeb.PostView do
       subtitle: post.subtitle,
       cover_image: post.cover_image,
       snippet: post.snippet,
+      created_at: post.inserted_at,
+      updated_at: post.updated_at,
       body: post.body,
       tag_ids: post.tag_ids,
+      user_id: post.user_id,
       visibility: post.visibility,
       post_type: post.post_type}
   end

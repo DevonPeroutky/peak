@@ -33,14 +33,17 @@ defmodule MyAppWeb.Router do
     resources "/users", UserController, only: [:index]
   end
 
-  scope "/blog/v1/", MyAppWeb do
+  scope "/blog/v1", MyAppWeb do
     pipe_through [:public]
-    get "/posts", PostController, :index
+    get "/", SubdomainController, :fetch_subdomain
+    resources "/posts", PostController, only: [:index, :show]
   end
 
   scope "/api/v1", MyAppWeb do
-    pipe_through [:public]
+    pipe_through [:public, :auth]
+    get "/subdomains", SubdomainController, :fetch_subdomain
     resources "/users", UserController, only: [:update, :show] do
+      get "/fetch-image-upload-access-token", SessionController, :fetch_object_upload_token
       get "/fetch-socket-access-token", SessionController, :generate_auth_token
       get "/list-all-accounts", UserController, :list_all_accounts
       get "/load-entire-state", FatUserController, :load_entire_state

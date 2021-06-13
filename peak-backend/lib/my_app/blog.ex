@@ -8,6 +8,8 @@ defmodule MyApp.Blog do
 
   alias MyApp.Blog.Subdomain
 
+  @page_size 2
+
   @doc """
   Returns the list of subdomains.
 
@@ -35,10 +37,18 @@ defmodule MyApp.Blog do
       ** (Ecto.NoResultsError)
 
   """
-  def get_subdomain!(id), do: Repo.get!(Subdomain, id)
+  def get_subdomain_by_id!(id), do: Repo.get!(Subdomain, id)
 
-  def get_subdomain!(user_id, subdomain) do
-    from(s in Subdomain, where: s.user_id == ^user_id and s.subdomain == ^subdomain)
+  def get_subdomain(subdomain_title) do
+    subdomain = from(s in Subdomain, where: s.subdomain == ^subdomain_title) |> Repo.one()
+    case subdomain do
+      %Subdomain{}  -> {:ok, subdomain}
+      _             -> {:error, :not_found}
+    end
+  end
+
+  def get_subdomain!(subdomain) do
+    from(s in Subdomain, where: s.subdomain == ^subdomain)
     |> Repo.one()
   end
 
@@ -118,9 +128,17 @@ defmodule MyApp.Blog do
       [%Post{}, ...]
 
   """
-  def list_posts(subdomain) do
-    from(p in Post, where: p.subdomain_id == ^subdomain, order_by: [desc: p.inserted_at])
-    |> Repo.all()
+  def list_posts(subdomain, cursor) do
+    query = from(p in Post, where: p.subdomain_id == ^subdomain, order_by: [desc: p.inserted_at])
+    fetch_post_page(query, cursor)
+  end
+
+  defp fetch_post_page(query, cursor) when is_nil(cursor) do
+    Repo.paginate(query, cursor_fields: [{:inserted_at, :desc}, {:id, :desc}], limit: @page_size)
+  end
+
+  defp fetch_post_page(query, cursor) do
+    Repo.paginate(query, after: cursor, cursor_fields: [{:inserted_at, :desc}, {:id, :desc}], limit: @page_size)
   end
 
   @doc """

@@ -9,11 +9,19 @@
 .contentContainer {
   display: flex;
   flex-direction: column;
-  max-width: 750px;
-  padding-top: 24px;
+  width: 50%;
+  max-width: 800px;
+  padding-top: 3rem;
   justify-content: center;
-  width: 700px;
+  align-items: center;
 }
+
+.postContainer {
+  max-width: 680px;
+  width: 100%;
+}
+
+
 
 .main {
   padding: 5rem 0;

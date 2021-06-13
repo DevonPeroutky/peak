@@ -1,9 +1,7 @@
 @import "../../../../variables";
 
 .peak-page-title {
-  margin-top: 0;
   font-size: $title-font-size;
-  font-weight: $title-font-weight;
   line-height: $title-line-height;
   min-height: $title-line-height;
   color: rgb(22, 30, 46);
@@ -12,8 +10,7 @@
   text-align: left;
 
   position: relative;
-  margin-bottom: 30px;
-  //width: 100%;
+  margin-bottom: 2rem!important;
 
   &.empty-title::after {
     position: absolute;

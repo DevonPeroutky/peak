@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import {Button, Modal} from "antd";
-import {ShareAltOutlined} from "@ant-design/icons/lib";
+import React, {useEffect, useState} from 'react';
+import {Button, Modal, Spin} from "antd";
+import {CloseOutlined, ShareAltOutlined} from "@ant-design/icons/lib";
 import cn from 'classnames';
 import {PublishPostForm} from "./publish-post-form/PublishPostForm";
 import "./publish-modal.scss"
@@ -8,12 +8,21 @@ import {useCurrentPage, useCurrentUser} from "../../../utils/hooks";
 import {PeakWikiPage} from "../../../constants/wiki-types";
 import {BlogConfiguration} from "../../../redux/slices/blog/types";
 import {useBlog} from "../../../redux/slices/blog/hooks";
+import {useActiveEditorState} from "../../../redux/slices/activeEditor/activeEditorSlice";
+import {PublishSuccess} from "./publish-result/PublishSuccess";
+import {useDispatch} from "react-redux";
+import { deletePage } from 'src/redux/slices/wikiPageSlice';
+import { useHistory } from 'react-router-dom';
+import { removePageFromTopic } from 'src/redux/slices/topicSlice';
 
+type PUBLISHING_STATE = "publishing" | "publish" | "published"
 export const PublishModal = (props: { className?: string }) => {
+    const history = useHistory()
+    const dispatch = useDispatch()
+    const currentPage = useCurrentPage()
+    const editorState = useActiveEditorState()
     const [visible, setVisible] = useState(false);
-    const wikiPage: PeakWikiPage = useCurrentPage()
-    const user = useCurrentUser()
-    const blog: BlogConfiguration = useBlog()
+    const [loadingState, setLoading] = useState<PUBLISHING_STATE>("publish")
 
     return (
         <>
@@ -21,6 +30,7 @@ export const PublishModal = (props: { className?: string }) => {
                 className={cn("publish-button", props.className)}
                 type="primary"
                 shape="round"
+                disabled={editorState.isSaving}
                 icon={<ShareAltOutlined />}
                 onClick={() => setVisible(true)}
                 size={"large"}>
@@ -29,8 +39,20 @@ export const PublishModal = (props: { className?: string }) => {
             <Modal
                 visible={visible}
                 onOk={() => setVisible(false)}
-                onCancel={() => setVisible(false)}
+                onCancel={() => {
+
+                    if (loadingState === "published") {
+                        dispatch(deletePage({ pageId: currentPage.id }))
+                        dispatch(removePageFromTopic({ pageId: currentPage.id }))
+                        history.push("/home/scratchpad")
+                    }
+
+                    setVisible(false)
+                    setLoading("publish")
+                }}
                 maskClosable={false}
+                destroyOnClose={true}
+                closable={loadingState !== "publishing"}
                 keyboard={true}
                 className="peak-publish-modal"
                 maskStyle={{
@@ -38,8 +60,28 @@ export const PublishModal = (props: { className?: string }) => {
                 }}
                 footer={null}
             >
-                <PublishPostForm page={wikiPage} userId={user.id} blogConfiguration={blog}/>
+                <div className="publish-post-container">
+                    <Spin spinning={loadingState === "publishing"}>
+                        <PublishFormBody loadingState={loadingState} setLoading={setLoading}/>
+                    </Spin>
+                </div>
             </Modal>
         </>
     )
+}
+
+const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: any }) => {
+    const { loadingState, setLoading } = props
+    const wikiPage: PeakWikiPage = useCurrentPage()
+    const user = useCurrentUser()
+    const blog: BlogConfiguration = useBlog()
+    const [postUrl, setPostUrl] = useState<string>(null)
+
+    switch (loadingState) {
+        case "publish":
+        case "publishing":
+            return <PublishPostForm page={wikiPage} userId={user.id} blogConfiguration={blog} setLoading={setLoading} setUrl={setPostUrl}/>
+        case "published":
+            return <PublishSuccess postUrl={postUrl}/>
+    }
 }

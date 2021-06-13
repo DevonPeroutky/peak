@@ -7,14 +7,15 @@ const defaultConfig = {
 }
 const authedAxiosClient = axios.create(defaultConfig);
 export const blogAxiosClient = axios.create(defaultConfig);
+export const BASE_URL = defaultConfig.baseURL
 
 authedAxiosClient.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    if (error.response && error.response.status === 401) {
-        window.location.href = "/"
-        localStorage.clear()
-    }
+    // if (error.response && error.response.status === 401) {
+    //     window.location.href = "/"
+    //     localStorage.clear()
+    // }
     return Promise.reject(error);
 });
 

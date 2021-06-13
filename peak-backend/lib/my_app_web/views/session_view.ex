@@ -2,7 +2,6 @@ defmodule MyAppWeb.SessionView do
   use MyAppWeb, :view
   alias MyAppWeb.SessionView
 
-
   def render("show.json", %{user: user}) do
     %{data: render_one(user, SessionView, "user.json")}
   end

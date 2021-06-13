@@ -28,6 +28,7 @@ import {Plugins} from "../scratchpad/playground/Playground";
 import {BlogHome} from "../blog/BlogHome";
 import {BlogSetup} from "../blog/setup/BlogSetup";
 import {BlogSettings} from "../blog/settings/BlogConfiguration";
+import {BlogCreateSuccess} from "../blog/setup/result/BlogSuccess";
 
 const { Content } = Layout;
 
@@ -89,8 +90,9 @@ const PeakLayout = (props: { currentUser: Peaker }) => {
                     <Content className="peak-content-container">
                         <div className="peak-content-holder">
                             <Switch>
-                                <Route path={`${match.path}/blog/setup`} render={(props) => <BlogSetup/>} />
-                                <Route path={`${match.path}/blog/settings`} render={(props) => <BlogSettings />} />
+                                {/* DELETE THIS NEXT LINE */}
+                                <Route path={`${match.path}/blog/setup/success`} render={(props) => <BlogCreateSuccess/>} />
+                                <Route path={`${match.path}/blog/setup`} render={(props) => <BlogSetup />} />
                                 <Route path={`${match.path}/blog`} render={(props) => <BlogHome />} />
                                 <Route path={`${match.path}/playground`} render={(props) => <Plugins />} />
                                 <Route path={`${match.path}/scratchpad`} render={(props) => <PeakScratchpad />} />

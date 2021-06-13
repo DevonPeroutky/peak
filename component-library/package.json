@@ -24,7 +24,6 @@
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -60,6 +59,10 @@
   "files": [
     "dist"
   ],
+  "peerDependencies": {
+    "react": "link:../peak-blog/node_modules/react",
+    "react-dom": "link:../peak-blog/node_modules/react-dom"
+  },
   "dependencies": {
     "@types/classnames": "^2.3.1",
     "@udecode/slate-plugins": "^1.0.0-next.31",
