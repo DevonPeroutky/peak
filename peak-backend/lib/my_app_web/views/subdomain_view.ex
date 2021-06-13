@@ -15,6 +15,7 @@ defmodule MyAppWeb.SubdomainView do
     %{id: subdomain.id,
       title: subdomain.title,
       description: subdomain.description,
+      cover_image_url: subdomain.cover_image_url,
       subdomain: subdomain.subdomain}
   end
 
@@ -29,9 +30,6 @@ defmodule MyAppWeb.SubdomainView do
   end
 
   def render("subdomain_with_author.json", %{subdomain: subdomain, user: user}) do
-    IO.puts " DOING THIS"
-    IO.inspect user
-    IO.inspect subdomain
     %{subdomain: render_one(subdomain, SubdomainView, "subdomain.json"),
       author: render("author.json", %{user: user})
     }

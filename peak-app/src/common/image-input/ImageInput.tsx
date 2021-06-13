@@ -6,9 +6,9 @@ import "./image-input.scss"
 import {UploadOutlined} from "@ant-design/icons/lib";
 import {ImageLoader} from "component-library";
 
-export const ImageInput = (props: { setImageUrl? }) => {
+export const ImageInput = (props: { imageUrl?, setImageUrl? }) => {
     const [internalUrl, setInternalUrl] = useState("")
-    const [embedUrl, setUrl] = useState("")
+    const [embedUrl, setUrl] = useState(props.imageUrl)
 
     const setTheUrl = (url: string) => {
         setUrl(url)

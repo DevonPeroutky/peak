@@ -15,10 +15,11 @@ export const BlogSettings = (props: {}) => {
     const blog = useBlog()
     const user = useCurrentUser()
     const [loading, setLoading] = useState(false)
+    const [coverImageUrl, setCoverImageUrl] = useState(blog.cover_image_url)
 
     const updateBlog = (values: BlogConfiguration) => {
         setLoading(true)
-        updateBlogConfiguration(user.id, {...values, id: blog.id}).then(_ => {
+        updateBlogConfiguration(user.id, {...values, id: blog.id, cover_image_url: coverImageUrl}).then(_ => {
             sleep(1000).then(_ => {
                 setLoading(false)
                 notification.success({message: "Updated your configuration"} )
@@ -84,8 +85,9 @@ export const BlogSettings = (props: {}) => {
                     >
                         <SubdomainInput disabled={true} className={"minimal-text-input blog-setting-input"}/>
                     </Form.Item>
-                    <ImageInput/>
-                <h3 style={{marginTop: "10px"}}>Coming Soon...</h3>
+                    <h3>Cover Image</h3>
+                    <ImageInput imageUrl={coverImageUrl} setImageUrl={setCoverImageUrl}/>
+                <h3 style={{marginTop: "25px"}}>Coming Soon...</h3>
                 <ul>
                     <li>Cover images and logos!</li>
                     <li>Ability for readers to subscribe your blog and receive your newsletter</li>

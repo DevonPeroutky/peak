@@ -18,6 +18,7 @@ import {BlogConfiguration} from "./slices/blog/types";
 import posts from "./slices/posts/postsSlice"
 import {PeakPost} from "component-library";
 import {PeakAccessToken} from "../client/tokens";
+import tokens from "./slices/tokens/tokenSlice";
 
 export interface UserSpecificAppState {
     currentUser: Peaker
@@ -46,7 +47,22 @@ export interface UserSpecificAppStateResponse {
 export const switch_user_accounts = createAction<DisplayPeaker>("switch_user_accounts")
 export const load_active_user = createAction<UserSpecificAppState>("load_active_user")
 
-const appReducer = combineReducers({ topics, currentUser, futureReads, peakWikiState, quickSwitcher, electron, tags, userAccounts, notes, activeEditorState, helpModal, blogConfiguration, posts});
+const appReducer = combineReducers({
+    topics,
+    currentUser,
+    futureReads,
+    peakWikiState,
+    quickSwitcher,
+    electron,
+    tags,
+    userAccounts,
+    notes,
+    activeEditorState,
+    helpModal,
+    blogConfiguration,
+    posts,
+    tokens
+});
 export const rootReducer = (state, action) => {
     if (action.type === "switch_user_accounts") {
         const desired_user_account_id: string = action.payload.id
@@ -56,7 +72,6 @@ export const rootReducer = (state, action) => {
     if (action.type === "load_active_user") {
         const userAccountAppState: UserSpecificAppState = action.payload
         return {...state, ...userAccountAppState}
-
     }
     return appReducer(state, action)
 }
