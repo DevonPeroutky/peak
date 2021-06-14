@@ -11,7 +11,6 @@ import {MainLayout} from "../components/layout/layout";
 import "nprogress/nprogress.css";
 import nprogress from 'nprogress/nprogress.js'
 import {useRouter} from "next/router";
-import {sleep} from "../../../peak-app/src/chrome-extension/utils/generalUtil";
 
 // Create a client
 const baseQueryClient = new QueryClient({
