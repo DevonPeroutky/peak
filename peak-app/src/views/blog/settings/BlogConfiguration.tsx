@@ -16,10 +16,11 @@ export const BlogSettings = (props: {}) => {
     const user = useCurrentUser()
     const [loading, setLoading] = useState(false)
     const [coverImageUrl, setCoverImageUrl] = useState(blog.cover_image_url)
+    const [faviconUrl, setFaviconUrl] = useState(blog.fav_icon_url)
 
     const updateBlog = (values: BlogConfiguration) => {
         setLoading(true)
-        updateBlogConfiguration(user.id, {...values, id: blog.id, cover_image_url: coverImageUrl}).then(_ => {
+        updateBlogConfiguration(user.id, {...values, id: blog.id, cover_image_url: coverImageUrl, fav_icon_url: faviconUrl}).then(_ => {
             sleep(1000).then(_ => {
                 setLoading(false)
                 notification.success({message: "Updated your configuration"} )
@@ -87,6 +88,8 @@ export const BlogSettings = (props: {}) => {
                     </Form.Item>
                     <h3>Cover Image</h3>
                     <ImageInput imageUrl={coverImageUrl} setImageUrl={setCoverImageUrl}/>
+                    <h3>Blog Logo</h3>
+                    <ImageInput imageUrl={faviconUrl} setImageUrl={setFaviconUrl}/>
                 <h3 style={{marginTop: "25px"}}>Coming Soon...</h3>
                 <ul>
                     <li>Cover images and logos!</li>

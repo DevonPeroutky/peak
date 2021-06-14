@@ -16,6 +16,7 @@ defmodule MyAppWeb.SubdomainView do
       title: subdomain.title,
       description: subdomain.description,
       cover_image_url: subdomain.cover_image_url,
+      fav_icon_url: subdomain.fav_icon_url,
       subdomain: subdomain.subdomain}
   end
 
