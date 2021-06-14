@@ -13,6 +13,8 @@ export interface Subdomain {
     description: string
     subdomain: string
     title: string
+    cover_image_url: string | null
+    fav_icon_url: string | null
 }
 
 export interface SubdomainResponse {

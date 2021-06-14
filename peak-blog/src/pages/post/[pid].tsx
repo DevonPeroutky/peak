@@ -13,6 +13,7 @@ import {useAppContext} from "../../data/context";
 import cn from 'classnames';
 import {ConditionalImageLoader} from "../../components/primitives/image/ConditionalImageLoader";
 import { truncate } from 'lodash';
+import {PeakLogo} from "../../components/primitives/logo/peak-logo";
 
 // TODO: Load the subdomain / author / posts if not done already?
 const Post: NextPage<{}> = (props) => {
@@ -50,7 +51,13 @@ const Post: NextPage<{}> = (props) => {
                     <span className={"flex items-center leading-snug cursor-pointer hover:text-blue-400"}>
                         <Link href={"/"}>
                             <div className={"flex items-center"}>
-                                <ConditionalImageLoader src={"/default-peak-favicon.svg"} width={"48px"} height={"48px"} layout={"intrinsic"} className={"mr-4"}/>
+                                <ConditionalImageLoader
+                                    src={subdomain.fav_icon_url}
+                                    width={"48px"}
+                                    height={"48px"}
+                                    layout={"intrinsic"}
+                                    fallback={<PeakLogo className={"mr-4"}/>}
+                                    className={"mr-4"}/>
                                 <span className={""}>{truncate(subdomain.title, { length: 50 })}</span>
                             </div>
                         </Link>

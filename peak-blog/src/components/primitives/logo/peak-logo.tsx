@@ -1,9 +1,10 @@
 import React from "react";
 import Image from 'next/image'
+import cn from 'classnames'
 
-export const PeakLogo = (props) => {
+export const PeakLogo = (props: { className?: string }) => {
     return (
-        <div className={"flex h-full max-h-full items-center"}>
+        <div className={cn("flex h-full max-h-full items-center", props.className)}>
             <Image
                 src="/images/grayscale-with-sun.svg" // Route of the image file
                 alt="Kickass Logo"

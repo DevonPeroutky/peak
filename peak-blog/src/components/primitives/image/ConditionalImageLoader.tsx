@@ -1,6 +1,7 @@
 import {ImageProps} from "next/dist/client/image";
 import Image from "next/image";
-import React from "react";
+import React, { ReactNode } from "react";
+import { ReactElement } from "react";
 
 interface ConditionalImageLoaderProps {
     src: string | undefined
@@ -9,11 +10,17 @@ interface ConditionalImageLoaderProps {
     layout: "fixed" | "intrinsic" | "responsive"
     alt?: string
     className?: string
+    fallback?: ReactElement
 }
 
 export const ConditionalImageLoader = (props: ConditionalImageLoaderProps ) => {
     const { src } = props
-    return (!src) ? null : <NextImageWrapper {...props}/>
+    return (!src) ? <FallbackImage {...props}/> : <NextImageWrapper {...props}/>
+}
+
+const FallbackImage = (props: ConditionalImageLoaderProps) => {
+    const { fallback } = props
+    return (!fallback) ? null : fallback
 }
 
 const NextImageWrapper = (props: ImageProps) => {
