@@ -7,7 +7,7 @@ export const MainLayout = ({children}) => {
     return (
         <>
             <Head>
-                <title>Powered by Peak</title>
+                <title>Peak</title>
                 <link rel="icon" href={"/default-peak-favicon.svg"} />
             </Head>
             <div className={styles.container}>
