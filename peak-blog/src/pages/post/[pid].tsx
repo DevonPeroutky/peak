@@ -14,6 +14,7 @@ import cn from 'classnames';
 import {ConditionalImageLoader} from "../../components/primitives/image/ConditionalImageLoader";
 import { truncate } from 'lodash';
 import {PeakLogo} from "../../components/primitives/logo/peak-logo";
+import {notify} from "../../utils/toast";
 
 // TODO: Load the subdomain / author / posts if not done already?
 const Post: NextPage<{}> = (props) => {
@@ -62,7 +63,12 @@ const Post: NextPage<{}> = (props) => {
                             </div>
                         </Link>
                     </span>
-                    <button className={"p-2.5 flex justify-center items-center bg-green-500 text-white rounded font-light text-sm"}>Subscribe</button>
+                    <button
+                        className={"p-2.5 flex justify-center items-center bg-green-500 text-white rounded font-light text-sm accessible-button"}
+                        onClick={() => notify("Ability to subscribe coming soon!", "subscribe")}
+                    >
+                        Subscribe
+                    </button>
                 </div>
             </div>
             <div className={styles.postContainer}>
