@@ -12,7 +12,7 @@ import {sleep} from "../../../../chrome-extension/utils/generalUtil";
 import cn from "classnames"
 import {blogUrlFromSubdomain} from "../../../../utils/urls";
 import {OG_ARTIFACT_TYPE, WIKI_PAGE} from "../../../../redux/slices/posts/types";
-import {PeakNote} from "../../../../redux/slices/noteSlice";
+import {PeakNote, updateNote} from "../../../../redux/slices/noteSlice";
 import {ImageInput} from "../../../image-input/ImageInput";
 import {deletePage} from "../../../../redux/slices/wikiPageSlice";
 import {removePageFromTopic} from "../../../../redux/slices/topicSlice";
@@ -35,7 +35,7 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
             tag_ids: selectedTags.map(t => t.id),
             subdomain_id: blogConfiguration.subdomain,
             post_type: post_type.toString(),
-            visibility: POST_VISIBILITY.public.toString(),
+            privacy_level: POST_VISIBILITY.public.toString(),
             user_id: userId
         } as PeakPost
     }
@@ -53,10 +53,13 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
         const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle, post_type)
 
         createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, og_artifact_type).then(res => {
+            console.log(`RES `, res)
 
             if (og_artifact_type === WIKI_PAGE) {
                 dispatch(deletePage({ pageId: page.id }))
                 dispatch(removePageFromTopic({ pageId: page.id }))
+            } else {
+                dispatch(updateNote({...page as PeakNote, privacy_level: POST_VISIBILITY.public.toString()}))
             }
 
             sleep(1000).then(_ => {
@@ -131,10 +134,10 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
                         <h3>Add a cover Image</h3>
                         <ImageInput setImageUrl={setImageUrl}/>
                     </div>
-                    <div className={"form-row"}>
-                        <h3>Post Organization</h3>
-                        <NoteTagSelect selected_tags={[]} note_id={"TBD"} input_className={"minimal-text-input"}/>
-                    </div>
+                    {/*<div className={"form-row"}>*/}
+                    {/*    <h3>Post Organization</h3>*/}
+                    {/*    <NoteTagSelect selected_tags={[]} note_id={"TBD"} input_className={"minimal-text-input"}/>*/}
+                    {/*</div>*/}
                 </>
                 <Form.Item hasFeedback className={"form-row"}>
                     <Button

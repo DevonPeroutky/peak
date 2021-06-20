@@ -32,7 +32,7 @@ defmodule MyAppWeb.PostView do
       body: post.body,
       tag_ids: post.tag_ids,
       user_id: post.user_id,
-      visibility: post.visibility,
+      privacy_level: post.privacy_level,
       post_type: post.post_type}
   end
 end

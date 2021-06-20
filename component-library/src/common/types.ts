@@ -25,7 +25,7 @@ export interface PeakPost {
   post_type: string
 
   // TODO: Enum
-  visibility?: string
+  privacy_level?: string
   created_at?: string
   updated_at?: string
 }
