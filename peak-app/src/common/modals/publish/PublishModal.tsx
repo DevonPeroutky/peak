@@ -11,9 +11,7 @@ import {useBlog} from "../../../redux/slices/blog/hooks";
 import {useActiveEditorState} from "../../../redux/slices/activeEditor/activeEditorSlice";
 import {PublishSuccess} from "./publish-result/PublishSuccess";
 import {useDispatch} from "react-redux";
-import { deletePage } from 'src/redux/slices/wikiPageSlice';
 import { useHistory } from 'react-router-dom';
-import { removePageFromTopic } from 'src/redux/slices/topicSlice';
 import {PeakNote} from "../../../redux/slices/noteSlice";
 
 type PUBLISHING_STATE = "publishing" | "publish" | "published"
@@ -31,13 +29,7 @@ export const PublishModal = (props: { }) => {
                 visible={visible}
                 onOk={() => setVisible(false)}
                 onCancel={() => {
-
-                    if (loadingState === "published") {
-                        dispatch(deletePage({ pageId: currentPage.id }))
-                        dispatch(removePageFromTopic({ pageId: currentPage.id }))
-                        history.push("/home/scratchpad")
-                    }
-
+                    history.push("/home/scratchpad")
                     setVisible(false)
                     setLoading("publish")
                 }}
