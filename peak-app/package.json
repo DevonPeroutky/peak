@@ -138,10 +138,10 @@
     "moment": "^2.27.0",
     "phoenix": "^1.5.7",
     "ramda": "^0.27.0",
-    "react": "link:../component-library/node_modules/react",
+    "react": "^17.0.2",
     "react-ace": "^8.1.0",
     "react-bottom-scroll-listener": "^4.1.0",
-    "react-dom": "link:../component-library/node_modules/react-dom",
+    "react-dom": "^17.0.2",
     "react-google-login": "^5.1.1",
     "react-hot-keys": "^2.5.2",
     "react-hotkeys-hook": "^2.1.1",
@@ -163,5 +163,9 @@
     "styled-icons": "^10.33.0",
     "uuid": "^8.3.0",
     "webpack-manifest-plugin": "^2.2.0"
+  },
+  "resolutions": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   }
 }

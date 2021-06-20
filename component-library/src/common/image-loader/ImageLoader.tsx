@@ -1,6 +1,6 @@
 import { useImage } from 'react-image'
 import React from 'react'
-import { DefaultSpinner } from '../spinner/Spin'
+import { DefaultSpinner } from '../spinner'
 
 export const ImageLoader = (props: {
   className?: string
