@@ -10,21 +10,23 @@ import {BlogConfiguration} from "../../../redux/slices/blog/types";
 import {useBlog} from "../../../redux/slices/blog/hooks";
 import {useActiveEditorState} from "../../../redux/slices/activeEditor/activeEditorSlice";
 import {PublishSuccess} from "./publish-result/PublishSuccess";
-import {useDispatch} from "react-redux";
 import { useHistory } from 'react-router-dom';
 import {PeakNote} from "../../../redux/slices/noteSlice";
+import {POST_VISIBILITY} from "component-library";
+import {blogUrlFromSubdomain} from "../../../utils/urls";
 
 type PUBLISHING_STATE = "publishing" | "publish" | "published"
 export const PublishModal = (props: { }) => {
     const history = useHistory()
-    const dispatch = useDispatch()
     const currentPage = useCurrentPage()
     const [visible, setVisible] = useState(false);
     const [loadingState, setLoading] = useState<PUBLISHING_STATE>("publish")
 
+    const alreadyPublished: boolean = (currentPage.privacy_level) ? currentPage.privacy_level === POST_VISIBILITY.public.toString() : false
+
     return (
         <>
-            <PublishModalContainer setVisible={setVisible}/>
+            <PublishModalContainer setVisible={setVisible} publishStatus={alreadyPublished}/>
             <Modal
                 visible={visible}
                 onOk={() => setVisible(false)}
@@ -69,8 +71,18 @@ const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: an
     }
 }
 
-const PublishModalContainer = (props: { setVisible }) => {
+const PublishModalContainer = (props: { setVisible, publishStatus: boolean }) => {
     const editorState = useActiveEditorState()
+    const blog = useBlog()
+    const { setVisible, publishStatus } = props
+
+    if (publishStatus) {
+        return (
+            <div className={"publish-modal-container"}>
+                <span>You have published this note! View it live on <a href={blogUrlFromSubdomain(blog.subdomain)} target="_blank">{blog.subdomain}</a></span>
+            </div>
+        )
+    }
 
     return (
         <div className={"publish-modal-container"}>
@@ -82,7 +94,7 @@ const PublishModalContainer = (props: { setVisible }) => {
                 ghost={true}
                 disabled={editorState.isSaving}
                 icon={<ShareAltOutlined />}
-                onClick={() => props.setVisible(true)}
+                onClick={() => setVisible(true)}
                 size={"large"}>
                 Publish to Blog
             </Button>

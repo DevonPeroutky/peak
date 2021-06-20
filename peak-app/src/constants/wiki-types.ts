@@ -21,6 +21,7 @@ export interface PeakEditorState {
 export interface PeakWikiPage {
     id: string,
     inserted_at?: Date,
+    privacy_level?: string,
     body: Node[], // Should probably be Node[] or better yet --> SlateDocument
     title: string,
 }

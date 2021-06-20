@@ -102,9 +102,26 @@
             align-items: center;
             justify-content: space-between;
 
-            .space-holder {
-              width: 20px;
-              height: 20px;
+            .metadata-container {
+              display: flex;
+              align-items: center;
+
+              .publish-tag {
+                border-color: $primary-green;
+                color: $primary-green;
+                margin-right: 10px;
+              }
+
+              .space-holder {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                width: 20px;
+                height: 20px;
+              }
+
+
             }
 
             .peak-timeline-item-body {

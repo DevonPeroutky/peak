@@ -23,6 +23,8 @@ export const useAppLoadingAnimation = () => {
                         callback()
                     } else {
                         setLoading(false)
+
+                        // Why did we do this? Was this to ensure we could recover from bad states by refreshing?
                         history.push(`/home`)
                     }
                 }}

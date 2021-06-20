@@ -6,8 +6,8 @@ export enum POST_TYPE {
 }
 
 export enum POST_VISIBILITY {
-  public,
   draft,
+  public,
   private
 }
 
