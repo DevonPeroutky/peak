@@ -44,6 +44,7 @@ const withStyledDraggables = (components: any) => {
             onRenderDragHandle: ({ ...otherProps }) => (
                 <DragIndicator
                     style={{
+                        cursor: "pointer",
                         width: 18,
                         height: 18,
                         color: 'rgba(55, 53, 47, 0.3)',
