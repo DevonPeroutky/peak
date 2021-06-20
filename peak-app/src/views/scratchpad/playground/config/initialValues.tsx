@@ -52,15 +52,15 @@ export const initialValueHighlight: any = [
         type: options[ELEMENT_PARAGRAPH].type,
         children: [
             {
-                text: 'The Highlight plugin enables support for ',
+                text: 'BITCHES ',
             },
             {
-                text: 'highlights',
+                text: 'aint',
                 [options[MARK_HIGHLIGHT].type]: true,
             },
             {
                 text:
-                    ', useful when reviewing content or highlighting it for future reference.',
+                    ', shit.',
             },
         ],
     },
