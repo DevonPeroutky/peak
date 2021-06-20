@@ -99,16 +99,16 @@ export const PeakTimeline = (props: { }) => {
                                 )
                             }
                             return (
-                                <>
+                                <div key={date}>
                                     <Timeline.Item key={date} dot={dateTimelineIcon(isFirst)} className={cn("peak-timeline-date-item", (isFirst) ? "first" : "normal")}>
                                         {<h1 className={"date-header"}>{date}</h1>}
                                     </Timeline.Item>
                                     {
                                         notes.map(n =>
-                                            <NoteTimelineItem n={n}/>
+                                            <NoteTimelineItem key={n.id} n={n}/>
                                         )
                                     }
-                                </>
+                                </div>
                             )
                         })
                     }
