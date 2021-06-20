@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Button, Divider, Form, Input, notification, Spin, Upload} from "antd";
+import {Button, Form, Input, notification} from "antd";
 import {NoteTagSelect} from "../../../rich-text-editor/plugins/peak-knowledge-plugin/components/peak-knowledge-node/peak-tag-select/component/NoteTagSelect";
 import "./publish-post-form.scss"
-import {ShareAltOutlined, UploadOutlined} from "@ant-design/icons/lib";
+import {ShareAltOutlined} from "@ant-design/icons/lib";
 import {createPeakPost} from "../../../../redux/slices/posts/postsSlice";
 import {PeakWikiPage} from "../../../../constants/wiki-types";
 import {BlogConfiguration} from "../../../../redux/slices/blog/types";
@@ -14,14 +14,18 @@ import {blogUrlFromSubdomain} from "../../../../utils/urls";
 import {OG_ARTIFACT_TYPE, WIKI_PAGE} from "../../../../redux/slices/posts/types";
 import {PeakNote} from "../../../../redux/slices/noteSlice";
 import {ImageInput} from "../../../image-input/ImageInput";
+import {deletePage} from "../../../../redux/slices/wikiPageSlice";
+import {removePageFromTopic} from "../../../../redux/slices/topicSlice";
+import {useDispatch} from "react-redux";
 
 export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
     const { page, userId, blogConfiguration, setLoading, setUrl } = props
 
     const [selectedTags, setTags] = useState<PeakTag[]>([])
     const [imageUrl, setImageUrl] = useState<string | undefined>()
+    const dispatch = useDispatch()
 
-    const createPublishPost = (title: string, subtitle: string): PeakPost => {
+    const createPublishPost = (title: string, subtitle: string, post_type: POST_TYPE): PeakPost => {
         return {
             id: page.id,
             title: title,
@@ -30,7 +34,7 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
             cover_image: imageUrl,
             tag_ids: selectedTags.map(t => t.id),
             subdomain_id: blogConfiguration.subdomain,
-            post_type: POST_TYPE.blog_post.toString(),
+            post_type: post_type.toString(),
             visibility: POST_VISIBILITY.public.toString(),
             user_id: userId
         } as PeakPost
@@ -44,9 +48,17 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
 
     const publishPost = (values: { title: string, subtitle: string }) => {
         setLoading("publishing")
-        const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle)
         const og_artifact_type: OG_ARTIFACT_TYPE = ("note_type" in page) ? page.note_type : WIKI_PAGE
+        const post_type: POST_TYPE = ("note_type" in page) ? POST_TYPE.note_post : POST_TYPE.blog_post
+        const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle, post_type)
+
         createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, og_artifact_type).then(res => {
+
+            if (og_artifact_type === WIKI_PAGE) {
+                dispatch(deletePage({ pageId: page.id }))
+                dispatch(removePageFromTopic({ pageId: page.id }))
+            }
+
             sleep(1000).then(_ => {
                 setLoading("published")
                 const baseBlogUrl = blogUrlFromSubdomain(blogConfiguration.subdomain)

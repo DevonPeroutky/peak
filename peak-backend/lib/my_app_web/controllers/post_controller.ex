@@ -20,9 +20,14 @@ defmodule MyAppWeb.PostController do
   end
 
   defp create_post_from_note(note_params) do
+    IO.puts "CREATING FOR POST"
+    IO.inspect note_params
     Ecto.Multi.new()
     |> Ecto.Multi.run(:post, fn _repo, _changes_thus_far -> Blog.create_post(note_params) end)
-    |> Ecto.Multi.run(:note, fn _repo, _changes_thus_far -> Library.update_book(%{"privacy_level" => "public"}) end)
+    |> Ecto.Multi.run(:note, fn _repo, _changes_thus_far ->
+        note = Library.get_book!(note_params["id"])
+        Library.update_book(note, %{"privacy_level" => "public"})
+    end)
     |> Repo.transaction
   end
 
