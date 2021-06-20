@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import {PeakNote} from "../../redux/slices/noteSlice";
 import "./delete-note-confirm.scss"
 import { deletePeakNote } from "src/client/notes";
+import cn from 'classnames';
 
-export const DeleteNoteConfirm = (props: { item: PeakNote }) => {
-    const { item } = props
+export const DeleteNoteConfirm = (props: { item: PeakNote, className?: string }) => {
+    const { item, className } = props
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -35,8 +36,7 @@ export const DeleteNoteConfirm = (props: { item: PeakNote }) => {
             onCancel={close}
             okButtonProps={{ loading: loading }}
             okText={"Delete"}>
-
-            <DeleteOutlined className={"confirm-delete-icon"} onClick={open}/>
+            <DeleteOutlined className={cn("confirm-delete-icon", className)} onClick={open}/>
         </Popconfirm>
     )
 }

@@ -19,6 +19,7 @@ export interface PeakNote {
     author?: string
     inserted_at?: string
     updated_at?: string
+    privacy_level: string
 }
 
 const emptyBookList: PeakNote[] = []

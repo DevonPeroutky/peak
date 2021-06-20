@@ -2,13 +2,13 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useCurrentUser} from "../../utils/hooks";
 import {PeakNote} from "../../redux/slices/noteSlice";
 import {loadPeakNotes, useNotes} from "../../client/notes";
-import {Empty, message, Popconfirm, Timeline} from "antd";
+import {Button, Empty, message, Popconfirm, Timeline} from "antd";
 import {ELEMENT_WEB_NOTE, PEAK_LEARNING} from "../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
 import {Link} from "react-router-dom";
 import {buildNoteUrl} from "../../utils/notes";
 import {PeakTagDisplay} from "../../common/peak-tag-display/PeakTagDisplay";
 import {
-    CalendarOutlined,
+    CalendarOutlined, CheckOutlined,
     DeleteOutlined,
     EditFilled,
     EditOutlined,
@@ -24,6 +24,7 @@ import {groupBy, head} from "ramda";
 import cn from "classnames";
 import {useBottomScrollListener} from "react-bottom-scroll-listener/dist";
 import {DeleteNoteConfirm} from "../../common/delete-note-popconfirm/DeleteNoteConfirm";
+import {POST_VISIBILITY} from "component-library";
 
 const groupByDate = groupBy(function (note: PeakNote) {
     return formatStringAsDate(note.inserted_at)
@@ -160,8 +161,27 @@ const NoteTimelineItem = (props: { n: PeakNote} ) => {
                         {n.tag_ids.map(id => <PeakTagDisplay key={id} tagId={id}/>)}
                     </div>
                 </div>
-                {(hovered) ? <DeleteNoteConfirm item={n}/> : <div className={"space-holder"}/>}
+                <MetadataContainer note={n} hovered={hovered}/>
             </div>
         </Timeline.Item>
+    )
+}
+
+const MetadataContainer = (props: { note: PeakNote, hovered }) => {
+    const { note, hovered } = props
+    const deleteIcon = (hovered) ? <DeleteNoteConfirm item={note} className={"space-holder"}/> : <div className={"space-holder"}/>
+    const published = (note.privacy_level && note.privacy_level === POST_VISIBILITY.public.toString()) ?
+        <Button
+            className={"publish-tag"}
+            type="primary"
+            shape="round"
+            icon={<CheckOutlined />}
+            ghost={true}>Published</Button>
+        : null
+    return (
+        <div className={"metadata-container"}>
+            {published}
+            {deleteIcon}
+        </div>
     )
 }
