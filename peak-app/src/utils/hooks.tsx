@@ -120,7 +120,7 @@ export function useCurrentPage(): PeakWikiPage | PeakNote {
             return
         }
 
-        return { id: note.id, body: note.body, title: note.title, note_type: note.note_type, privacy_level: note.privacy_level }
+        return note
     } else {
         return peakWikiState[currentPageId];
     }

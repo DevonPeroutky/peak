@@ -24,7 +24,7 @@ defmodule MyAppWeb.PostController do
     |> Ecto.Multi.run(:post, fn _repo, _changes_thus_far -> Blog.create_post(note_params) end)
     |> Ecto.Multi.run(:note, fn _repo, _changes_thus_far ->
         note = Library.get_book!(note_params["id"])
-        Library.update_book(note, %{"privacy_level" => "1"})
+        Library.update_book(note, note_params)
     end)
     |> Repo.transaction
   end
@@ -37,6 +37,7 @@ defmodule MyAppWeb.PostController do
   end
 
   def create(conn, %{"post" => post_params, "user_id" => user_id, "origin_artifact_type" => origin_artifact_type}) do
+    IO.inspect post_params
     post = if origin_artifact_type == "page" do create_post_from_page(post_params) else create_post_from_note(post_params) end
 
     with {:ok, %{ post: %Post{} = post } } <- post do

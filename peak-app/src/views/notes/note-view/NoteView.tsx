@@ -22,7 +22,8 @@ export const PeakNoteView = (props) => {
     const currentNote: PeakNote | undefined = useCurrentNote()
     const noteSaver = useDebouncePeakNoteSaver()
     const currentUser = useCurrentUser()
-    const selected_tags: PeakTag[] = useLoadTags((currentNote) ? currentNote.tag_ids : [])
+    console.log(`THE CURRENT NOTE `, currentNote)
+    const selected_tags: PeakTag[] = useLoadTags((currentNote && currentNote.tag_ids) ? currentNote.tag_ids : [])
     const [title, setTitle] = useState((currentNote) ? currentNote.title : "")
     const [author, setAuthor] = useState((currentNote) ? currentNote.author : "")
 
