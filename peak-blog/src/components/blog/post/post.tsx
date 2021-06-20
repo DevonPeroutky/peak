@@ -7,14 +7,14 @@ import {useAppContext} from "../../../data/context";
 import {EstimateReadTime} from "./read-time/EstimatedReadTime";
 import {ConditionalImageLoader} from "../../primitives/image/ConditionalImageLoader";
 import Link from "next/link";
+import {deriveTitleFromPost} from "../../../utils/editor";
 
 export const BlogPost = (props: { post: PeakPost }) => {
     const { post } = props
     const { subdomain, author } = useAppContext()
 
-    const titleNode = post.body[0]
-    const bodySanTitle: Node[] = post.body.slice(1)
-    const title = Node.string(titleNode)
+    const title = deriveTitleFromPost(post)
+    const bodySanTitle: Node[] = (post.body) ? post.body.slice(1) : []
 
     return (
         <div className={"py-12"}>
