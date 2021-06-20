@@ -43,32 +43,6 @@ export const optionsMentionPlugin = {
     mentionableSearchPattern: '\\S*',
 };
 
-export const initialValueHighlight: any = [
-    {
-        type: options[ELEMENT_H2].type,
-        children: [
-            {
-                text: '🌈 Highlight',
-            },
-        ],
-    },
-    {
-        type: options[ELEMENT_PARAGRAPH].type,
-        children: [
-            {
-                text: 'The Highlight plugin enables support for ',
-            },
-            {
-                text: 'highlights',
-                [options[MARK_HIGHLIGHT].type]: true,
-            },
-            {
-                text:
-                    ', useful when reviewing content or highlighting it for future reference.',
-            },
-        ],
-    },
-];
 
 const resetBlockTypesCommonRule = {
     types: [options[ELEMENT_BLOCKQUOTE].type, options[ELEMENT_TODO_LI].type],

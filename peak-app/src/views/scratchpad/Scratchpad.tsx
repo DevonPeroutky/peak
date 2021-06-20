@@ -26,6 +26,7 @@ export const PeakScratchpad = (props: {}) => {
     });
 
     const updatePageContent = (newValue: Node[]) => {
+        console.log(`New value: `, newValue)
         if (!equals(newValue, scratchPadContent)) {
             if (!editorState.isSaving) {
                 dispatch(beginSavingPage());
