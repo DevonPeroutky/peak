@@ -2,6 +2,7 @@ import {ImageProps} from "next/dist/client/image";
 import Image from "next/image";
 import React, { ReactNode } from "react";
 import { ReactElement } from "react";
+import {ImageLoader} from "component-library";
 
 interface ConditionalImageLoaderProps {
     src: string | undefined
