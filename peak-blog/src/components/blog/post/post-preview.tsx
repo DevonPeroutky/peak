@@ -1,20 +1,17 @@
 import React from "react";
 import {PeakPost} from "component-library";
 import {useAppContext} from "../../../data/context";
-import {Node} from "slate";
 import Link from "next/link";
 import moment from "moment";
 import {EstimateReadTime} from "./read-time/EstimatedReadTime";
 import {ConditionalImageLoader} from "../../primitives/image/ConditionalImageLoader";
 import { truncate } from "lodash";
+import {deriveTitleFromPost} from "../../../utils/editor";
 
 export const BlogPostPreview = (props: { post: PeakPost }) => {
     const { post } = props
     const { author } = useAppContext()
-
-    const titleNode = post.body[0]
-    // const postPreviewBody: Node[] = post.body.slice(1, 6)
-    const title = Node.string(titleNode)
+    const title = deriveTitleFromPost(post)
 
     return (
         <div className={"mb-20 flex min-h-150"}>
