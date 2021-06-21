@@ -13,7 +13,6 @@ import nprogress from 'nprogress/nprogress.js'
 import {useRouter} from "next/router";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify';
-import {InitialLoader} from "../components/loaders/InitialLoader";
 import Head from 'next/head';
 
 // Create a client
@@ -43,7 +42,7 @@ function MyApp({ Component, pageProps }) {
             setSubdomain(SUBDOMAIN_LOADING_STATE.LOADING)
             fetch_subdomain(subdomain).then(res => {
                 setSubdomainData(res.data)
-                // setSubdomain(SUBDOMAIN_LOADING_STATE.LOADED)
+                setSubdomain(SUBDOMAIN_LOADING_STATE.LOADED)
             }).catch(err => {
                 setSubdomain(SUBDOMAIN_LOADING_STATE.FAILED_TO_LOAD)
             }).finally(() => {
