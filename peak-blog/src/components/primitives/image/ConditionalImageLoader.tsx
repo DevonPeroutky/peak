@@ -2,7 +2,6 @@ import {ImageProps} from "next/dist/client/image";
 import Image from "next/image";
 import React, { ReactNode } from "react";
 import { ReactElement } from "react";
-import {ImageLoader} from "component-library";
 
 interface ConditionalImageLoaderProps {
     src: string | undefined
@@ -27,7 +26,10 @@ const FallbackImage = (props: ConditionalImageLoaderProps) => {
 const NextImageWrapper = (props: ImageProps) => {
     // @ts-ignore
     const { src, className, alt, width, layout, height } = props
-    return (src.startsWith("https://storage.googleapis.com")) ?
+    if (!src) {
+        return null
+    }
+    return (src && src.startsWith("https://storage.googleapis.com")) ?
         <div className={className}>
             <Image
                 src={src}
