@@ -2,7 +2,8 @@ import React, {useMemo} from "react";
 import {usePeakPlugins} from "./plugins";
 import {defaultOptions} from "./options";
 import {
-    Options, PlaceholderProps,
+    Options,
+    PlaceholderProps,
     SlatePlugin,
     SlatePlugins,
 } from "@udecode/slate-plugins";
@@ -16,13 +17,46 @@ import {useComponents} from "./components";
 import {DEFAULT_PLACEHOLDERS} from "./constants";
 import {contains, includes} from "ramda";
 import {editorStyle} from "component-library";
+import { EditableProps } from "slate-react/dist/components/editable";
 
-export const defaultEditableProps = {
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-scala';
+import 'prismjs/components/prism-clike';
+import 'prismjs/themes/prism.css';
+import {usePrismHighlightPlugin} from "./plugins/prismjs-code-plugin/PrismjsCodeBlockPlugin";
+
+export const defaultEditableProps: EditableProps = {
     // placeholder: 'Enter some rich text…',
     spellCheck: true,
     autoFocus: true,
-    style: editorStyle
-};
+    style: editorStyle,
+    renderElement: ({ attributes, element, children }) => {
+        // @ts-ignore
+        switch (element.type) {
+            case 'code_block':
+                return (
+                    <pre className="language-java" {...attributes}>
+                      <code>{children}</code>
+                    </pre>
+                )
+            default:
+                return <p {...attributes}>{children}</p>
+        }
+    },
+    renderLeaf: ({ attributes, leaf, children }) => {
+        const { text, ...rest } = leaf
+        const className = (rest) ? `token ${Object.keys(rest).join(' ')}` : `token`
+        return (
+            <span
+                {...attributes}
+                className={className}
+            >
+                  {children}
+                </span>
+        )
+    }
+}
 
 export interface PeakEditorProps {
     additionalPlugins?: SlatePlugin[],
@@ -58,11 +92,14 @@ export const PeakEditor = ({
     //     })
     // }, [])
 
+    const prismPlugin = usePrismHighlightPlugin()
+
     return (
         <div className={cn("peak-rich-text-editor-container", (className) ? className : "")}>
             <SlatePlugins
                 id={currentPageId}
-                plugins={usePeakPlugins(additionalPlugins)}
+                plugins={usePeakPlugins([...additionalPlugins, prismPlugin])}
+                // plugins={[prismPlugin]}
                 components={useComponents(dragAndDrop, nodePlaceholders)}
                 options={defaultOptions}
                 editableProps={defaultEditableProps}
