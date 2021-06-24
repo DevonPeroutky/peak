@@ -1,20 +1,21 @@
 import React, {useEffect} from "react";
-import Prism from "prismjs";
-import cn from "classnames";
 import "./prism-code-block.scss";
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-scala';
+import 'prismjs/components/prism-clike';
+import 'prismjs/themes/prism-okaidia.css';
 
 export const PrismCodeBlock = (props) => {
-    const { attributes, htmlAttributes, children, className, element} = props
+    const { attributes, element, children } = props
 
-    useEffect(() => {
-        Prism.highlightAll();
-    }, []);
-    console.log(`CHILDREN `, children)
-    console.log(`ELEMENT `, element)
+    console.log(`--------------`)
+    console.log(`ELEMENT: `, element)
+    console.log(`ATTRIBUTES: `, attributes)
 
     return (
-        <pre {...attributes} className={cn(className, "slate-code-block", "language-javascript")}{...htmlAttributes}>
-          <code>{children}</code>
+        <pre className="language-java" {...attributes}>
+            <code>{children}</code>
         </pre>
     )
 }

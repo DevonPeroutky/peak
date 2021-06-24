@@ -10,13 +10,13 @@ import {
     withCodeBlock
 } from "@udecode/slate-plugins";
 import {BaseRange, Editor, NodeEntry, Text } from 'slate';
-
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-scala';
 import 'prismjs/components/prism-clike';
-import 'prismjs/themes/prism.css';
+
 import React, {useMemo} from "react";
+import {PrismCodeBlock} from "./component/PrismCodeBlock";
 // Prism.manual = true;
 
 const getLength = (token) => {
@@ -43,10 +43,6 @@ export const getCodeHighlightDecorate = (): Decorate => (editor) => {
             return ranges
         }
 
-        console.log(`EVALUATING!`)
-        console.log(`Parent Node`, parentNode)
-        console.log(`Node.text`, node.text)
-
         // @ts-ignore
         const tokens = Prism.tokenize(node.text, Prism.languages.java)
         let start = 0
@@ -70,7 +66,6 @@ export const getCodeHighlightDecorate = (): Decorate => (editor) => {
     };
 };
 
-
 export const PrismJsCodeBlockPlugin = (): SlatePlugin => ({
     pluginKeys: KEYS_CODE_BLOCK,
     renderElement: getRenderElement(KEYS_CODE_BLOCK),
@@ -92,6 +87,7 @@ export const usePrismHighlightPlugin = (): SlatePlugin => ({
             </span>
         )
     }),
+    renderElement: (editor => (props) => <PrismCodeBlock {...props}/>),
     pluginKeys: KEYS_CODE_BLOCK,
     decorate: getCodeHighlightDecorate(),
 })
