@@ -18,12 +18,6 @@ import {DEFAULT_PLACEHOLDERS} from "./constants";
 import {contains, includes} from "ramda";
 import {editorStyle} from "component-library";
 import { EditableProps } from "slate-react/dist/components/editable";
-
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-java';
-import 'prismjs/components/prism-scala';
-import 'prismjs/components/prism-clike';
-import 'prismjs/themes/prism.css';
 import {usePrismHighlightPlugin} from "./plugins/prismjs-code-plugin/PrismjsCodeBlockPlugin";
 
 export const defaultEditableProps: EditableProps = {
@@ -31,31 +25,6 @@ export const defaultEditableProps: EditableProps = {
     spellCheck: true,
     autoFocus: true,
     style: editorStyle,
-    renderElement: ({ attributes, element, children }) => {
-        // @ts-ignore
-        switch (element.type) {
-            case 'code_block':
-                return (
-                    <pre className="language-java" {...attributes}>
-                      <code>{children}</code>
-                    </pre>
-                )
-            default:
-                return <p {...attributes}>{children}</p>
-        }
-    },
-    renderLeaf: ({ attributes, leaf, children }) => {
-        const { text, ...rest } = leaf
-        const className = (rest) ? `token ${Object.keys(rest).join(' ')}` : `token`
-        return (
-            <span
-                {...attributes}
-                className={className}
-            >
-                  {children}
-                </span>
-        )
-    }
 }
 
 export interface PeakEditorProps {
@@ -99,7 +68,6 @@ export const PeakEditor = ({
             <SlatePlugins
                 id={currentPageId}
                 plugins={usePeakPlugins([...additionalPlugins, prismPlugin])}
-                // plugins={[prismPlugin]}
                 components={useComponents(dragAndDrop, nodePlaceholders)}
                 options={defaultOptions}
                 editableProps={defaultEditableProps}

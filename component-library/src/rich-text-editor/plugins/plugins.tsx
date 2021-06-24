@@ -1,7 +1,6 @@
 import {
   createBlockquotePlugin,
   createBoldPlugin,
-  createCodeBlockPlugin,
   createCodePlugin,
   createHeadingPlugin,
   createImagePlugin,
@@ -14,10 +13,10 @@ import {
   // eslint-disable-next-line no-unused-vars
   SlatePlugin
 } from '@udecode/slate-plugins'
-import { createPeakTitlePlugin } from './peak-title-plugin/PeakTitlePlugin'
-import { createPeakCalloutPlugin } from './peak-callout-plugin/PeakCalloutPlugin'
-import { createDividerPlugin } from './peak-divider/createDividerPlugin'
-import { createPeakMediaEmbedPlugin } from './peak-media-embed-plugin/createPeakMediaEmbedPlugin'
+import { createPeakTitlePlugin } from './peak-title-plugin'
+import { createPeakCalloutPlugin } from './peak-callout-plugin'
+import { createDividerPlugin } from './peak-divider'
+import { createPeakMediaEmbedPlugin } from './peak-media-embed-plugin'
 
 export const genericPlugins: SlatePlugin[] = [
   // editor
@@ -32,7 +31,6 @@ export const genericPlugins: SlatePlugin[] = [
   createImagePlugin(),
   createParagraphPlugin(),
   createBlockquotePlugin(),
-  createCodeBlockPlugin(),
   createHeadingPlugin(),
   createLinkPlugin(),
 
