@@ -17,6 +17,7 @@ import { createPeakTitlePlugin } from './peak-title-plugin'
 import { createPeakCalloutPlugin } from './peak-callout-plugin'
 import { createDividerPlugin } from './peak-divider'
 import { createPeakMediaEmbedPlugin } from './peak-media-embed-plugin'
+import {PrismJsCodeBlockPlugin} from "./prismjs-code-plugin";
 
 export const genericPlugins: SlatePlugin[] = [
   // editor
@@ -46,7 +47,8 @@ export const customPlugins: SlatePlugin[] = [
   createPeakTitlePlugin(),
   createPeakCalloutPlugin(),
   createDividerPlugin(),
-  createPeakMediaEmbedPlugin()
+  createPeakMediaEmbedPlugin(),
+  PrismJsCodeBlockPlugin()
 ]
 
 export const basePlugins: SlatePlugin[] = [...genericPlugins, ...customPlugins]

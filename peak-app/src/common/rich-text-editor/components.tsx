@@ -20,16 +20,18 @@ import {
 import {DragIndicator} from "@styled-icons/material/DragIndicator";
 import React, {useMemo} from "react";
 import {PeakInlineLinkElement} from "./plugins/peak-link-plugin/inline-link/PeakHyperLink";
-import { ELEMENT_EMBED_STUB } from "component-library";
+import {ELEMENT_EMBED_STUB, ReadOnlyCodeBlock} from "component-library";
 import {PeakMediaStubElement} from "./plugins/peak-media-embed-plugin/components/stub/MediaEmbedStub";
 import {clone} from "ramda";
 import {DRAGGABLE_ELEMENTS} from "./constants";
-import {PEAK_CALLOUT, PEAK_SLATE_COMPONENT_OVERRIDES} from "component-library/dist";
+import {PEAK_CALLOUT, PEAK_SLATE_COMPONENT_OVERRIDES} from "component-library";
+import {EditableCodeBlock} from "./plugins/peak-code-editor/components/EditableCodeBlock";
 
 const defaultComponents = createSlatePluginsComponents({
     ...PEAK_SLATE_COMPONENT_OVERRIDES,
     [ELEMENT_LINK]: PeakInlineLinkElement,
-    [ELEMENT_EMBED_STUB]: PeakMediaStubElement
+    [ELEMENT_EMBED_STUB]: PeakMediaStubElement,
+    [ELEMENT_CODE_BLOCK]: EditableCodeBlock
 })
 
 const withStyledPlaceHolders = (components: any, placeholders: Options<PlaceholderProps>[]) => {

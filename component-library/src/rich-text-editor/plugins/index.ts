@@ -7,3 +7,4 @@ export * from "./peak-callout-plugin/index";
 export * from "./peak-divider/index";
 export * from "./peak-media-embed-plugin/index";
 export * from "./peak-title-plugin/index";
+export * from "./prismjs-code-plugin/index";

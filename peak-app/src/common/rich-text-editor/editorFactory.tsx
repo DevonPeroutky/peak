@@ -18,7 +18,6 @@ import {DEFAULT_PLACEHOLDERS} from "./constants";
 import {contains, includes} from "ramda";
 import {editorStyle} from "component-library";
 import { EditableProps } from "slate-react/dist/components/editable";
-import {usePrismHighlightPlugin} from "./plugins/prismjs-code-plugin/PrismjsCodeBlockPlugin";
 
 export const defaultEditableProps: EditableProps = {
     // placeholder: 'Enter some rich text…',
@@ -61,13 +60,11 @@ export const PeakEditor = ({
     //     })
     // }, [])
 
-    const prismPlugin = usePrismHighlightPlugin()
-
     return (
         <div className={cn("peak-rich-text-editor-container", (className) ? className : "")}>
             <SlatePlugins
                 id={currentPageId}
-                plugins={usePeakPlugins([...additionalPlugins, prismPlugin])}
+                plugins={usePeakPlugins([...additionalPlugins])}
                 components={useComponents(dragAndDrop, nodePlaceholders)}
                 options={defaultOptions}
                 editableProps={defaultEditableProps}
