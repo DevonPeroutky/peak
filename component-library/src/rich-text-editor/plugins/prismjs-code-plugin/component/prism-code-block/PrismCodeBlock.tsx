@@ -1,12 +1,14 @@
-import React, {useEffect} from "react";
+import React from "react";
+import { SPRenderElementProps } from "@udecode/slate-plugins";
 import "./prism-code-block.scss";
+
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-scala';
 import 'prismjs/components/prism-clike';
 import 'prismjs/themes/prism-okaidia.css';
 
-export const PrismCodeBlock = (props) => {
+export const PrismCodeBlock = (props: SPRenderElementProps) => {
     const { attributes, element, children } = props
 
     console.log(`--------------`)
