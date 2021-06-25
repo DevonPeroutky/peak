@@ -24,9 +24,8 @@ export const EditableCodeBlock = (props: any) => {
 
     return (
         <>
-            <div data-slate-editor contentEditable={false}>
-                <LanguageSelect updateLanguage={updateLanguage} language={language}/>
-            </div>
+            <div style={{ height: 0, overflow: "hidden" }}>{props.children}</div>
+            <LanguageSelect updateLanguage={updateLanguage} language={language}/>
             <PrismCodeBlock {...props}/>
         </>
     )

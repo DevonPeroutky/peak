@@ -29,8 +29,8 @@ export const PrismCodeBlock = (props: SPRenderElementProps) => {
   const language: string = element.language || `java`
 
   return (
-      <pre className={`language-${language}`} {...attributes}>
-          <code>{children}</code>
-      </pre>
+    <pre className={`language-${language}`} {...attributes}>
+        <code>{children}</code>
+    </pre>
   )
 }
