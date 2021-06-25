@@ -1,6 +1,7 @@
 import {Editor, Point, Range} from 'slate';
 import {
-    AutoformatRule, ELEMENT_CODE_BLOCK,
+    AutoformatRule,
+    ELEMENT_CODE_BLOCK,
     MARK_BOLD,
     MARK_CODE,
     MARK_ITALIC,

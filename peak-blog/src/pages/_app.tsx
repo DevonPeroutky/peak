@@ -1,5 +1,6 @@
 import '../../styles/globals.css'
 import 'component-library/dist/index.css'
+import 'prismjs/themes/prism-okaidia.css';
 import {QueryClient, QueryClientProvider, useQueryClient} from "react-query";
 import React, {useEffect, useState} from "react";
 import {parseSubdomain} from "../utils/subdomains";

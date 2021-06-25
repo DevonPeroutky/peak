@@ -22,6 +22,7 @@ import {defaultOptions, PEAK_EXIT_BREAK_OPTIONS, PEAK_RESET_BLOCK_OPTIONS, PEAK_
 import { createPeakLearningPlugin } from './plugins/peak-knowledge-plugin/PeakKnowledgePlugin';
 import { createPeakLinkPlugin } from "./plugins/peak-link-plugin/PeakLinkPlugin";
 import {basePlugins} from "component-library/dist";
+import {PrismJsCodeBlockPlugin} from "component-library";
 
 const openSourcePlugins: SlatePlugin[] = [
     createReactPlugin(),
@@ -47,7 +48,7 @@ const corePlugins: SlatePlugin[] = [
 const peakPlugins: SlatePlugin[] = [
     ...corePlugins,
     createPeakLinkPlugin(),
-    createPeakLearningPlugin()
+    createPeakLearningPlugin(),
 ]
 
 export const usePeakPlugins = (additionalPlugins?: SlatePlugin[]) => {
