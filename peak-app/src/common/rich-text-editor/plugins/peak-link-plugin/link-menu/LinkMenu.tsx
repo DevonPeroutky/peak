@@ -10,8 +10,8 @@ import {AlignLeftOutlined} from "@ant-design/icons/lib";
 import {DisplayLinkMenu} from "./link-menu-body/display-link-menu/DisplayLinkMenu";
 import HierarchySearcherInput from "./hierarchy-searcher/HierarchySearcherInput";
 import {closeLinkMenu} from "../../../../../redux/slices/activeEditor/activeEditorSlice";
-import {PeakHyperlinkState} from "../../../../../constants/wiki-types";
 import { useEditorState } from '@udecode/slate-plugins';
+import {PeakHyperlinkState} from "../../../../../types/editor-state";
 
 interface LinkMenuProps {
     showLinkMenu: boolean

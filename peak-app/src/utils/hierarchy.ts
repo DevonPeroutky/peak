@@ -12,7 +12,6 @@ import {
     ELEMENT_H6,
     KEYS_HEADING
 } from "@udecode/slate-plugins";
-import {PeakNote} from "../redux/slices/noteSlice";
 import {buildNoteUrl} from "./notes";
 import {
     ELEMENT_PEAK_BOOK,
@@ -22,6 +21,7 @@ import {
 import {deriveHostname} from "./urls";
 import {sort} from "ramda";
 import { ELEMENT_TITLE } from "component-library";
+import {PeakNote} from "../types/notes";
 
 const orderByUpdated = (a: PeakDisplayNode, b: PeakDisplayNode) => {
     return (a.updated_at <= b.updated_at) ? 1 : -1

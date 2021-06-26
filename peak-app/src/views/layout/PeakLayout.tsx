@@ -16,9 +16,6 @@ import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {loadEntireWorldForAllAccounts} from "../../utils/loading-util";
 import {establishSocketConnection, socket, subscribeToUserNoteChannel} from "../../utils/socketUtil";
-import {PeakBookListView} from "../notes/notes-list/NoteListView";
-import {PeakNoteView} from "../notes/note-view/NoteView";
-import {DraftLearningNoteView, PeakDraftNoteView} from "../notes/note-view/DraftNoteView";
 import { ELEMENT_PEAK_BOOK } from "../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
 import {isElectron} from "../../utils/environment";
 import cn from "classnames"
@@ -27,8 +24,10 @@ import {Peaker} from "../../types";
 import {Plugins} from "../scratchpad/playground/Playground";
 import {BlogHome} from "../blog/BlogHome";
 import {BlogSetup} from "../blog/setup/BlogSetup";
-import {BlogSettings} from "../blog/settings/BlogConfiguration";
 import {BlogCreateSuccess} from "../blog/setup/result/BlogSuccess";
+import {DraftLearningNoteView, PeakDraftNoteView} from "../notes/view/DraftNoteView";
+import {PeakBookListView} from "../notes/list/PeakBookListView";
+import {PeakNoteView} from "../notes/view/NoteView";
 
 const { Content } = Layout;
 

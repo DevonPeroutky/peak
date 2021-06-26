@@ -19,18 +19,17 @@ import {
     updatePageTitleInSidebar
 } from "../redux/slices/topicSlice";
 import {useUpdatePageInHierarchy} from "./hierarchy";
-import {getCurrentFormattedDate} from "./time";
 import {updatePage} from "./requests";
 import {useQuery} from "./urls";
 import {FutureRead} from "../redux/slices/readingListSlice";
 import {CHROME_EXTENSION} from "../common/rich-text-editor/editors/chrome-extension/constants";
-import {PeakWikiPage, PeakWikiState, ScratchPad} from "../constants/wiki-types";
 import {Peaker} from "../types";
 import {PeakTopicNode} from "../redux/slices/user/types";
 import {endSavingPage, setEditing, useActiveEditorState} from "../redux/slices/activeEditor/activeEditorSlice";
 import {useNotes} from "../client/notes";
-import {PeakNote} from "../redux/slices/noteSlice";
 import {SCRATCHPAD_ID} from "../common/rich-text-editor/editors/scratchpad/constants";
+import {PeakNote, PeakWikiPage, ScratchPad} from "../types/notes";
+import {PeakWikiState} from "../types/editors";
 const R = require('ramda');
 
 // --------------------------------------------------

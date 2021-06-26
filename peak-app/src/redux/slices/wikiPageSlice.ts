@@ -6,9 +6,10 @@ import {
     INITIAL_CHROME_EXT_STATE,
     INITIAL_PAGE_STATE,
 } from "../../constants/editor";
-import { PeakWikiPage, PeakWikiState} from "../../constants/wiki-types";
 import {SCRATCHPAD_ID, SCRATCHPAD_TITLE} from "../../common/rich-text-editor/editors/scratchpad/constants";
 import {INITIAL_SCRATCHPAD_STATE} from "../../common/rich-text-editor/editors/scratchpad/constants";
+import {PeakWikiState} from "../../types/editors";
+import {PeakWikiPage} from "../../types/notes";
 const R = require('ramda');
 
 export const INITIAL_WIKI_STATE: PeakWikiState = {

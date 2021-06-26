@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react'
-import {PeakNote} from "../../../redux/slices/noteSlice";
 import {loadPeakNotes, useNotes} from "../../../client/notes";
 import {List, message, Popconfirm} from "antd";
-import {BookOutlined, DeleteOutlined, ReadFilled} from "@ant-design/icons/lib";
+import {ReadFilled} from "@ant-design/icons/lib";
 import "./note-list-view.scss"
 import {Link} from "react-router-dom";
-import {deriveHostname} from "../../../utils/urls";
-import { ELEMENT_PEAK_BOOK, ELEMENT_WEB_NOTE } from "../../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
+import { ELEMENT_PEAK_BOOK } from "../../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
 import {ImageLoader} from "../../../common/image-loader/ImageLoader";
 import { capitalize } from 'lodash';
 import {PeakTagDisplay} from "../../../common/peak-tag-display/PeakTagDisplay";
@@ -14,6 +12,7 @@ import {PeakKnowledgeKeyOption} from "../../../common/rich-text-editor/plugins/p
 import {buildNoteUrl} from "../../../utils/notes";
 import {useCurrentUser} from "../../../utils/hooks";
 import {DeleteNoteConfirm} from "../../../common/delete-note-popconfirm/DeleteNoteConfirm";
+import {PeakNote} from "../../../types/notes";
 
 export const PeakBookListView = (props: { page_header: string, note_type: PeakKnowledgeKeyOption }) => {
     const { page_header, note_type } = props
@@ -38,13 +37,13 @@ export const PeakBookListView = (props: { page_header: string, note_type: PeakKn
                     pageSize: 10
                 }}
                 dataSource={notes}
-                renderItem={(item) => <NoteListItem item={item}/>}
+                renderItem={(item) => <PeakBookListItem item={item}/>}
             />
         </div>
     )
 }
 
-const NoteListItem = (props: { item: PeakNote }) => {
+const PeakBookListItem = (props: { item: PeakNote }) => {
     const { item } = props
     return (
         <List.Item key={item.title}>
@@ -57,7 +56,7 @@ const NoteListItem = (props: { item: PeakNote }) => {
                             <Link to={buildNoteUrl(item.id)}>
                                 <div className={"peak-note-list-item-header"}>
                                     <p className={"item-title"}>{capitalize(item.title)}</p>
-                                    <NoteSubTitle item={item}/>
+                                    <div className={"subtitle-container"}>{item.author}</div>
                                 </div>
                             </Link>
                             <div className="peak-note-tag-section">
@@ -88,20 +87,6 @@ const NoteAvatar = (props: { item: PeakNote }) => {
             />
         )
     }
-}
-
-const NoteSubTitle = (props: { item: PeakNote }) => {
-    const { item } = props
-    return (
-       <div className={"subtitle-container"}>
-           {(item.note_type === ELEMENT_WEB_NOTE) ?
-               <>
-                   <ImageLoader className={"fav-icon"} url={item.icon_url} fallbackElement={<BookOutlined className="default-note-icon"/>}/>
-                   <span>{deriveHostname(item.url)}</span>
-               </>
-               : item.author}
-       </div>
-    )
 }
 
 const NoteIconSection = (props: { item: PeakNote }) => {

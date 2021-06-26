@@ -1,6 +1,7 @@
 import {CHROME_EXTENSION} from "../common/rich-text-editor/editors/chrome-extension/constants";
-import {PeakEditorState, PeakHyperlinkState, PeakWikiPage} from "./wiki-types";
 import {EMPTY_PARAGRAPH_NODE} from "../common/rich-text-editor/editors/constants";
+import {PeakEditorState, PeakHyperlinkState} from "../types/editor-state";
+import {PeakWikiPage} from "../types/notes";
 
 export const INITIAL_LINK_STATE: PeakHyperlinkState = {
     currentLinkUrl: '',

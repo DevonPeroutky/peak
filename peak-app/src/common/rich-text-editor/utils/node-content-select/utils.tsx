@@ -6,10 +6,10 @@ import {escapeRegExp, getRangeFromBlockStart, getText, SPEditor, unwrapList} fro
 import {insertCustomBlockElement, insertCustomBlockElementCallback} from "../base-utils";
 import {ReadOutlined} from "@ant-design/icons/lib";
 import {ELEMENT_PEAK_BOOK} from "../../plugins/peak-knowledge-plugin/constants";
-import {PeakNote} from "../../../../redux/slices/noteSlice";
 import {getCoverImageUrl, OpenLibraryBook} from "../../../../client/openLibrary";
 import {ImageLoader} from "../../../image-loader/ImageLoader";
 import {uniq} from "ramda";
+import {PeakNote} from "../../../../types/notes";
 
 export function convertEditorControlDisplayToNodeSelectListItem(node: PeakEditorControlDisplay): PeakNodeSelectListItem {
     return {

@@ -13,8 +13,8 @@ import "./topic-header-row.scss";
 import {capitalize_and_truncate} from "../../../../utils/strings";
 import {EMPTY_BODY_WITH_TITLE} from "../../../rich-text-editor/editors/constants";
 import {Peaker} from "../../../../types";
-import {PeakWikiPage} from "../../../../constants/wiki-types";
 import { setEditing } from "../../../../redux/slices/activeEditor/activeEditorSlice";
+import {PeakWikiPage} from "../../../../types/notes";
 
 export const TopicHeaderRow = (props: { topic: PeakTopic, user: Peaker, toggleExpanded: () => void }) => {
     const { topic, toggleExpanded } = props;

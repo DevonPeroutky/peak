@@ -48,7 +48,11 @@ export const BlogHome = (props) => {
                             className={"mr-5 cursor-pointer rounded-full px-4 py-2 text-sm border border-gray-400 hover:border-blue-400 hover:text-blue-400 accessible-button"}>
                             Follow
                         </button>
-                        <span className={"mr-5 cursor-pointer hover:text-blue-400"}>255 Followers</span>
+                        <span
+                            onClick={() => notify("More or less", "mas-y-menos")}
+                            className={"mr-5 cursor-pointer hover:text-blue-400"}>
+                            255 Followers
+                        </span>
                         <span
                             onClick={() => notify("About me coming soon", "about-me")}
                             className={"mr-5 cursor-pointer hover:text-blue-400"}>

@@ -5,24 +5,25 @@ import cn from 'classnames';
 import {PublishPostForm} from "./publish-post-form/PublishPostForm";
 import "./publish-modal.scss"
 import {useCurrentPage, useCurrentUser} from "../../../utils/hooks";
-import {PeakWikiPage} from "../../../constants/wiki-types";
 import {BlogConfiguration} from "../../../redux/slices/blog/types";
 import {useBlog} from "../../../redux/slices/blog/hooks";
 import {useActiveEditorState} from "../../../redux/slices/activeEditor/activeEditorSlice";
 import {PublishSuccess} from "./publish-result/PublishSuccess";
 import { useHistory } from 'react-router-dom';
-import {PeakNote} from "../../../redux/slices/noteSlice";
 import {POST_VISIBILITY} from "component-library";
 import {blogUrlFromSubdomain} from "../../../utils/urls";
+import {PeakNote, PeakWikiPage} from "../../../types/notes";
 
 type PUBLISHING_STATE = "publishing" | "publish" | "published"
-export const PublishModal = (props: { }) => {
+export const PublishModal = (props: { imageUrl?: string, subtitle?: string }) => {
     const history = useHistory()
     const currentPage = useCurrentPage()
     const [visible, setVisible] = useState(false);
     const [loadingState, setLoading] = useState<PUBLISHING_STATE>("publish")
 
     const alreadyPublished: boolean = (currentPage.privacy_level) ? currentPage.privacy_level === POST_VISIBILITY.public.toString() : false
+
+    console.log(`CURRENT PAGE: `, currentPage)
 
     return (
         <>

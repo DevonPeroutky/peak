@@ -9,8 +9,9 @@ import {clone, omit} from "ramda";
 import peakAxiosClient from "../client/axiosConfig";
 import {INITIAL_WIKI_STATE} from "../redux/slices/wikiPageSlice";
 import {INITIAL_PAGE_STATE} from "../constants/editor";
-import {PeakWikiPage, PeakWikiState} from "../constants/wiki-types";
 import {SCRATCHPAD_ID} from "../common/rich-text-editor/editors/scratchpad/constants";
+import {PeakWikiState} from "../types/editors";
+import {PeakWikiPage} from "../types/notes";
 
 // Page
 interface PeakPageParams {

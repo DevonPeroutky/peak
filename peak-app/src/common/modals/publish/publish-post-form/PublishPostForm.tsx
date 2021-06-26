@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
 import {Button, Form, Input, notification} from "antd";
-import {NoteTagSelect} from "../../../rich-text-editor/plugins/peak-knowledge-plugin/components/peak-knowledge-node/peak-tag-select/component/NoteTagSelect";
 import "./publish-post-form.scss"
 import {ShareAltOutlined} from "@ant-design/icons/lib";
 import {createPeakPost} from "../../../../redux/slices/posts/postsSlice";
-import {PeakWikiPage} from "../../../../constants/wiki-types";
 import {BlogConfiguration} from "../../../../redux/slices/blog/types";
 import {PeakTag} from "../../../../types";
 import {PeakPost, POST_TYPE, POST_VISIBILITY} from "component-library";
@@ -12,11 +10,12 @@ import {sleep} from "../../../../chrome-extension/utils/generalUtil";
 import cn from "classnames"
 import {blogUrlFromSubdomain} from "../../../../utils/urls";
 import {OG_ARTIFACT_TYPE, WIKI_PAGE} from "../../../../redux/slices/posts/types";
-import {PeakNote, updateNote} from "../../../../redux/slices/noteSlice";
+import {updateNote} from "../../../../redux/slices/noteSlice";
 import {ImageInput} from "../../../image-input/ImageInput";
 import {deletePage} from "../../../../redux/slices/wikiPageSlice";
 import {removePageFromTopic} from "../../../../redux/slices/topicSlice";
 import {useDispatch} from "react-redux";
+import {PeakNote, PeakWikiPage} from "../../../../types/notes";
 
 export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
     const { page, userId, blogConfiguration, setLoading, setUrl } = props

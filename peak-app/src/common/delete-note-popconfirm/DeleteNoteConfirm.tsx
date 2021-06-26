@@ -1,10 +1,10 @@
 import {message, Popconfirm} from "antd";
 import {DeleteOutlined} from "@ant-design/icons/lib";
 import React, { useState } from "react";
-import {PeakNote} from "../../redux/slices/noteSlice";
 import "./delete-note-confirm.scss"
 import { deletePeakNote } from "src/client/notes";
 import cn from 'classnames';
+import {PeakNote} from "../../types/notes";
 
 export const DeleteNoteConfirm = (props: { item: PeakNote, className?: string }) => {
     const { item, className } = props

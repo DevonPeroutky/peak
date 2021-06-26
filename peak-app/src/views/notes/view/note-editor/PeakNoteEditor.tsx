@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import {createEditor, Node, Transforms} from "slate";
-import {PeakNote, STUB_BOOK_ID} from "../../../../redux/slices/noteSlice";
+import {STUB_BOOK_ID} from "../../../../redux/slices/noteSlice";
 import {
     useCurrentNote,
     useDebouncePeakNoteSaver,
@@ -14,6 +14,7 @@ import {EMPTY_PARAGRAPH_NODE} from "../../../../common/rich-text-editor/editors/
 import {drop, equals, sort} from "ramda";
 import {useDispatch} from "react-redux";
 import {PeakEditor} from "../../../../common/rich-text-editor/editorFactory";
+import {PeakNote} from "../../../../types/notes";
 
 export const PeakNoteEditor = (props: { note_id: string }) => {
     const { note_id } = props

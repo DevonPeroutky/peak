@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useCurrentUser} from "../../utils/hooks";
-import {PeakNote} from "../../redux/slices/noteSlice";
 import {loadPeakNotes, useNotes} from "../../client/notes";
 import {Button, Empty, message, Popconfirm, Timeline} from "antd";
 import {ELEMENT_WEB_NOTE, PEAK_LEARNING} from "../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
@@ -25,9 +24,10 @@ import cn from "classnames";
 import {useBottomScrollListener} from "react-bottom-scroll-listener/dist";
 import {DeleteNoteConfirm} from "../../common/delete-note-popconfirm/DeleteNoteConfirm";
 import {POST_VISIBILITY} from "component-library";
+import {PeakNote} from "../../types/notes";
 
 const groupByDate = groupBy(function (note: PeakNote) {
-    return formatStringAsDate(note.inserted_at)
+    return formatStringAsDate(note.inserted_at.toString())
 })
 
 export const PeakTimeline = (props: { }) => {

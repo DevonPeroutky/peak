@@ -1,7 +1,5 @@
-import {PeakNote} from "../../../../../redux/slices/noteSlice";
 import {PeakTag} from "../../../../../types";
-import {Link} from "react-router-dom";
-import {CaretLeftFilled, CaretRightFilled, SelectOutlined} from "@ant-design/icons/lib";
+import {SelectOutlined} from "@ant-design/icons/lib";
 import {capitalize_and_truncate} from "../../../../../utils/strings";
 import {deriveHostname} from "../../../../../utils/urls";
 import { YoutubeVideoContainer } from "../../../../../common/media-embeds/youtube-container/YoutubeContainer";
@@ -11,6 +9,7 @@ import TextArea from "antd/es/input/TextArea";
 import "./web-note-header.scss"
 import {TweetContainer} from "../../../../../common/media-embeds/twitter-container/TwitterContainer";
 import {ImageLoader} from "../../../../../common/image-loader/ImageLoader";
+import {PeakNote} from "../../../../../types/notes";
 
 export const WebNoteHeaderSection = (props: {note: PeakNote, title: string, onTitleChange: (e) => void, selected_tags: PeakTag[]}) => {
     const { note, selected_tags, onTitleChange, title } = props

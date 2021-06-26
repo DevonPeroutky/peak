@@ -1,26 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Node} from "slate";
-import {PeakKnowledgeKeyOption} from "../../common/rich-text-editor/plugins/peak-knowledge-plugin/types";
 import {sort, uniqBy} from "ramda";
+import {PeakNote} from "../../types/notes";
 
 export const STUB_BOOK_ID = "new-book"
-
-export interface PeakNote {
-    id: string
-    title: string
-    note_type: PeakKnowledgeKeyOption,
-    icon_url: string
-    cover_image_url?: string
-    description?: string
-    tag_ids: string[]
-    body: Node[]
-    url: string
-    user_id: string
-    author?: string
-    inserted_at?: string
-    updated_at?: string
-    privacy_level: string
-}
 
 const emptyBookList: PeakNote[] = []
 

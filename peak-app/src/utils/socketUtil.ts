@@ -3,10 +3,11 @@ import peakAxiosClient from "../client/axiosConfig";
 import {AxiosResponse} from "axios";
 import config from "../constants/environment-vars"
 import {store} from "../redux/store";
-import {deleteNote, PeakNote, upsertNote} from "../redux/slices/noteSlice";
+import {deleteNote, upsertNote} from "../redux/slices/noteSlice";
 import {PeakTag} from "../types";
 import {batch} from "react-redux";
 import {addTags} from "../redux/slices/tags/tagSlice";
+import {PeakNote} from "../types/notes";
 
 interface SocketTokenPayload {
     id: string

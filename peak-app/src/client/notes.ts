@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {AppState} from "../redux";
 import {store} from "../redux/store";
 import {ELEMENT_PEAK_BOOK, PEAK_LEARNING} from "../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
-import {appendNotes, deleteNote, PeakNote, STUB_BOOK_ID, updateNote, upsertNote} from "../redux/slices/noteSlice";
+import {appendNotes, deleteNote, STUB_BOOK_ID, updateNote, upsertNote} from "../redux/slices/noteSlice";
 import {useHistory, useLocation} from "react-router-dom";
 import {Node} from "slate";
 import {useCallback} from "react";
@@ -15,6 +15,7 @@ import {AxiosResponse} from "axios";
 import {PaginationResponse} from "./types";
 import {PeakKnowledgeKeyOption} from "../common/rich-text-editor/plugins/peak-knowledge-plugin/types";
 import {EMPTY_BODY_WITH_TITLE} from "../common/rich-text-editor/editors/constants";
+import { PeakNote } from "src/types/notes";
 
 interface UpdateNotePayload {
     body?: Node[],

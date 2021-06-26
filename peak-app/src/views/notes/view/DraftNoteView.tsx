@@ -8,9 +8,9 @@ import {useCurrentUser } from "../../../utils/hooks";
 import { Divider, message, Skeleton} from "antd";
 import {useQuery} from "../../../utils/urls";
 import {getCoverImageUrl} from "../../../client/openLibrary";
-import {PeakNote} from "../../../redux/slices/noteSlice";
 import {buildNoteUrl} from "../../../utils/notes";
 import {NoteSkeleton} from "./note-skeleton/NoteSkeleton";
+import {PeakNote} from "../../../types/notes";
 
 export const PeakDraftNoteView = (props) => {
     const history = useHistory()

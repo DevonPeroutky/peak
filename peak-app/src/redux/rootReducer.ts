@@ -10,15 +10,16 @@ import helpModal from "./slices/helpModal/helpModalSlice";
 import electron from "./slices/electronSlice";
 import tags from "./slices/tags/tagSlice";
 import blogConfiguration from "./slices/blog/blogSlice";
-import notes, {PeakNote} from "./slices/noteSlice";
+import notes from "./slices/noteSlice";
 import userAccounts, {DisplayPeaker} from "./slices/userAccountsSlice";
-import {PeakWikiPage, PeakWikiState} from "../constants/wiki-types";
 import {Peaker, PeakTag} from "../types";
 import {BlogConfiguration} from "./slices/blog/types";
 import posts from "./slices/posts/postsSlice"
 import {PeakPost} from "component-library";
 import {PeakAccessToken} from "../client/tokens";
 import tokens from "./slices/tokens/tokenSlice";
+import {PeakWikiState} from "../types/editors";
+import {PeakNote, PeakWikiPage} from "../types/notes";
 
 export interface UserSpecificAppState {
     currentUser: Peaker

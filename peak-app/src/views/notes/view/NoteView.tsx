@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {useCurrentNote, useDebouncePeakNoteSaver} from "../../../client/notes";
-import {PeakNote} from "../../../redux/slices/noteSlice";
 import {useHistory} from "react-router-dom";
 import "./note-view.scss"
 import {
@@ -16,13 +15,13 @@ import {WebNoteHeaderSection} from "./note-header/web-note-header/WebNoteHeader"
 import {BookHeaderSection} from "./note-header/book-header/BookHeader";
 import {NextGenNoteView} from "../../note-view-v2/NextGenNoteView";
 import {PublishModal} from "../../../common/modals/publish/PublishModal";
+import {PeakNote} from "../../../types/notes";
 
 export const PeakNoteView = (props) => {
     const history = useHistory()
     const currentNote: PeakNote | undefined = useCurrentNote()
     const noteSaver = useDebouncePeakNoteSaver()
     const currentUser = useCurrentUser()
-    console.log(`THE CURRENT NOTE `, currentNote)
     const selected_tags: PeakTag[] = useLoadTags((currentNote && currentNote.tag_ids) ? currentNote.tag_ids : [])
     const [title, setTitle] = useState((currentNote) ? currentNote.title : "")
     const [author, setAuthor] = useState((currentNote) ? currentNote.author : "")

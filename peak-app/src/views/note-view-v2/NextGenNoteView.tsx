@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useCurrentNote, useDebouncePeakNoteSaver, useSpecificNote} from "../../client/notes";
 import {useCurrentUser} from "../../utils/hooks";
-import {PeakNote, STUB_BOOK_ID} from "../../redux/slices/noteSlice";
+import {STUB_BOOK_ID} from "../../redux/slices/noteSlice";
 import {PeakTag} from "../../types";
 import {useDispatch} from "react-redux";
 import {beginSavingPage, useActiveEditorState} from "../../redux/slices/activeEditor/activeEditorSlice";
@@ -15,6 +15,7 @@ import {NoteTagSelect} from "../../common/rich-text-editor/plugins/peak-knowledg
 import "./next-gen-note-view.scss"
 import {ELEMENT_TITLE} from "component-library";
 import {PublishModal} from "../../common/modals/publish/PublishModal";
+import {PeakNote} from "../../types/notes";
 
 export const NextGenNoteView = (props: { note: PeakNote, selected_tags: PeakTag[] }) => {
     const { note, selected_tags } = props
