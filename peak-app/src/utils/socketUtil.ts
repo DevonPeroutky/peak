@@ -7,7 +7,7 @@ import {deleteNote, upsertNote} from "../redux/slices/noteSlice";
 import {PeakTag} from "../types";
 import {batch} from "react-redux";
 import {addTags} from "../redux/slices/tags/tagSlice";
-import {PeakNote} from "../types/notes";
+import {PeakExternalNote} from "../types/notes";
 
 interface SocketTokenPayload {
     id: string
@@ -96,7 +96,7 @@ export const subscribeToUserNoteChannel = (userId: string) => {
             console.log(`Received nodes of web_note from backend broadcast`, res)
             console.log(`Current Active user (${userId}) `)
 
-            const newlyCreatedNote: PeakNote = res.note
+            const newlyCreatedNote: PeakExternalNote = res.note
             const newlyCreatedTag: PeakTag[] = res.tags
             batch(() => {
                 store.dispatch(upsertNote(newlyCreatedNote))

@@ -15,11 +15,11 @@ import {NoteTagSelect} from "../../common/rich-text-editor/plugins/peak-knowledg
 import "./next-gen-note-view.scss"
 import {ELEMENT_TITLE} from "component-library";
 import {PublishModal} from "../../common/modals/publish/PublishModal";
-import {PeakNote} from "../../types/notes";
+import {PeakExternalNote, PeakLearningNote} from "../../types/notes";
 
-export const NextGenNoteView = (props: { note: PeakNote, selected_tags: PeakTag[] }) => {
+export const NextGenNoteView = (props: { note: PeakLearningNote, selected_tags: PeakTag[] }) => {
     const { note, selected_tags } = props
-    const currentNote: PeakNote | undefined = useSpecificNote(note.id)
+    const currentNote: PeakExternalNote | undefined = useSpecificNote(note.id)
     const dispatch = useDispatch()
     const editorState = useActiveEditorState()
     const currentUser = useCurrentUser()

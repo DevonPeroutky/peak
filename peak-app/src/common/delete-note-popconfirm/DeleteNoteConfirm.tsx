@@ -5,9 +5,13 @@ import "./delete-note-confirm.scss"
 import { deletePeakNote } from "src/client/notes";
 import cn from 'classnames';
 import {PeakNote} from "../../types/notes";
+import {Peaker} from "../../types";
+import {useCurrentUser} from "../../utils/hooks";
 
 export const DeleteNoteConfirm = (props: { item: PeakNote, className?: string }) => {
     const { item, className } = props
+
+    const user: Peaker = useCurrentUser()
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -22,7 +26,7 @@ export const DeleteNoteConfirm = (props: { item: PeakNote, className?: string })
     const deleteNote = (e) => {
         setLoading(true)
         setTimeout(() => {
-            deletePeakNote(item.user_id, item.id).catch(err => {
+            deletePeakNote(user.id, item.id).catch(err => {
                 setLoading(false)
                 message.error("Failed to delete your note due to a server error.")
             }).finally(close)

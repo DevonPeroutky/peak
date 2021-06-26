@@ -12,12 +12,12 @@ import {PeakKnowledgeKeyOption} from "../../../common/rich-text-editor/plugins/p
 import {buildNoteUrl} from "../../../utils/notes";
 import {useCurrentUser} from "../../../utils/hooks";
 import {DeleteNoteConfirm} from "../../../common/delete-note-popconfirm/DeleteNoteConfirm";
-import {PeakNote} from "../../../types/notes";
+import {PeakBook} from "../../../types/notes";
 
 export const PeakBookListView = (props: { page_header: string, note_type: PeakKnowledgeKeyOption }) => {
     const { page_header, note_type } = props
     const currentUser = useCurrentUser()
-    const notes: PeakNote[] = useNotes().filter(n => n.note_type === note_type)
+    const notes: PeakBook[] = useNotes().filter(n => n.note_type === note_type)
 
     useEffect(() => {
         loadPeakNotes(currentUser.id)
@@ -43,7 +43,7 @@ export const PeakBookListView = (props: { page_header: string, note_type: PeakKn
     )
 }
 
-const PeakBookListItem = (props: { item: PeakNote }) => {
+const PeakBookListItem = (props: { item: PeakBook }) => {
     const { item } = props
     return (
         <List.Item key={item.title}>
@@ -71,7 +71,7 @@ const PeakBookListItem = (props: { item: PeakNote }) => {
     )
 }
 
-const NoteAvatar = (props: { item: PeakNote }) => {
+const NoteAvatar = (props: { item: PeakBook }) => {
     const { item } = props
 
     if (!item.cover_image_url) {
@@ -89,7 +89,7 @@ const NoteAvatar = (props: { item: PeakNote }) => {
     }
 }
 
-const NoteIconSection = (props: { item: PeakNote }) => {
+const NoteIconSection = (props: { item: PeakBook }) => {
     const { item } = props
     const mockOut = () => {
         message.info("Not implemented yet")

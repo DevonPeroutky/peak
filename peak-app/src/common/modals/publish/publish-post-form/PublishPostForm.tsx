@@ -15,9 +15,9 @@ import {ImageInput} from "../../../image-input/ImageInput";
 import {deletePage} from "../../../../redux/slices/wikiPageSlice";
 import {removePageFromTopic} from "../../../../redux/slices/topicSlice";
 import {useDispatch} from "react-redux";
-import {PeakNote, PeakWikiPage} from "../../../../types/notes";
+import {PeakExternalNote, PeakWikiPage} from "../../../../types/notes";
 
-export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
+export const PublishPostForm = (props: { page: PeakWikiPage | PeakExternalNote, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
     const { page, userId, blogConfiguration, setLoading, setUrl } = props
 
     const [selectedTags, setTags] = useState<PeakTag[]>([])
@@ -58,7 +58,7 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
                 dispatch(deletePage({ pageId: page.id }))
                 dispatch(removePageFromTopic({ pageId: page.id }))
             } else {
-                dispatch(updateNote({...page as PeakNote, privacy_level: POST_VISIBILITY.public.toString()}))
+                dispatch(updateNote({...page as PeakExternalNote, privacy_level: POST_VISIBILITY.public.toString()}))
             }
 
             sleep(1000).then(_ => {

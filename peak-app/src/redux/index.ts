@@ -9,7 +9,7 @@ import {BlogConfiguration} from "./slices/blog/types";
 import {PeakAccessToken} from "../client/tokens";
 import {PeakWikiState} from "../types/editors";
 import {PeakEditorState} from "../types/editor-state";
-import {PeakNote} from "../types/notes";
+import {PeakExternalNote} from "../types/notes";
 
 export const GLOBAL_APP_KEYS = ["electron", "quickSwitcher", "userAccounts", "activeEditorState", "helpModal"]
 
@@ -23,7 +23,7 @@ export interface AppState {
     activeEditorState: PeakEditorState,
     electron: ElectronState,
     tags: PeakTag[],
-    notes: PeakNote[],
+    notes: PeakExternalNote[],
     helpModal: HelpModalState,
     blogConfiguration: BlogConfiguration,
     tokens: PeakAccessToken[]

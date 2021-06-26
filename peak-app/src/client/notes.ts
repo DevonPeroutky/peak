@@ -15,7 +15,7 @@ import {AxiosResponse} from "axios";
 import {PaginationResponse} from "./types";
 import {PeakKnowledgeKeyOption} from "../common/rich-text-editor/plugins/peak-knowledge-plugin/types";
 import {EMPTY_BODY_WITH_TITLE} from "../common/rich-text-editor/editors/constants";
-import { PeakNote } from "src/types/notes";
+import {PeakBook, PeakExternalNote, PeakNote} from "src/types/notes";
 
 interface UpdateNotePayload {
     body?: Node[],
@@ -31,7 +31,7 @@ interface CreateNotePayload {
     note_type: PeakKnowledgeKeyOption
 }
 interface NoteListResponse extends PaginationResponse {
-    books: PeakNote[]
+    books: PeakExternalNote[]
 }
 
 // Requests
@@ -49,8 +49,8 @@ function fetchNotesRequest(userId: string, cursor?: string): Promise<AxiosRespon
     const cursorQueryParam = (cursor) ? `?cursor=${cursor}` : ``
     return peakAxiosClient.get<NoteListResponse>(`/api/v1/users/${userId}/books${cursorQueryParam}`)
 }
-export function fetchNewestNote(user: Peaker): Promise<PeakNote> {
-    return peakAxiosClient.get<{book: PeakNote}>(`/api/v1/users/${user.id}/fetch-latest-note?peak_user_id=${user.peak_user_id}`).then(res => res.data.book)
+export function fetchNewestNote(user: Peaker): Promise<PeakExternalNote> {
+    return peakAxiosClient.get<{book: PeakExternalNote}>(`/api/v1/users/${user.id}/fetch-latest-note?peak_user_id=${user.peak_user_id}`).then(res => res.data.book)
 }
 
 export function deletePeakNote(userId: string, noteId: string): Promise<string> {
@@ -63,7 +63,7 @@ export function deletePeakNote(userId: string, noteId: string): Promise<string> 
 // Requests + Reduxs
 export function loadPeakNotes(userId: string, cursor?: string): Promise<AxiosResponse<NoteListResponse>> {
     return fetchNotesRequest(userId, cursor).then(res => {
-        const books = res.data.books as PeakNote[]
+        const books = res.data.books as PeakExternalNote[]
         store.dispatch(appendNotes(books))
         return res
     }).catch(err => {
@@ -72,16 +72,16 @@ export function loadPeakNotes(userId: string, cursor?: string): Promise<AxiosRes
         return Promise.reject()
     })
 }
-export function createNewPeakBook(userId: string, book: CreateNotePayload): Promise<PeakNote> {
+export function createNewPeakBook(userId: string, book: CreateNotePayload): Promise<PeakExternalNote> {
     return createBookRequest(userId, book).then(res => {
-        const created_book = res.data.book as PeakNote
+        const created_book = res.data.book as PeakExternalNote
         store.dispatch(upsertNote(created_book))
         return created_book
     })
 }
 export function updatePeakNote(user: Peaker, noteId: string, note: UpdateNotePayload) {
     return updateNoteRequest(user.id, noteId, note ).then(res => {
-        const updatedNote: PeakNote = res.data.book
+        const updatedNote: PeakExternalNote = res.data.book
         store.dispatch(updateNote(updatedNote))
         store.dispatch(endSavingPage())
         return updatedNote
@@ -90,10 +90,10 @@ export function updatePeakNote(user: Peaker, noteId: string, note: UpdateNotePay
 
 // Hooks
 export function useNotes() {
-    return useSelector<AppState, PeakNote[]>(state => state.notes);
+    return useSelector<AppState, PeakExternalNote[]>(state => state.notes);
 }
 export function useBooks() {
-    return useSelector<AppState, PeakNote[]>(state => state.notes.filter(n => n.note_type === ELEMENT_PEAK_BOOK));
+    return useSelector<AppState, PeakBook[]>(state => state.notes.filter(n => n.note_type === ELEMENT_PEAK_BOOK));
 }
 export function useCurrentNoteId() {
     const location = useLocation();
@@ -107,7 +107,7 @@ export function useCurrentNote(): PeakNote | undefined {
     const currentNoteId = useCurrentNoteId();
     const notes = useNotes()
     const history = useHistory()
-    const note: PeakNote | undefined = notes.find(n => n.id === currentNoteId)
+    const note: PeakExternalNote | undefined = notes.find(n => n.id === currentNoteId)
     if (!note) {
         console.log(`That note does not seem to exist`)
         history.push(`/home/notes`)
@@ -115,7 +115,7 @@ export function useCurrentNote(): PeakNote | undefined {
     }
     return note
 }
-export function useSpecificNote(nodeId: string): PeakNote | undefined {
+export function useSpecificNote(nodeId: string): PeakExternalNote | undefined {
     const notes = useNotes()
     return (nodeId === STUB_BOOK_ID) ? undefined : notes.find(n => n.id === nodeId)
 }
@@ -136,7 +136,7 @@ export function usePeakBookCreator() {
             coverImageUrl: coverImageUrl,
             note_type: ELEMENT_PEAK_BOOK
         }).then(res => {
-            const created_book = res.data.book as PeakNote
+            const created_book = res.data.book as PeakExternalNote
             store.dispatch(upsertNote(created_book))
             return created_book
         })

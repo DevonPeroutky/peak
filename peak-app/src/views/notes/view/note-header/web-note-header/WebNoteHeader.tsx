@@ -9,9 +9,9 @@ import TextArea from "antd/es/input/TextArea";
 import "./web-note-header.scss"
 import {TweetContainer} from "../../../../../common/media-embeds/twitter-container/TwitterContainer";
 import {ImageLoader} from "../../../../../common/image-loader/ImageLoader";
-import {PeakNote} from "../../../../../types/notes";
+import {PeakExternalNote} from "../../../../../types/notes";
 
-export const WebNoteHeaderSection = (props: {note: PeakNote, title: string, onTitleChange: (e) => void, selected_tags: PeakTag[]}) => {
+export const WebNoteHeaderSection = (props: {note: PeakExternalNote, title: string, onTitleChange: (e) => void, selected_tags: PeakTag[]}) => {
     const { note, selected_tags, onTitleChange, title } = props
 
     return (
@@ -37,7 +37,7 @@ export const WebNoteHeaderSection = (props: {note: PeakNote, title: string, onTi
     )
 }
 
-const renderEmbeddeds = (note: PeakNote) => {
+const renderEmbeddeds = (note: PeakExternalNote) => {
     if (!note.url) {
         return null
     }
@@ -63,7 +63,7 @@ const renderEmbeddeds = (note: PeakNote) => {
     )
 }
 
-const renderDescription = (note: PeakNote) => {
+const renderDescription = (note: PeakExternalNote) => {
     if (note.description) {
         return <h2 className={"external-page-description"}>{note.description}</h2>
     } else {
@@ -71,7 +71,7 @@ const renderDescription = (note: PeakNote) => {
     }
 }
 
-const renderCoverImage = (note: PeakNote) => {
+const renderCoverImage = (note: PeakExternalNote) => {
     if (note.cover_image_url) {
         return <ImageLoader url={note.cover_image_url} fallbackElement={null} className={"cover-image"}/>
     } else {

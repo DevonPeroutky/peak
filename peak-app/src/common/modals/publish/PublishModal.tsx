@@ -12,7 +12,7 @@ import {PublishSuccess} from "./publish-result/PublishSuccess";
 import { useHistory } from 'react-router-dom';
 import {POST_VISIBILITY} from "component-library";
 import {blogUrlFromSubdomain} from "../../../utils/urls";
-import {PeakNote, PeakWikiPage} from "../../../types/notes";
+import {PeakExternalNote, PeakWikiPage} from "../../../types/notes";
 
 type PUBLISHING_STATE = "publishing" | "publish" | "published"
 export const PublishModal = (props: { imageUrl?: string, subtitle?: string }) => {
@@ -58,7 +58,7 @@ export const PublishModal = (props: { imageUrl?: string, subtitle?: string }) =>
 
 const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: any }) => {
     const { loadingState, setLoading } = props
-    const original_artifact: PeakWikiPage | PeakNote = useCurrentPage()
+    const original_artifact: PeakWikiPage | PeakExternalNote = useCurrentPage()
     const user = useCurrentUser()
     const blog: BlogConfiguration = useBlog()
     const [postUrl, setPostUrl] = useState<string>(null)

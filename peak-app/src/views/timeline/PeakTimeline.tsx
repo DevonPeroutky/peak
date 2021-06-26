@@ -24,16 +24,16 @@ import cn from "classnames";
 import {useBottomScrollListener} from "react-bottom-scroll-listener/dist";
 import {DeleteNoteConfirm} from "../../common/delete-note-popconfirm/DeleteNoteConfirm";
 import {POST_VISIBILITY} from "component-library";
-import {PeakNote} from "../../types/notes";
+import {PeakExternalNote} from "../../types/notes";
 
-const groupByDate = groupBy(function (note: PeakNote) {
+const groupByDate = groupBy(function (note: PeakExternalNote) {
     return formatStringAsDate(note.inserted_at.toString())
 })
 
 export const PeakTimeline = (props: { }) => {
     const currentUser = useCurrentUser()
-    const notesFromRedux: PeakNote[] = useNotes().filter(n => n.note_type === ELEMENT_WEB_NOTE || n.note_type === PEAK_LEARNING)
-    const [notes, setNotes] = useState<PeakNote[]>([])
+    const notesFromRedux: PeakExternalNote[] = useNotes().filter(n => n.note_type === ELEMENT_WEB_NOTE || n.note_type === PEAK_LEARNING)
+    const [notes, setNotes] = useState<PeakExternalNote[]>([])
     const [cursor, setCursor] = useState<string | null>(null)
     const [atBeginning, setAtBeginning] = useState<boolean>(false)
     const [loadingMore, setLoadingMore] = useState<boolean>(false)
@@ -118,7 +118,7 @@ export const PeakTimeline = (props: { }) => {
     )
 }
 
-const NoteAvatar = (props: { item: PeakNote }) => {
+const NoteAvatar = (props: { item: PeakExternalNote }) => {
     const { item } = props
 
     if (item.note_type == PEAK_LEARNING) {
@@ -144,7 +144,7 @@ const dateTimelineIcon = (isFirst: boolean) => {
     return (isFirst) ? <CalendarOutlined className={"timeline-icon"} color={"#f0f0f0"}/> : <div className={"v-bar-icon"}/>
 }
 
-const NoteTimelineItem = (props: { n: PeakNote} ) => {
+const NoteTimelineItem = (props: { n: PeakExternalNote} ) => {
     const { n } = props
 
     const [hovered, setHovered] = useState(false)
@@ -167,7 +167,7 @@ const NoteTimelineItem = (props: { n: PeakNote} ) => {
     )
 }
 
-const MetadataContainer = (props: { note: PeakNote, hovered }) => {
+const MetadataContainer = (props: { note: PeakExternalNote, hovered }) => {
     const { note, hovered } = props
     const deleteIcon = (hovered) ? <DeleteNoteConfirm item={note} className={"space-holder"}/> : <div className={"space-holder"}/>
     const published = (note.privacy_level && note.privacy_level === POST_VISIBILITY.public.toString()) ?

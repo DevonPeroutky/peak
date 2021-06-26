@@ -9,7 +9,7 @@ import {ELEMENT_PEAK_BOOK} from "../../plugins/peak-knowledge-plugin/constants";
 import {getCoverImageUrl, OpenLibraryBook} from "../../../../client/openLibrary";
 import {ImageLoader} from "../../../image-loader/ImageLoader";
 import {uniq} from "ramda";
-import {PeakNote} from "../../../../types/notes";
+import {PeakBook, PeakExternalNote} from "../../../../types/notes";
 
 export function convertEditorControlDisplayToNodeSelectListItem(node: PeakEditorControlDisplay): PeakNodeSelectListItem {
     return {
@@ -23,7 +23,7 @@ export function convertEditorControlDisplayToNodeSelectListItem(node: PeakEditor
     }
 }
 
-export function convertPeakBookToNodeSelectListItem(book: PeakNote): PeakNodeSelectListItem {
+export function convertPeakBookToNodeSelectListItem(book: PeakBook): PeakNodeSelectListItem {
     return {
         title: book.title,
         label: book.title,
@@ -60,7 +60,7 @@ export function convertOpenLibraryBookToNodeSelectListItem(book: OpenLibraryBook
     }
 }
 
-export function insertBookElementCallback(book: PeakNote): (editor: Editor) => void {
+export function insertBookElementCallback(book: PeakBook): (editor: Editor) => void {
     return (editor => insertCustomBlockElement(editor, ELEMENT_PEAK_BOOK, {noteId: book.id, title: book.title}))
 }
 

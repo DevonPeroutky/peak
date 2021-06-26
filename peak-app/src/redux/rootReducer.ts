@@ -19,7 +19,7 @@ import {PeakPost} from "component-library";
 import {PeakAccessToken} from "../client/tokens";
 import tokens from "./slices/tokens/tokenSlice";
 import {PeakWikiState} from "../types/editors";
-import {PeakNote, PeakWikiPage} from "../types/notes";
+import {PeakExternalNote, PeakWikiPage} from "../types/notes";
 
 export interface UserSpecificAppState {
     currentUser: Peaker
@@ -27,7 +27,7 @@ export interface UserSpecificAppState {
     tags: PeakTag[]
     topics: PeakTopic[]
     peakWikiState: PeakWikiState
-    notes: PeakNote[],
+    notes: PeakExternalNote[],
     tokens: PeakAccessToken[],
     blogConfiguration: BlogConfiguration,
     posts: PeakPost[]
@@ -37,7 +37,7 @@ export interface UserSpecificAppStateResponse {
     currentUser: Peaker
     tags: PeakTag[]
     topics: PeakTopic[]
-    notes: PeakNote[]
+    notes: PeakExternalNote[]
     pages: PeakWikiPage[]
     scratchpad: PeakWikiPage
     blogConfiguration: BlogConfiguration

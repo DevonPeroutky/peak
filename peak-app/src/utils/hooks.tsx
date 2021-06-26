@@ -28,7 +28,7 @@ import {PeakTopicNode} from "../redux/slices/user/types";
 import {endSavingPage, setEditing, useActiveEditorState} from "../redux/slices/activeEditor/activeEditorSlice";
 import {useNotes} from "../client/notes";
 import {SCRATCHPAD_ID} from "../common/rich-text-editor/editors/scratchpad/constants";
-import {PeakNote, PeakWikiPage, ScratchPad} from "../types/notes";
+import {PeakExternalNote, PeakWikiPage, ScratchPad} from "../types/notes";
 import {PeakWikiState} from "../types/editors";
 const R = require('ramda');
 
@@ -101,7 +101,7 @@ export function useCurrentPageId() {
  * Use this for getting the current wiki page. Do not use this externally for just getting the page id, as this will come
  * back null for pages that are not wiki Pages.
  */
-export function useCurrentPage(): PeakWikiPage | PeakNote {
+export function useCurrentPage(): PeakWikiPage | PeakExternalNote {
     const history = useHistory()
     const location = useLocation();
     const notes = useNotes()
@@ -111,7 +111,7 @@ export function useCurrentPage(): PeakWikiPage | PeakNote {
     const pageType = url.pop()!;
 
     if (pageType === "notes") {
-        const note: PeakNote = notes.find(n => n.id === currentPageId)
+        const note: PeakExternalNote = notes.find(n => n.id === currentPageId)
 
         if (!note) {
             console.log(`That note seems to no longer exist`)

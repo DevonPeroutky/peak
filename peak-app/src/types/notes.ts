@@ -16,7 +16,7 @@ export interface Publishable {
     description?: string
 }
 
-export interface ExternalNote {
+export interface PeakNote extends EditableNote {
     note_type: PeakKnowledgeKeyOption,
     cover_image_url?: string
     tag_ids: string[]
@@ -29,13 +29,13 @@ export interface ScratchPad extends EditableNote {}
 
 export interface PeakWikiPage extends EditableNote {}
 
-export interface PeakBook extends EditableNote, ExternalNote, Publishable {
+export interface PeakBook extends PeakNote, Publishable {
     author?: string
 }
 
-export interface PeakLearningNote extends EditableNote, Publishable {}
+export interface PeakLearningNote extends PeakNote, Publishable {}
 
-export interface PeakNote extends EditableNote, ExternalNote, Publishable {
+export interface PeakExternalNote extends PeakNote, Publishable {
     // fav_icon of the website
     icon_url: string
 
@@ -43,5 +43,5 @@ export interface PeakNote extends EditableNote, ExternalNote, Publishable {
     url: string
 }
 
-export interface PublishableArtifact extends EditableNote, ExternalNote, Publishable {
+export interface PublishableArtifact extends EditableNote, PeakNote, Publishable {
 }
