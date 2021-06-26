@@ -11,12 +11,15 @@ import {PeakPost, POST_TYPE, POST_VISIBILITY} from "component-library";
 import {sleep} from "../../../../chrome-extension/utils/generalUtil";
 import cn from "classnames"
 import {blogUrlFromSubdomain} from "../../../../utils/urls";
-import {ImageUpload} from "../../../image-upload/ImageUpload";
+import {OG_ARTIFACT_TYPE, WIKI_PAGE} from "../../../../redux/slices/posts/types";
+import {PeakNote} from "../../../../redux/slices/noteSlice";
+import {ImageInput} from "../../../image-input/ImageInput";
 
-export const PublishPostForm = (props: { page: PeakWikiPage, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
+export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
     const { page, userId, blogConfiguration, setLoading, setUrl } = props
 
     const [selectedTags, setTags] = useState<PeakTag[]>([])
+    const [imageUrl, setImageUrl] = useState<string | undefined>()
 
     const createPublishPost = (title: string, subtitle: string): PeakPost => {
         return {
@@ -24,6 +27,7 @@ export const PublishPostForm = (props: { page: PeakWikiPage, blogConfiguration: 
             title: title,
             subtitle: subtitle,
             body: page.body,
+            cover_image: imageUrl,
             tag_ids: selectedTags.map(t => t.id),
             subdomain_id: blogConfiguration.subdomain,
             post_type: POST_TYPE.blog_post.toString(),
@@ -41,7 +45,8 @@ export const PublishPostForm = (props: { page: PeakWikiPage, blogConfiguration: 
     const publishPost = (values: { title: string, subtitle: string }) => {
         setLoading("publishing")
         const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle)
-        createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload).then(res => {
+        const og_artifact_type: OG_ARTIFACT_TYPE = ("note_type" in page) ? page.note_type : WIKI_PAGE
+        createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, og_artifact_type).then(res => {
             sleep(1000).then(_ => {
                 setLoading("published")
                 const baseBlogUrl = blogUrlFromSubdomain(blogConfiguration.subdomain)
@@ -110,6 +115,10 @@ export const PublishPostForm = (props: { page: PeakWikiPage, blogConfiguration: 
                             bordered={false}
                         />
                     </Form.Item>
+                    <div className={"form-row"} style={{minHeight: "200px", marginBottom: "25px"}}>
+                        <h3>Add a cover Image</h3>
+                        <ImageInput setImageUrl={setImageUrl}/>
+                    </div>
                     <div className={"form-row"}>
                         <h3>Post Organization</h3>
                         <NoteTagSelect selected_tags={[]} note_id={"TBD"} input_className={"minimal-text-input"}/>

@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {store} from "../../store";
 import {createPeakPostRequest} from "../../../client/posts";
 import {PeakPost} from "component-library";
+import {OG_ARTIFACT_TYPE} from "./types";
 
 export const postSlice = createSlice({
     name: 'posts',
@@ -16,8 +17,8 @@ export const postSlice = createSlice({
     }
 });
 
-export const createPeakPost = (userId: string, subdomain: string, post_payload: PeakPost): Promise<PeakPost> => {
-    return createPeakPostRequest(userId, subdomain, post_payload).then(res => {
+export const createPeakPost = (userId: string, subdomain: string, post_payload: PeakPost, og_artifact_type: OG_ARTIFACT_TYPE): Promise<PeakPost> => {
+    return createPeakPostRequest(userId, subdomain, post_payload, og_artifact_type).then(res => {
         store.dispatch(addPeakPost(res))
         return res
     })

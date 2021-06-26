@@ -9,12 +9,19 @@ import {POST_KEY_PREFIX, POSTS_KEY} from "../../data/posts/types";
 import Error from "next/error";
 import Link from "next/link";
 import styles from "../../../styles/Home.module.css";
+import {useAppContext} from "../../data/context";
+import cn from 'classnames';
+import {ConditionalImageLoader} from "../../components/primitives/image/ConditionalImageLoader";
+import { truncate } from 'lodash';
+import {PeakLogo} from "../../components/primitives/logo/peak-logo";
+import {notify} from "../../utils/toast";
 
 // TODO: Load the subdomain / author / posts if not done already?
 const Post: NextPage<{}> = (props) => {
     const router = useRouter()
     const post_id: string = router.query["pid"] as string
     const queryClient = useQueryClient()
+    const { subdomain, author } = useAppContext()
 
     const { isLoading, isError, status, data, error } = useQuery<PeakPost, Error>(
         [POST_KEY_PREFIX, post_id],
@@ -22,6 +29,8 @@ const Post: NextPage<{}> = (props) => {
         {
             initialData: () => {
                 if (!post_id) return undefined
+
+                // @ts-ignore
                 const posts: PeakPost[] = queryClient.getQueryData<{pages: PeakPostListResponse}>(POSTS_KEY)?.pages.flatMap(page => page.posts)
                 return (posts) ? posts.find(p => p.id === post_id) : undefined
             }
@@ -29,7 +38,6 @@ const Post: NextPage<{}> = (props) => {
     )
 
     if (isError) {
-        console.log(`THe error: `, error)
         return <Error statusCode={500}/>
     }
 
@@ -38,18 +46,34 @@ const Post: NextPage<{}> = (props) => {
     }
 
     return (
-        <div className={styles.postContainer}>
-            <div className={"flex w-full mb-4 py-8"}>
-                <Link href={"/"}>
-                    <div className={"flex items-center cursor-pointer p-2 -ml-2 hover:bg-gray-200 rounded"}>
-                        <svg viewBox="0 0 1024 1024" focusable="false" data-icon="caret-left" width="1em" height="1em" fill="currentColor" aria-hidden="true">
-                            <path d="M689 165.1L308.2 493.5c-10.9 9.4-10.9 27.5 0 37L689 858.9c14.2 12.2 35 1.2 35-18.5V183.6c0-19.7-20.8-30.7-35-18.5z"/>
-                        </svg>
-                        Home
-                    </div>
-                </Link>
+        <div className={"w-screen flex flex-col justify-center items-center"}>
+            <div className={"w-full divide-gray-50 border-b py-4 flex justify-center items-center"}>
+                <div className={cn(styles.postContainer, "h-12", "flex", "items-center", "justify-between")}>
+                    <span className={"flex items-center leading-snug cursor-pointer hover:text-blue-400"}>
+                        <Link href={"/"}>
+                            <div className={"flex items-center"}>
+                                <ConditionalImageLoader
+                                    src={subdomain.fav_icon_url}
+                                    width={"48px"}
+                                    height={"48px"}
+                                    layout={"intrinsic"}
+                                    fallback={<PeakLogo className={"mr-4"}/>}
+                                    className={"mr-4"}/>
+                                <span className={""}>{truncate(subdomain.title, { length: 50 })}</span>
+                            </div>
+                        </Link>
+                    </span>
+                    <button
+                        className={"p-2.5 flex justify-center items-center bg-green-500 text-white rounded font-light text-sm accessible-button"}
+                        onClick={() => notify("Ability to subscribe coming soon!", "subscribe")}
+                    >
+                        Subscribe
+                    </button>
+                </div>
             </div>
-            <BlogPost post={data}/>
+            <div className={styles.postContainer}>
+                <BlogPost post={data}/>
+            </div>
         </div>
     )
 }

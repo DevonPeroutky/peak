@@ -1,6 +1,11 @@
 @import "../../../constants/variables";
 
 .peak-note-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-grow: 1;
   width: 100%;
   margin: 0 auto;
 

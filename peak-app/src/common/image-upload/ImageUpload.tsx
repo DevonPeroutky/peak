@@ -1,15 +1,14 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import {notification, Upload} from "antd";
-import {EditOutlined, LoadingOutlined, PlusOutlined, UploadOutlined} from "@ant-design/icons/lib";
+import { LoadingOutlined } from "@ant-design/icons/lib";
 import {useCurrentUser} from "../../utils/hooks";
 import {useUploadFile} from "../../client/file-upload";
 import "./image-upload.scss"
 
-export const ImageUpload = (props: {}) => {
+export const ImageUpload = (props: { setImageUrl? }) => {
     const currentUser = useCurrentUser()
     const [loading, setLoading] = useState<boolean>(false)
     const [entropy, setEntropy] = useState<number>(Date.now())
-    const [imageUrl, setImageUrl] = useState<string | undefined>()
     const uploadRequest = useUploadFile()
 
     const bucketName = "peak_user_images"
@@ -26,7 +25,7 @@ export const ImageUpload = (props: {}) => {
             setLoading(true)
 
             uploadRequest(fileWrapper.action, file).then(res => {
-                setImageUrl(`${baseUrl}/${bucketName}/${currentUser.id}/${entropy}-${file.name}`)
+                props.setImageUrl && props.setImageUrl(`${baseUrl}/${bucketName}/${currentUser.id}/${entropy}-${file.name}`)
             })
             .catch(_ => {
                 notification.error({message: `File upload failed`});
@@ -46,26 +45,14 @@ export const ImageUpload = (props: {}) => {
         },
     };
 
-    const imagePreview = (
-        <>
-            <img src={imageUrl} alt="avatar" style={{ maxWidth: '100%', maxHeight: 256, width: "auto" }} />
-            <EditOutlined style={{ position: "relative", top: 0, right: 0}}/>
-        </>
-    )
-
-    const upload = (
-        <Upload {...uploadProps} listType={'picture-card'} showUploadList={false}>
-            <div>
-                {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                <div style={{ marginTop: 8 }}>{ loading ? "Uploading" : "Upload" }</div>
-            </div>
-        </Upload>
-
-    )
-
     return (
         <div className={"upload-container"}>
-            { (imageUrl) ? imagePreview : upload }
+            <Upload {...uploadProps} fileList={[]}>
+                <div style={{display: "flex", cursor: "pointer", marginLeft: "10px"}}>
+                    {loading ? <LoadingOutlined style={{marginRight: "10px"}}/> : null}
+                    <div className={"upload-button-text"}>{ loading ? "Uploading" : "Upload from my computer..." }</div>
+                </div>
+            </Upload>
         </div>
     )
 }

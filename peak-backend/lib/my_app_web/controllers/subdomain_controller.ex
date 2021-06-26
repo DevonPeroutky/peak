@@ -7,9 +7,10 @@ defmodule MyAppWeb.SubdomainController do
 
   action_fallback MyAppWeb.FallbackController
 
-  def index(conn, %{"subdomain" => subdomain}) do
-    subdomains = Blog.list_subdomains()
-    render(conn, "index.json", subdomains: subdomains)
+  def index(conn, %{"user_id" => user_id}) do
+    with {:ok, %Subdomain{} = subdomain} <- Blog.get_user_subdomain(user_id) do
+        render(conn, "show.json", subdomain: subdomain)
+    end
   end
 
   def create(conn, %{"user_id" => user_id, "subdomain" => subdomain_params}) do

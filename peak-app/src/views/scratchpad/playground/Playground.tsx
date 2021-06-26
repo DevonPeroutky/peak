@@ -4,7 +4,6 @@ import {
     ELEMENT_H1,
     ELEMENT_IMAGE,
     ELEMENT_PARAGRAPH,
-    SlatePlugin,
     SlatePlugins,
     ToolbarSearchHighlight,
     createAlignPlugin,
@@ -40,90 +39,138 @@ import {
     createDeserializeHTMLPlugin,
     useFindReplacePlugin,
     useMentionPlugin,
+    createSlatePluginsComponents,
+    ELEMENT_MENTION,
+    withProps,
+    ELEMENT_CODE_BLOCK,
+    CodeBlockElement,
+    MentionElement,
+    MentionNodeData,
+    createSlatePluginsOptions,
+    MentionSelect,
 } from '@udecode/slate-plugins'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Search } from '@styled-icons/material/Search'
 import {
-    initialValueHighlight,
     optionsExitBreakPlugin,
     optionsMentionPlugin,
     optionsResetBlockTypePlugin,
     optionsSoftBreakPlugin,
 } from "./playground-utils";
-import {defaultEditableProps} from "../../../common/rich-text-editor/editorFactory";
-import {optionsAutoformat} from "./playground-autoformat-rules";
-import {defaultOptions} from "../../../common/rich-text-editor/options";
-import {usePeakPlugins} from "../../../common/rich-text-editor/plugins";
-import {useComponents} from "../../../common/rich-text-editor/components";
-import {DEFAULT_PLACEHOLDERS} from "../../../common/rich-text-editor/constants";
+import {withStyledDraggables} from "./config/withStyledDraggables";
+import {optionsAutoformat} from "./config/autoformatRules";
+import {editableProps, options} from "./defaultOptions";
+import { withStyledPlaceHolders } from './config/withStyledPlaceholders'
+import {initialValuePlayground} from "./config/initialValues";
 
 const id = 'Examples/Playground'
 
-export const Plugins = () => {
-    const { setSearch, plugin: searchHighlightPlugin } = useFindReplacePlugin()
-    const { getMentionSelectProps, plugin: mentionPlugin } = useMentionPlugin(
-        optionsMentionPlugin
-    )
 
-    const plugins: SlatePlugin[] = useMemo(() => {
-        const p = [
-            createReactPlugin(),
-            createHistoryPlugin(),
-            createParagraphPlugin(),
-            createBlockquotePlugin(),
-            createTodoListPlugin(),
-            createHeadingPlugin(),
-            createImagePlugin(),
-            createLinkPlugin(),
-            createListPlugin(),
-            createTablePlugin(),
-            createMediaEmbedPlugin(),
-            createCodeBlockPlugin(),
-            createAlignPlugin(),
-            createBoldPlugin(),
-            createCodePlugin(),
-            createItalicPlugin(),
-            createHighlightPlugin(),
-            createUnderlinePlugin(),
-            createStrikethroughPlugin(),
-            createSubscriptPlugin(),
-            createSuperscriptPlugin(),
-            createKbdPlugin(),
-            createNodeIdPlugin(),
-            createAutoformatPlugin(optionsAutoformat),
-            createResetNodePlugin(optionsResetBlockTypePlugin),
-            createSoftBreakPlugin(optionsSoftBreakPlugin),
-            createExitBreakPlugin(optionsExitBreakPlugin),
-            createNormalizeTypesPlugin({
-                rules: [{ path: [0, 0], strictType: defaultOptions[ELEMENT_H1].type }],
-            }),
-            createTrailingBlockPlugin({
-                type: defaultOptions[ELEMENT_PARAGRAPH].type,
-                level: 1,
-            }),
-            createSelectOnBackspacePlugin({ allow: defaultOptions[ELEMENT_IMAGE].type }),
-            mentionPlugin,
-            searchHighlightPlugin,
-        ]
+export const MENTIONABLES: MentionNodeData[] = [{ value: '0', name: 'Aayla Secura', email: 'aayla_secura@force.com' }]
+export const renderMentionLabel = (mentionable: MentionNodeData) => {
+    const entry = MENTIONABLES.find((m) => m.value === mentionable.value);
+    if (!entry) return 'unknown option';
+    return `${entry.name} - ${entry.email}`;
+};
 
-        p.push(createDeserializeHTMLPlugin({ plugins: p }))
+export const Plugins = () =>  {
+    let styledComponents = createSlatePluginsComponents({
+        [ELEMENT_MENTION]: withProps(MentionElement, {
+            renderLabel: renderMentionLabel,
+        }),
+        [ELEMENT_CODE_BLOCK]: withProps(CodeBlockElement, {
+            styles: {
+                root: {
+                    backgroundColor: '#111827',
+                    selectors: {
+                        code: {
+                            color: 'white',
+                        },
+                    },
+                },
+            },
+        }),
+    });
+    styledComponents = withStyledPlaceHolders(styledComponents);
+    styledComponents = withStyledDraggables(styledComponents);
 
-        return p
-    }, [mentionPlugin, defaultOptions, searchHighlightPlugin])
+    const defaultOptions = createSlatePluginsOptions();
+
+    const Editor = () => {
+        // const { setSearch, plugin: searchHighlightPlugin } = useFindReplacePlugin();
+        // const { getMentionSelectProps, plugin: mentionPlugin } = useMentionPlugin(
+        //     optionsMentionPlugin
+        // );
+
+        const pluginsMemo = useMemo(() => {
+            const plugins = [
+                createReactPlugin(),
+                createHistoryPlugin(),
+                createParagraphPlugin(),
+                createBlockquotePlugin(),
+                // createTodoListPlugin(),
+                // createHeadingPlugin(),
+                // createImagePlugin(),
+                // createLinkPlugin(),
+                // createListPlugin(),
+                // createTablePlugin(),
+                // createMediaEmbedPlugin(),
+                // createCodeBlockPlugin(),
+                // createAlignPlugin(),
+                // createBoldPlugin(),
+                // createCodePlugin(),
+                // createItalicPlugin(),
+                // createHighlightPlugin(),
+                // createUnderlinePlugin(),
+                // createStrikethroughPlugin(),
+                // createSubscriptPlugin(),
+                // createSuperscriptPlugin(),
+                // createKbdPlugin(),
+                // createNodeIdPlugin(),
+                // createAutoformatPlugin(optionsAutoformat),
+                // createResetNodePlugin(optionsResetBlockTypePlugin),
+                // createSoftBreakPlugin(optionsSoftBreakPlugin),
+                // createExitBreakPlugin(optionsExitBreakPlugin),
+                // createNormalizeTypesPlugin({
+                //     rules: [{ path: [0], strictType: ELEMENT_H1 }],
+                // }),
+                // createTrailingBlockPlugin({ type: ELEMENT_PARAGRAPH }),
+                // createSelectOnBackspacePlugin({ allow: ELEMENT_IMAGE }),
+                // mentionPlugin,
+                // searchHighlightPlugin,
+            ];
+
+            // plugins.push(createDeserializeHTMLPlugin({ plugins }));
+
+            return plugins;
+        }, [options]);
+        // }, [mentionPlugin, options, searchHighlightPlugin]);
+
+        console.log(`COMPONENTS `, styledComponents)
+        console.log(`Plugins `, pluginsMemo)
+        console.log(`Options `, defaultOptions)
+        return (
+            <SlatePlugins
+                id="playground"
+                plugins={pluginsMemo}
+                components={styledComponents}
+                options={defaultOptions}
+                editableProps={editableProps}
+                initialValue={initialValuePlayground}
+            >
+                {/*<ToolbarSearchHighlight icon={Search} setSearch={setSearch} />*/}
+                {/*<MentionSelect*/}
+                {/*    {...getMentionSelectProps()}*/}
+                {/*    renderLabel={renderMentionLabel}*/}
+                {/*/>*/}
+            </SlatePlugins>
+        );
+    }
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <SlatePlugins
-                id={id}
-                plugins={usePeakPlugins()}
-                components={useComponents(true, DEFAULT_PLACEHOLDERS)}
-                options={defaultOptions}
-                editableProps={defaultEditableProps}
-                initialValue={initialValueHighlight}
-            >
-                <ToolbarSearchHighlight icon={Search} setSearch={setSearch} />
-            </SlatePlugins>
+            <Editor />
         </DndProvider>
-    )
+    );
 }

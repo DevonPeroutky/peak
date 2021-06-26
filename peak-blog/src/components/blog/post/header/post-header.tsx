@@ -1,4 +1,4 @@
-import {PeakLogo} from "../../../logo/peak-logo";
+import {PeakLogo} from "../../../primitives/logo/peak-logo";
 import Link from "next/link";
 import React from "react";
 

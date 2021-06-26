@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
-import {Button, Divider, Form, Input, message, notification, Spin, Tooltip} from "antd";
-import {CommentOutlined, CompassOutlined, RocketOutlined} from "@ant-design/icons/lib";
+import { Button,Form, Input, notification, Spin } from "antd";
+import { CommentOutlined, CompassOutlined } from "@ant-design/icons/lib";
 import {useBlog} from "../../../redux/slices/blog/hooks";
-import {SUBDOMAIN_RULES, SubdomainInput} from 'src/common/inputs/subdomain/SubdomainInput';
+import { SubdomainInput } from 'src/common/inputs/subdomain/SubdomainInput';
 import "./blog-configuration.scss"
 import {BlogConfiguration} from "../../../redux/slices/blog/types";
 import {useCurrentUser} from "../../../utils/hooks";
 import {updateBlogConfiguration} from "../../../redux/slices/blog/blogSlice";
 import {sleep} from "../../../chrome-extension/utils/generalUtil";
 import {blogUrlFromSubdomain} from "../../../utils/urls";
+import {ImageInput} from "../../../common/image-input/ImageInput";
 
 export const BlogSettings = (props: {}) => {
     const blog = useBlog()
     const user = useCurrentUser()
     const [loading, setLoading] = useState(false)
+    const [coverImageUrl, setCoverImageUrl] = useState(blog.cover_image_url)
+    const [faviconUrl, setFaviconUrl] = useState(blog.fav_icon_url)
 
     const updateBlog = (values: BlogConfiguration) => {
         setLoading(true)
-        updateBlogConfiguration(user.id, {...values, id: blog.id}).then(_ => {
+        updateBlogConfiguration(user.id, {...values, id: blog.id, cover_image_url: coverImageUrl, fav_icon_url: faviconUrl}).then(_ => {
             sleep(1000).then(_ => {
                 setLoading(false)
                 notification.success({message: "Updated your configuration"} )
@@ -37,7 +40,7 @@ export const BlogSettings = (props: {}) => {
                 onFinish={updateBlog}
             >
                 <Spin spinning={loading}>
-                    <h5>Publish Name</h5>
+                    <h3>Publish Name</h3>
                     <Form.Item
                         name="title"
                         rules={[
@@ -52,12 +55,12 @@ export const BlogSettings = (props: {}) => {
                         <Input
                             prefix={<CompassOutlined className="input-icon" style={{ marginRight: "5px" }}/>}
                             placeholder="Publication Name"
-                            className={"minimal-text-input"}
+                            className={"minimal-text-input blog-setting-input"}
                             bordered={false}
                             disabled={loading}
                         />
                     </Form.Item>
-                    <h5>One-line description</h5>
+                    <h3>One-line description</h3>
                     <Form.Item
                         name="description"
                         rules={[
@@ -71,19 +74,23 @@ export const BlogSettings = (props: {}) => {
                     >
                         <Input
                             prefix={<CommentOutlined className="input-icon" style={{ marginRight: "5px" }}/>}
-                            className={"minimal-text-input"}
+                            className={"minimal-text-input blog-setting-input"}
                             bordered={false}
                             disabled={loading}
                             placeholder="What is your blog about?"/>
                     </Form.Item>
-                    <h5>Subdomain</h5>
+                    <h3>Subdomain</h3>
                     <Form.Item
                         name="subdomain"
                         tooltip={"Changing subdomains is coming!"}
                     >
-                        <SubdomainInput disabled={true}/>
+                        <SubdomainInput disabled={true} className={"minimal-text-input blog-setting-input"}/>
                     </Form.Item>
-                <h3 style={{marginTop: "10px"}}>Coming Soon...</h3>
+                    <h3>Cover Image</h3>
+                    <ImageInput imageUrl={coverImageUrl} setImageUrl={setCoverImageUrl}/>
+                    <h3>Blog Logo</h3>
+                    <ImageInput imageUrl={faviconUrl} setImageUrl={setFaviconUrl}/>
+                <h3 style={{marginTop: "25px"}}>Coming Soon...</h3>
                 <ul>
                     <li>Cover images and logos!</li>
                     <li>Ability for readers to subscribe your blog and receive your newsletter</li>

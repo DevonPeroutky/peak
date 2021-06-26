@@ -1,5 +1,12 @@
+@import "../../constants/variables";
+
 .upload-container {
   position: relative;
   display: flex;
   flex-grow: 1;
+
+
+  .upload-button-text {
+    color: $primary-blue;
+  }
 }

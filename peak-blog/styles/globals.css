@@ -36,6 +36,12 @@
     }
 }
 
+@layer components {
+    .accessible-button {
+        @apply focus:outline-none focus:ring focus:border-blue-300
+    }
+}
+
 /*html,*/
 /*body {*/
 /*  padding: 0;*/

@@ -1,6 +1,9 @@
 @import "variables";
 
 .peak-rich-text-editor-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 
   h1, h2, h3, h4, h5 {
     padding-bottom: 5px;

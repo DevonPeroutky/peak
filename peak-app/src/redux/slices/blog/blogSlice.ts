@@ -12,7 +12,7 @@ export const blogSlice = createSlice({
             return action.payload
         },
         setBlogConfiguration(state, action: PayloadAction<BlogConfiguration>) {
-            return {...state, ...action.payload}
+            return action.payload
         }
     }
 });

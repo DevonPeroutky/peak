@@ -14,6 +14,7 @@ import {wikiTitleEnforcer} from "../../common/rich-text-editor/editors/wiki/conf
 import {NoteTagSelect} from "../../common/rich-text-editor/plugins/peak-knowledge-plugin/components/peak-knowledge-node/peak-tag-select/component/NoteTagSelect";
 import "./next-gen-note-view.scss"
 import {ELEMENT_TITLE} from "component-library";
+import {PublishModal} from "../../common/modals/publish/PublishModal";
 
 export const NextGenNoteView = (props: { note: PeakNote, selected_tags: PeakTag[] }) => {
     const { note, selected_tags } = props
@@ -70,6 +71,7 @@ export const NextGenNoteView = (props: { note: PeakNote, selected_tags: PeakTag[
                     hideOnBlur: false,
                 }]}
             />
+            <PublishModal/>
         </div>
     )
 }
