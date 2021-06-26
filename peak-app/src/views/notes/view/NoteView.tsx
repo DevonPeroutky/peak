@@ -43,7 +43,7 @@ export const PeakNoteView = (props) => {
     }
 
     if (currentNote.note_type === PEAK_LEARNING) {
-        return <NextGenNoteView note={currentNote as PeakLearningNote} selected_tags={selected_tags}/>
+        return <NextGenNoteView currentNote={currentNote as PeakLearningNote} selected_tags={selected_tags}/>
     }
 
     return (
@@ -51,7 +51,7 @@ export const PeakNoteView = (props) => {
             {renderHeader({ currentNote, selected_tags, title, author, onAuthorChange, onTitleChange})}
             <Divider className={"note-divider"}/>
             <PeakNoteEditor note_id={currentNote.id}/>
-            <PublishModal/>
+            <PublishModal currentPage={{...currentNote, user_id: currentUser.id, artifact_type: currentNote.note_type}}/>
         </div>
     )
 }

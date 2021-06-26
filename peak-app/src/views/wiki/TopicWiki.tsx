@@ -3,23 +3,32 @@ import "./topic-wiki.scss"
 import {useDispatch} from "react-redux";
 import 'antd/dist/antd.css';
 import {Node} from "slate";
-import { usePagePublisher, useDebounceWikiSaver, useCurrentPage, useDebouncePageTitleUpdater } from '../../utils/hooks';
+import {
+    usePagePublisher,
+    useDebounceWikiSaver,
+    useCurrentPage,
+    useDebouncePageTitleUpdater,
+    useCurrentUser
+} from '../../utils/hooks';
 import { equals } from "ramda";
 import {useNodeContentSelect} from "../../common/rich-text-editor/utils/node-content-select/useNodeContentSelect";
 import {beginSavingPage, useActiveEditorState} from "../../redux/slices/activeEditor/activeEditorSlice";
 import {PeakEditor} from "../../common/rich-text-editor/editorFactory";
 import {wikiTitleEnforcer} from "../../common/rich-text-editor/editors/wiki/config";
 import {PublishModal} from "../../common/modals/publish/PublishModal";
+import {PublishableArtifact} from "../../types/notes";
+import {Peaker} from "../../types";
+import {WIKI_PAGE} from "../../redux/slices/posts/types";
 
 const TopicWiki = (props: {topic_id: string}) => {
     const { topic_id } = props;
     const dispatch = useDispatch();
     const editorState = useActiveEditorState()
-    const publishPage = usePagePublisher();
     const savePageToDB = useDebounceWikiSaver();
     const updatePageEverywhere = useDebouncePageTitleUpdater();
     const currentWikiPage = useCurrentPage();
     const currentPageId: string = currentWikiPage.id;
+    const currentUser: Peaker = useCurrentUser()
 
     const [wikiPageContent, setWikiPageContent] = useState<Node[]>(currentWikiPage.body as Node[])
     const [pageTitle, setPageTitle] = useState(currentWikiPage.title)
@@ -51,6 +60,12 @@ const TopicWiki = (props: {topic_id: string}) => {
         }
     }
 
+    const publishableWikiPage: PublishableArtifact = { ...currentWikiPage,
+        user_id: currentUser.id,
+        tag_ids: [],
+        artifact_type: WIKI_PAGE
+    }
+
     return (
         <div className={"wiki-container"}>
             {/*<PageContextBar topicId={topic_id}/>*/}
@@ -61,7 +76,7 @@ const TopicWiki = (props: {topic_id: string}) => {
                 initialValue={wikiPageContent}
                 currentPageId={currentPageId}
             />
-            <PublishModal/>
+            <PublishModal currentPage={publishableWikiPage}/>
         </div>
     )
 };

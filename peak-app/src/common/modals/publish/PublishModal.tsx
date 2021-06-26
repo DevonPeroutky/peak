@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Modal, Spin} from "antd";
-import {CloseOutlined, ShareAltOutlined} from "@ant-design/icons/lib";
+import { ShareAltOutlined} from "@ant-design/icons/lib";
 import cn from 'classnames';
 import {PublishPostForm} from "./publish-post-form/PublishPostForm";
 import "./publish-modal.scss"
@@ -12,18 +12,16 @@ import {PublishSuccess} from "./publish-result/PublishSuccess";
 import { useHistory } from 'react-router-dom';
 import {POST_VISIBILITY} from "component-library";
 import {blogUrlFromSubdomain} from "../../../utils/urls";
-import {PeakExternalNote, PeakWikiPage} from "../../../types/notes";
+import {PeakExternalNote, PeakWikiPage, PublishableArtifact} from "../../../types/notes";
 
 type PUBLISHING_STATE = "publishing" | "publish" | "published"
-export const PublishModal = (props: { imageUrl?: string, subtitle?: string }) => {
+export const PublishModal = (props: { currentPage: PublishableArtifact } ) => {
+    const { currentPage } = props
     const history = useHistory()
-    const currentPage = useCurrentPage()
     const [visible, setVisible] = useState(false);
     const [loadingState, setLoading] = useState<PUBLISHING_STATE>("publish")
 
     const alreadyPublished: boolean = (currentPage.privacy_level) ? currentPage.privacy_level === POST_VISIBILITY.public.toString() : false
-
-    console.log(`CURRENT PAGE: `, currentPage)
 
     return (
         <>

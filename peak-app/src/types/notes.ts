@@ -1,7 +1,9 @@
 import {Node} from "slate";
 import {PeakKnowledgeKeyOption} from "../common/rich-text-editor/plugins/peak-knowledge-plugin/types";
+import {ELEMENT_PEAK_BOOK} from "../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
+import {WIKI_PAGE} from "../redux/slices/posts/types";
 
-export interface EditableNote {
+interface EditableNote {
     id: string,
     title: string,
     inserted_at?: Date,
@@ -9,20 +11,26 @@ export interface EditableNote {
     privacy_level?: string,
 }
 
-export interface Publishable {
+interface Publishable {
     user_id: string
+
+    artifact_type: PeakKnowledgeKeyOption | WIKI_PAGE
 
     // The metadata subtitle to be displayed on the blog
     description?: string
+
+    cover_image_url?: string
+
+    tag_ids: string[]
 }
 
 export interface PeakNote extends EditableNote {
     note_type: PeakKnowledgeKeyOption,
     cover_image_url?: string
-    tag_ids: string[]
 
     // Is this necessary?
     updated_at?: string
+    tag_ids: string[]
 }
 
 export interface ScratchPad extends EditableNote {}
@@ -36,6 +44,7 @@ export interface PeakBook extends PeakNote, Publishable {
 export interface PeakLearningNote extends PeakNote, Publishable {}
 
 export interface PeakExternalNote extends PeakNote, Publishable {
+
     // fav_icon of the website
     icon_url: string
 
@@ -43,5 +52,6 @@ export interface PeakExternalNote extends PeakNote, Publishable {
     url: string
 }
 
-export interface PublishableArtifact extends EditableNote, PeakNote, Publishable {
+export interface PublishableArtifact extends EditableNote, Publishable {
+
 }

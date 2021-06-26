@@ -15,12 +15,13 @@ import {NoteTagSelect} from "../../common/rich-text-editor/plugins/peak-knowledg
 import "./next-gen-note-view.scss"
 import {ELEMENT_TITLE} from "component-library";
 import {PublishModal} from "../../common/modals/publish/PublishModal";
-import {PeakExternalNote, PeakLearningNote} from "../../types/notes";
+import {PeakLearningNote} from "../../types/notes";
 
-export const NextGenNoteView = (props: { note: PeakLearningNote, selected_tags: PeakTag[] }) => {
-    const { note, selected_tags } = props
-    const currentNote: PeakExternalNote | undefined = useSpecificNote(note.id)
+// Used exclusively for Learnings
+export const NextGenNoteView = (props: { currentNote: PeakLearningNote, selected_tags: PeakTag[] }) => {
+    const { currentNote, selected_tags } = props
     const dispatch = useDispatch()
+
     const editorState = useActiveEditorState()
     const currentUser = useCurrentUser()
     const noteSaver = useDebouncePeakNoteSaver()
@@ -59,7 +60,7 @@ export const NextGenNoteView = (props: { note: PeakLearningNote, selected_tags: 
 
     return (
         <div className={"peak-note-view-container"}>
-            <NoteTagSelect selected_tags={selected_tags} note_id={note.id}/>
+            <NoteTagSelect selected_tags={selected_tags} note_id={currentNote.id}/>
             <PeakEditor
                 additionalPlugins={[nodeSelectPlugin, wikiTitleEnforcer]}
                 onChange={updateNoteContent}
@@ -72,7 +73,7 @@ export const NextGenNoteView = (props: { note: PeakLearningNote, selected_tags: 
                     hideOnBlur: false,
                 }]}
             />
-            <PublishModal/>
+            <PublishModal currentPage={currentNote}/>
         </div>
     )
 }
