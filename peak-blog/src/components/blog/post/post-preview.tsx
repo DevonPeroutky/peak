@@ -15,8 +15,7 @@ export const BlogPostPreview = (props: { post: PeakPost }) => {
 
     return (
         <div className={"mb-20 flex min-h-150"}>
-            <ConditionalImageLoader src={post.cover_image} width={"200px"} height={"150px"} layout={"intrinsic"} className={"mr-5 flex-shrink-0"}/>
-            <div className="flex flex-col flex-grow justify-center">
+            <div className="flex flex-col flex-grow justify-center pr-8">
                 <Link href={`post/${post.id}`}>
                     <h2 className={"mb-2 cursor-pointer hover:text-blue-500 font-semibold text-3xl"}>{title}</h2>
                 </Link>
@@ -27,6 +26,9 @@ export const BlogPostPreview = (props: { post: PeakPost }) => {
                 <div className={"text-gray-400 font-light text-xs mb-4"}>
                     <span className={"mr-1"}>{author.given_name} {author.family_name}</span> • <span className={"mx-1"}>{moment(post.created_at).format('LL') }</span> • <EstimateReadTime className={"mx-1"} body={post.body}/>
                 </div>
+            </div>
+            <div className={"flex justify-center min-w-1/4 max-w-1/4"}>
+                <ConditionalImageLoader src={post.cover_image} width={"auto"} height={"150px"} layout={"intrinsic"} className={""}/>
             </div>
         </div>
     )

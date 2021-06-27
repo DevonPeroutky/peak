@@ -156,6 +156,24 @@ const PagePublishForm = (props: InternalFormProps) => {
         <>
             <h3>Story Preview</h3>
             <Form.Item
+                name={"title"}
+                rules={[
+                    {
+                        required: true,
+                        type: "string",
+                        max: 255,
+                        message: 'We need a title for your post! Keep it under 255',
+                    },
+                ]}
+                className={"form-row"}>
+                <Input
+                    disabled
+                    className={"minimal-text-input publish-text-input"}
+                    placeholder="Write a preview title"
+                    bordered={false}
+                />
+            </Form.Item>
+            <Form.Item
                 name={"subtitle"}
                 rules={[
                     {

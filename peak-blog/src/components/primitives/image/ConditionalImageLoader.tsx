@@ -34,9 +34,9 @@ const NextImageWrapper = (props: ImageProps) => {
             <Image
                 src={src}
                 alt={alt}
-                width={"auto"}
-                layout={"responsive"}
+                width={width}
+                layout={layout}
                 height={height}
             />
-        </div> : <img src={src} className={className} alt={alt} style={{width: "auto", height: height}}/>
+        </div> : <img src={src} className={className} alt={alt} style={{width: width, height: height}}/>
 }
