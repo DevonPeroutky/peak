@@ -76,7 +76,7 @@ const TopicWiki = (props: {topic_id: string}) => {
                 initialValue={wikiPageContent}
                 currentPageId={currentPageId}
             />
-            <PublishModal currentPage={publishableWikiPage}/>
+            <PublishModal artifact={publishableWikiPage}/>
         </div>
     )
 };

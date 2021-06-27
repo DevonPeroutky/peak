@@ -15,21 +15,22 @@ import {ImageInput} from "../../../image-input/ImageInput";
 import {deletePage} from "../../../../redux/slices/wikiPageSlice";
 import {removePageFromTopic} from "../../../../redux/slices/topicSlice";
 import {useDispatch} from "react-redux";
-import {PeakExternalNote, PeakWikiPage} from "../../../../types/notes";
+import {PeakExternalNote, PeakWikiPage, PublishableArtifact} from "../../../../types/notes";
 
-export const PublishPostForm = (props: { page: PeakWikiPage | PeakExternalNote, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
-    const { page, userId, blogConfiguration, setLoading, setUrl } = props
+export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
+    const { artifact, userId, blogConfiguration, setLoading, setUrl } = props
 
-    const [selectedTags, setTags] = useState<PeakTag[]>([])
-    const [imageUrl, setImageUrl] = useState<string | undefined>()
+    // TODO: MAKE THESE use the artifact TAG_IDS
+    const [selectedTags, setTags] = useState<PeakTag[]>()
+    const [imageUrl, setImageUrl] = useState<string | undefined>(artifact.cover_image_url)
     const dispatch = useDispatch()
 
     const createPublishPost = (title: string, subtitle: string, post_type: POST_TYPE): PeakPost => {
         return {
-            id: page.id,
+            id: artifact.id,
             title: title,
             subtitle: subtitle,
-            body: page.body,
+            body: artifact.body,
             cover_image: imageUrl,
             tag_ids: selectedTags.map(t => t.id),
             subdomain_id: blogConfiguration.subdomain,
@@ -40,25 +41,24 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakExternalNote, 
     }
 
     const initialPostValues = {
-        title: page.title,
+        title: artifact.title,
         subtitle: "",
         tags: []
     }
 
     const publishPost = (values: { title: string, subtitle: string }) => {
         setLoading("publishing")
-        const og_artifact_type: OG_ARTIFACT_TYPE = ("note_type" in page) ? page.note_type : WIKI_PAGE
-        const post_type: POST_TYPE = ("note_type" in page) ? POST_TYPE.note_post : POST_TYPE.blog_post
+        const post_type: POST_TYPE = ("note_type" in artifact) ? POST_TYPE.note_post : POST_TYPE.blog_post
         const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle, post_type)
 
-        createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, og_artifact_type).then(res => {
+        createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, artifact.artifact_type).then(res => {
             console.log(`RES `, res)
 
-            if (og_artifact_type === WIKI_PAGE) {
-                dispatch(deletePage({ pageId: page.id }))
-                dispatch(removePageFromTopic({ pageId: page.id }))
+            if (artifact.artifact_type === WIKI_PAGE) {
+                dispatch(deletePage({ pageId: artifact.id }))
+                dispatch(removePageFromTopic({ pageId: artifact.id }))
             } else {
-                dispatch(updateNote({...page as PeakExternalNote, privacy_level: POST_VISIBILITY.public.toString()}))
+                dispatch(updateNote({...artifact as PeakExternalNote, privacy_level: POST_VISIBILITY.public.toString()}))
             }
 
             sleep(1000).then(_ => {
@@ -131,7 +131,7 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakExternalNote, 
                     </Form.Item>
                     <div className={"form-row"} style={{minHeight: "200px", marginBottom: "25px"}}>
                         <h3>Add a cover Image</h3>
-                        <ImageInput setImageUrl={setImageUrl}/>
+                        <ImageInput imageUrl={artifact.cover_image_url} setImageUrl={setImageUrl}/>
                     </div>
                     {/*<div className={"form-row"}>*/}
                     {/*    <h3>Post Organization</h3>*/}

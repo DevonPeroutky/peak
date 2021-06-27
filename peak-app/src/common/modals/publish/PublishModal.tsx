@@ -15,13 +15,14 @@ import {blogUrlFromSubdomain} from "../../../utils/urls";
 import {PeakExternalNote, PeakWikiPage, PublishableArtifact} from "../../../types/notes";
 
 type PUBLISHING_STATE = "publishing" | "publish" | "published"
-export const PublishModal = (props: { currentPage: PublishableArtifact } ) => {
-    const { currentPage } = props
+export const PublishModal = (props: { artifact: PublishableArtifact } ) => {
+    const { artifact } = props
     const history = useHistory()
     const [visible, setVisible] = useState(false);
     const [loadingState, setLoading] = useState<PUBLISHING_STATE>("publish")
+    console.log(`THE ARTIFACT: `, artifact)
 
-    const alreadyPublished: boolean = (currentPage.privacy_level) ? currentPage.privacy_level === POST_VISIBILITY.public.toString() : false
+    const alreadyPublished: boolean = (artifact.privacy_level) ? artifact.privacy_level === POST_VISIBILITY.public.toString() : false
 
     return (
         <>
@@ -46,7 +47,7 @@ export const PublishModal = (props: { currentPage: PublishableArtifact } ) => {
             >
                 <div className="publish-post-container">
                     <Spin spinning={loadingState === "publishing"}>
-                        <PublishFormBody loadingState={loadingState} setLoading={setLoading}/>
+                        <PublishFormBody artifact={artifact} loadingState={loadingState} setLoading={setLoading}/>
                     </Spin>
                 </div>
             </Modal>
@@ -54,9 +55,8 @@ export const PublishModal = (props: { currentPage: PublishableArtifact } ) => {
     )
 }
 
-const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: any }) => {
-    const { loadingState, setLoading } = props
-    const original_artifact: PeakWikiPage | PeakExternalNote = useCurrentPage()
+const PublishFormBody = (props: { artifact: PublishableArtifact, loadingState: PUBLISHING_STATE, setLoading: any }) => {
+    const { loadingState, setLoading, artifact } = props
     const user = useCurrentUser()
     const blog: BlogConfiguration = useBlog()
     const [postUrl, setPostUrl] = useState<string>(null)
@@ -64,7 +64,7 @@ const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: an
     switch (loadingState) {
         case "publish":
         case "publishing":
-            return <PublishPostForm page={original_artifact} userId={user.id} blogConfiguration={blog} setLoading={setLoading} setUrl={setPostUrl}/>
+            return <PublishPostForm artifact={artifact} userId={user.id} blogConfiguration={blog} setLoading={setLoading} setUrl={setPostUrl}/>
         case "published":
             return <PublishSuccess postUrl={postUrl}/>
     }

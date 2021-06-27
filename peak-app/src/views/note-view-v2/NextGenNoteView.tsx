@@ -73,7 +73,7 @@ export const NextGenNoteView = (props: { currentNote: PeakLearningNote, selected
                     hideOnBlur: false,
                 }]}
             />
-            <PublishModal currentPage={currentNote}/>
+            <PublishModal artifact={currentNote}/>
         </div>
     )
 }

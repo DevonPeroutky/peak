@@ -51,7 +51,7 @@ export const PeakNoteView = (props) => {
             {renderHeader({ currentNote, selected_tags, title, author, onAuthorChange, onTitleChange})}
             <Divider className={"note-divider"}/>
             <PeakNoteEditor note_id={currentNote.id}/>
-            <PublishModal currentPage={{...currentNote, user_id: currentUser.id, artifact_type: currentNote.note_type}}/>
+            <PublishModal artifact={{...currentNote, user_id: currentUser.id, artifact_type: currentNote.note_type}}/>
         </div>
     )
 }
