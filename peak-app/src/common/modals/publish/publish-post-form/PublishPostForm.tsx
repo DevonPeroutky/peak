@@ -86,13 +86,13 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
     }
     const initialPostValues = setupInitialFormValues(artifact)
     function fetchFormForPublishingArtifact(): ReactNode {
+        const useTitleFromPage: boolean = artifact.artifact_type === WIKI_PAGE
         switch (artifact.artifact_type) {
             case WIKI_PAGE:
-                return <PagePublishForm artifact={artifact} setImageUrl={setImageUrl}/>
             case ELEMENT_PEAK_BOOK:
             case PEAK_LEARNING:
             default:
-                return <DefaultPublishForm artifact={artifact} setImageUrl={setImageUrl}/>
+                return <DefaultPublishForm artifact={artifact} setImageUrl={setImageUrl} lockTitle={useTitleFromPage}/>
 
         }
     }
@@ -136,6 +136,7 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
 interface InternalFormProps {
     artifact: PublishableArtifact
     setImageUrl: any
+    lockTitle: boolean
 }
 
 const setupInitialFormValues = (artifact: PublishableArtifact) => {
@@ -156,60 +157,8 @@ const setupInitialFormValues = (artifact: PublishableArtifact) => {
     }
 }
 
-/**
- * Don't show Title? Or Subtitle?
- * @constructor
- */
-const PagePublishForm = (props: InternalFormProps) => {
-    const { artifact, setImageUrl } = props
-    return (
-        <>
-            <h3>Story Preview</h3>
-            <Form.Item
-                name={"title"}
-                rules={[
-                    {
-                        required: true,
-                        type: "string",
-                        max: 255,
-                        message: 'We need a title for your post! Keep it under 255',
-                    },
-                ]}
-                className={"form-row"}>
-                <Input
-                    disabled
-                    className={"minimal-text-input publish-text-input"}
-                    placeholder="Write a preview title"
-                    bordered={false}
-                />
-            </Form.Item>
-            <Form.Item
-                name={"subtitle"}
-                rules={[
-                    {
-                        required: true,
-                        type: "string",
-                        max: 1000,
-                        message: "Required. Give people a quick overview of what you will be covering! ",
-                    },
-                ]}
-                className={"form-row"}>
-                <Input
-                    className={"minimal-text-input publish-text-input"}
-                    placeholder="Write a preview snippet we'll use a subtitle"
-                    bordered={false}
-                />
-            </Form.Item>
-            <div className={"form-row"} style={{minHeight: "200px", marginBottom: "25px"}}>
-                <h3>Add a cover Image</h3>
-                <ImageInput imageUrl={artifact.cover_image_url} setImageUrl={setImageUrl}/>
-            </div>
-        </>
-    )
-}
-
 export const DefaultPublishForm = (props: InternalFormProps) => {
-    const { artifact, setImageUrl } = props
+    const { artifact, setImageUrl, lockTitle } = props
     return (
         <>
             <h3>Story Preview</h3>

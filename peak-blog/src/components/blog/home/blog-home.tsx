@@ -7,6 +7,7 @@ import {BlogPostPreview} from "../post/post-preview";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import {useAppContext} from "../../../data/context";
 import {notify} from "../../../utils/toast";
+import {EmptyBlogPosts} from "./blog-empty-posts";
 
 export const BlogHome = (props) => {
     const { subdomain, author } = useAppContext()
@@ -83,7 +84,7 @@ export const BlogHome = (props) => {
                 </div>
             </div>
             <div className={"py-24"}>
-                { posts.map(post => <BlogPostPreview key={post.id} post={post}/>) }
+                { (posts && posts.length > 0) ? posts.map(post => <BlogPostPreview key={post.id} post={post}/>) : <EmptyBlogPosts/> }
             </div>
         </div>
     )
