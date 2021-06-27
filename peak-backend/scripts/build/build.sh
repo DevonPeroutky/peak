@@ -2,6 +2,9 @@
 # exit on error
 set -o errexit
 
+# This is setup in Render
+export GOOGLE_APPLICATION_CREDENTIALS_JSON=$(cat peak-google-app-creds.json)
+
 # Pre-flight check
 echo "RENDER_EXTERNAL_HOSTNAME is $RENDER_EXTERNAL_HOSTNAME"
 
