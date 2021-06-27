@@ -9,5 +9,6 @@ export function fetch_posts_for_subdomain(subdomain: string, cursor?: string): P
 }
 
 export function fetch_post(post_id: string): Promise<PeakPost> {
+    console.log(`Fetching post with post_id: `, post_id)
     return blogAxiosClient.get<{post: PeakPost}>(`http://localhost:4000/blog/v1/posts/${post_id}`).then(res => res.data.post)
 }

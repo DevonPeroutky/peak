@@ -26,22 +26,22 @@ const PeakSidebar = (props: { }) => {
             <Menu mode="inline" selectedKeys={[`home/${currentPageId}`]} className={"overview-menu"}>
                 <Menu.Item key="home/scratchpad" className={(currentPageId === "home") ? "ant-menu-item-selected" : ""}>
                     <Link to="/home/scratchpad">
-                        <MenuOutlined/>Scratchpad
+                        <MenuOutlined style={{marginRight: "10px"}}/>Scratchpad
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="home/notes">
                     <Link to="/home/notes">
-                        <BulbOutlined/>Notes
+                        <BulbOutlined style={{marginRight: "10px"}}/>Notes
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="home/books">
                     <Link to="/home/books">
-                        <ReadOutlined/>Books
+                        <ReadOutlined style={{marginRight: "10px"}}/>Books
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="home/blog">
                     <Link to="/home/blog">
-                        <EditOutlined/>Blog
+                        <EditOutlined style={{marginRight: "10px"}}/>Blog
                     </Link>
                 </Menu.Item>
             </Menu>

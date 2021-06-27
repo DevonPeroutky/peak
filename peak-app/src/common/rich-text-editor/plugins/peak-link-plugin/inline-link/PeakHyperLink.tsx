@@ -4,9 +4,9 @@ import {openEditLinkMenu, useActiveEditorState} from "../../../../../redux/slice
 import React from "react";
 import {ELEMENT_LINK, StyledElementProps} from "@udecode/slate-plugins";
 import {useHistory} from "react-router-dom";
-import {PeakHyperlinkState} from "../../../../../constants/wiki-types";
 import "./peak-hyperlink.scss"
 import {isExternalLink} from "../link-util";
+import {PeakHyperlinkState} from "../../../../../types/editor-state";
 
 export const PeakInlineLinkElement = (props: StyledElementProps) => {
     const {

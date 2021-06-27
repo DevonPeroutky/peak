@@ -1,43 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Modal, Spin} from "antd";
-import {CloseOutlined, ShareAltOutlined} from "@ant-design/icons/lib";
+import { ShareAltOutlined} from "@ant-design/icons/lib";
 import cn from 'classnames';
 import {PublishPostForm} from "./publish-post-form/PublishPostForm";
 import "./publish-modal.scss"
 import {useCurrentPage, useCurrentUser} from "../../../utils/hooks";
-import {PeakWikiPage} from "../../../constants/wiki-types";
 import {BlogConfiguration} from "../../../redux/slices/blog/types";
 import {useBlog} from "../../../redux/slices/blog/hooks";
 import {useActiveEditorState} from "../../../redux/slices/activeEditor/activeEditorSlice";
 import {PublishSuccess} from "./publish-result/PublishSuccess";
-import {useDispatch} from "react-redux";
-import { deletePage } from 'src/redux/slices/wikiPageSlice';
 import { useHistory } from 'react-router-dom';
-import { removePageFromTopic } from 'src/redux/slices/topicSlice';
-import {PeakNote} from "../../../redux/slices/noteSlice";
+import {POST_VISIBILITY} from "component-library";
+import {blogUrlFromSubdomain} from "../../../utils/urls";
+import {PeakExternalNote, PeakWikiPage, PublishableArtifact} from "../../../types/notes";
 
 type PUBLISHING_STATE = "publishing" | "publish" | "published"
-export const PublishModal = (props: { }) => {
+export const PublishModal = (props: { artifact: PublishableArtifact } ) => {
+    const { artifact } = props
     const history = useHistory()
-    const dispatch = useDispatch()
-    const currentPage = useCurrentPage()
     const [visible, setVisible] = useState(false);
     const [loadingState, setLoading] = useState<PUBLISHING_STATE>("publish")
 
+    const alreadyPublished: boolean = (artifact.privacy_level) ? artifact.privacy_level === POST_VISIBILITY.public.toString() : false
+
     return (
         <>
-            <PublishModalContainer setVisible={setVisible}/>
+            <PublishModalContainer setVisible={setVisible} publishStatus={alreadyPublished}/>
             <Modal
                 visible={visible}
                 onOk={() => setVisible(false)}
                 onCancel={() => {
-
-                    if (loadingState === "published") {
-                        dispatch(deletePage({ pageId: currentPage.id }))
-                        dispatch(removePageFromTopic({ pageId: currentPage.id }))
-                        history.push("/home/scratchpad")
-                    }
-
+                    history.push("/home/scratchpad")
                     setVisible(false)
                     setLoading("publish")
                 }}
@@ -53,7 +46,7 @@ export const PublishModal = (props: { }) => {
             >
                 <div className="publish-post-container">
                     <Spin spinning={loadingState === "publishing"}>
-                        <PublishFormBody loadingState={loadingState} setLoading={setLoading}/>
+                        <PublishFormBody artifact={artifact} loadingState={loadingState} setLoading={setLoading}/>
                     </Spin>
                 </div>
             </Modal>
@@ -61,9 +54,8 @@ export const PublishModal = (props: { }) => {
     )
 }
 
-const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: any }) => {
-    const { loadingState, setLoading } = props
-    const original_artifact: PeakWikiPage | PeakNote = useCurrentPage()
+const PublishFormBody = (props: { artifact: PublishableArtifact, loadingState: PUBLISHING_STATE, setLoading: any }) => {
+    const { loadingState, setLoading, artifact } = props
     const user = useCurrentUser()
     const blog: BlogConfiguration = useBlog()
     const [postUrl, setPostUrl] = useState<string>(null)
@@ -71,14 +63,24 @@ const PublishFormBody = (props: { loadingState: PUBLISHING_STATE, setLoading: an
     switch (loadingState) {
         case "publish":
         case "publishing":
-            return <PublishPostForm page={original_artifact} userId={user.id} blogConfiguration={blog} setLoading={setLoading} setUrl={setPostUrl}/>
+            return <PublishPostForm artifact={artifact} userId={user.id} blogConfiguration={blog} setLoading={setLoading} setUrl={setPostUrl}/>
         case "published":
             return <PublishSuccess postUrl={postUrl}/>
     }
 }
 
-const PublishModalContainer = (props: { setVisible }) => {
+const PublishModalContainer = (props: { setVisible, publishStatus: boolean }) => {
     const editorState = useActiveEditorState()
+    const blog = useBlog()
+    const { setVisible, publishStatus } = props
+
+    if (publishStatus) {
+        return (
+            <div className={"publish-modal-container"}>
+                <span>You have published this note! View it live on <a href={blogUrlFromSubdomain(blog.subdomain)} target="_blank">{blog.subdomain}</a></span>
+            </div>
+        )
+    }
 
     return (
         <div className={"publish-modal-container"}>
@@ -90,7 +92,7 @@ const PublishModalContainer = (props: { setVisible }) => {
                 ghost={true}
                 disabled={editorState.isSaving}
                 icon={<ShareAltOutlined />}
-                onClick={() => props.setVisible(true)}
+                onClick={() => setVisible(true)}
                 size={"large"}>
                 Publish to Blog
             </Button>

@@ -1,52 +1,77 @@
-import React, {useState} from 'react';
-import {Button, Divider, Form, Input, notification, Spin, Upload} from "antd";
-import {NoteTagSelect} from "../../../rich-text-editor/plugins/peak-knowledge-plugin/components/peak-knowledge-node/peak-tag-select/component/NoteTagSelect";
+import React, {ReactNode, useState} from 'react';
+import {Button, Form, Input, notification} from "antd";
 import "./publish-post-form.scss"
-import {ShareAltOutlined, UploadOutlined} from "@ant-design/icons/lib";
+import {ShareAltOutlined} from "@ant-design/icons/lib";
 import {createPeakPost} from "../../../../redux/slices/posts/postsSlice";
-import {PeakWikiPage} from "../../../../constants/wiki-types";
 import {BlogConfiguration} from "../../../../redux/slices/blog/types";
 import {PeakTag} from "../../../../types";
-import {PeakPost, POST_TYPE, POST_VISIBILITY} from "component-library";
+import {PeakPost, POST_VISIBILITY, POST_TYPE} from "component-library";
 import {sleep} from "../../../../chrome-extension/utils/generalUtil";
 import cn from "classnames"
 import {blogUrlFromSubdomain} from "../../../../utils/urls";
-import {OG_ARTIFACT_TYPE, WIKI_PAGE} from "../../../../redux/slices/posts/types";
-import {PeakNote} from "../../../../redux/slices/noteSlice";
+import {updateNote} from "../../../../redux/slices/noteSlice";
 import {ImageInput} from "../../../image-input/ImageInput";
+import {deletePage} from "../../../../redux/slices/wikiPageSlice";
+import {removePageFromTopic} from "../../../../redux/slices/topicSlice";
+import {useDispatch} from "react-redux";
+import {PeakExternalNote, PublishableArtifact} from "../../../../types/notes";
+import {WIKI_PAGE} from "../../../../types/editors";
+import { startCase } from 'lodash';
+import {
+    ELEMENT_PEAK_BOOK,
+    ELEMENT_WEB_NOTE,
+    PEAK_LEARNING
+} from "../../../rich-text-editor/plugins/peak-knowledge-plugin/constants";
 
-export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
-    const { page, userId, blogConfiguration, setLoading, setUrl } = props
+export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
+    const { artifact, userId, blogConfiguration, setLoading, setUrl } = props
 
-    const [selectedTags, setTags] = useState<PeakTag[]>([])
-    const [imageUrl, setImageUrl] = useState<string | undefined>()
+    const dispatch = useDispatch()
+    const [selectedTags, setTags] = useState<PeakTag[]>([]) // TODO: MAKE THESE use the artifact TAG_IDS
+    const [imageUrl, setImageUrl] = useState<string | undefined>(artifact.cover_image_url)
 
-    const createPublishPost = (title: string, subtitle: string): PeakPost => {
+    const determinePostType = (): POST_TYPE => {
+        switch (artifact.artifact_type) {
+            case ELEMENT_PEAK_BOOK:
+                return POST_TYPE.book_post
+            case ELEMENT_WEB_NOTE:
+                return POST_TYPE.note_post
+            case PEAK_LEARNING:
+            case WIKI_PAGE:
+            default:
+                return POST_TYPE.blog_post
+
+        }
+    }
+    const createPublishPost = (title: string, subtitle: string, post_type: POST_TYPE): PeakPost => {
+        // @ts-ignore
         return {
-            id: page.id,
+            id: artifact.id,
             title: title,
             subtitle: subtitle,
-            body: page.body,
+            body: artifact.body,
             cover_image: imageUrl,
             tag_ids: selectedTags.map(t => t.id),
             subdomain_id: blogConfiguration.subdomain,
-            post_type: POST_TYPE.blog_post.toString(),
-            visibility: POST_VISIBILITY.public.toString(),
+            post_type: post_type.valueOf(),
+            privacy_level: POST_VISIBILITY.public.toString(),
             user_id: userId
         } as PeakPost
     }
-
-    const initialPostValues = {
-        title: page.title,
-        subtitle: "",
-        tags: []
-    }
-
     const publishPost = (values: { title: string, subtitle: string }) => {
         setLoading("publishing")
-        const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle)
-        const og_artifact_type: OG_ARTIFACT_TYPE = ("note_type" in page) ? page.note_type : WIKI_PAGE
-        createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, og_artifact_type).then(res => {
+        const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle, determinePostType())
+
+        createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, artifact.artifact_type).then(res => {
+            console.log(`RES `, res)
+
+            if (artifact.artifact_type === WIKI_PAGE) {
+                dispatch(deletePage({ pageId: artifact.id }))
+                dispatch(removePageFromTopic({ pageId: artifact.id }))
+            } else {
+                dispatch(updateNote({...artifact as PeakExternalNote, privacy_level: POST_VISIBILITY.public.toString()}))
+            }
+
             sleep(1000).then(_ => {
                 setLoading("published")
                 const baseBlogUrl = blogUrlFromSubdomain(blogConfiguration.subdomain)
@@ -58,6 +83,18 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
                 setLoading("publish")
             })
         })
+    }
+    const initialPostValues = setupInitialFormValues(artifact)
+    function fetchFormForPublishingArtifact(): ReactNode {
+        const useTitleFromPage: boolean = artifact.artifact_type === WIKI_PAGE
+        switch (artifact.artifact_type) {
+            case WIKI_PAGE:
+            case ELEMENT_PEAK_BOOK:
+            case PEAK_LEARNING:
+            default:
+                return <DefaultPublishForm artifact={artifact} setImageUrl={setImageUrl} lockTitle={useTitleFromPage}/>
+
+        }
     }
 
     return (
@@ -79,51 +116,7 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
                 className={"publish-form"}
                 initialValues={initialPostValues}
                 onFinish={publishPost}>
-                <>
-                    <h3>Story Preview</h3>
-                    <Form.Item
-                        name={"title"}
-                        rules={[
-                            {
-                                required: true,
-                                type: "string",
-                                max: 255,
-                                message: 'We need a title for your post! Keep it under 255',
-                            },
-                        ]}
-                        className={"form-row"}>
-                        <Input
-                            className={"minimal-text-input publish-text-input"}
-                            placeholder="Write a preview title"
-                            bordered={false}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        name={"subtitle"}
-                        rules={[
-                            {
-                                required: true,
-                                type: "string",
-                                max: 1000,
-                                message: "Required. Give people a quick overview of what you will be covering! ",
-                            },
-                        ]}
-                        className={"form-row"}>
-                        <Input
-                            className={"minimal-text-input publish-text-input"}
-                            placeholder="Write a preview snippet we'll use a subtitle"
-                            bordered={false}
-                        />
-                    </Form.Item>
-                    <div className={"form-row"} style={{minHeight: "200px", marginBottom: "25px"}}>
-                        <h3>Add a cover Image</h3>
-                        <ImageInput setImageUrl={setImageUrl}/>
-                    </div>
-                    <div className={"form-row"}>
-                        <h3>Post Organization</h3>
-                        <NoteTagSelect selected_tags={[]} note_id={"TBD"} input_className={"minimal-text-input"}/>
-                    </div>
-                </>
+                {fetchFormForPublishingArtifact()}
                 <Form.Item hasFeedback className={"form-row"}>
                     <Button
                         shape="round"
@@ -138,4 +131,79 @@ export const PublishPostForm = (props: { page: PeakWikiPage | PeakNote, blogConf
             </Form>
         </div>
     )
+}
+
+interface InternalFormProps {
+    artifact: PublishableArtifact
+    setImageUrl: any
+    lockTitle: boolean
+}
+
+const setupInitialFormValues = (artifact: PublishableArtifact) => {
+    if (artifact.artifact_type === ELEMENT_PEAK_BOOK) {
+        const authorText = (artifact.author && artifact.author.length > 0) ? ` by ${artifact.author}` : ``
+        const title = `My thoughts on '${startCase(artifact.title)}'${authorText}`
+        return {
+            title: startCase(title),
+            subtitle: "",
+            tags: []
+        }
+    } else {
+        return {
+            title: startCase(artifact.title),
+            subtitle: "",
+            tags: []
+        }
+    }
+}
+
+export const DefaultPublishForm = (props: InternalFormProps) => {
+    const { artifact, setImageUrl, lockTitle } = props
+    return (
+        <>
+            <h3>Story Preview</h3>
+            <Form.Item
+                name={"title"}
+                rules={[
+                    {
+                        required: true,
+                        type: "string",
+                        max: 255,
+                        message: 'We need a title for your post! Keep it under 255',
+                    },
+                ]}
+                className={"form-row"}>
+                <Input
+                    className={"minimal-text-input publish-text-input"}
+                    placeholder="Write a preview title"
+                    bordered={false}
+                />
+            </Form.Item>
+            <Form.Item
+                name={"subtitle"}
+                rules={[
+                    {
+                        required: true,
+                        type: "string",
+                        max: 1000,
+                        message: "Required. Give people a quick overview of what you will be covering! ",
+                    },
+                ]}
+                className={"form-row"}>
+                <Input
+                    className={"minimal-text-input publish-text-input"}
+                    placeholder="Write a preview snippet we'll use a subtitle"
+                    bordered={false}
+                />
+            </Form.Item>
+            <div className={"form-row"} style={{minHeight: "200px", marginBottom: "25px"}}>
+                <h3>Add a cover Image</h3>
+                <ImageInput imageUrl={artifact.cover_image_url} setImageUrl={setImageUrl}/>
+            </div>
+        </>
+    )
+}
+
+export const TweetPublishForm = () => {
+
 }

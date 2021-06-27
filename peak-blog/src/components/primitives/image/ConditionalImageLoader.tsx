@@ -26,7 +26,10 @@ const FallbackImage = (props: ConditionalImageLoaderProps) => {
 const NextImageWrapper = (props: ImageProps) => {
     // @ts-ignore
     const { src, className, alt, width, layout, height } = props
-    return (src.startsWith("https://storage.googleapis.com")) ?
+    if (!src) {
+        return null
+    }
+    return (src && src.startsWith("https://storage.googleapis.com")) ?
         <div className={className}>
             <Image
                 src={src}

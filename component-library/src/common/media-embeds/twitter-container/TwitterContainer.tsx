@@ -1,7 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import TweetEmbed from 'react-tweet-embed/dist/tweet-embed'
-import { parseTwitterId } from '../../../utils/urls'
+import { parseTwitterId } from '../../../utils'
 
 export const TweetContainer = (props: { url: string; className?: string }) => {
   const { url, className } = props

@@ -8,7 +8,7 @@ import "./image-upload.scss"
 export const ImageUpload = (props: { setImageUrl? }) => {
     const currentUser = useCurrentUser()
     const [loading, setLoading] = useState<boolean>(false)
-    const [entropy, setEntropy] = useState<number>(Date.now())
+    const entropy = Date.now()
     const uploadRequest = useUploadFile()
 
     const bucketName = "peak_user_images"
@@ -16,7 +16,6 @@ export const ImageUpload = (props: { setImageUrl? }) => {
 
     const uploadProps = {
         action: (file) => {
-            setEntropy(Date.now())
             return Promise.resolve(`${baseUrl}/upload/storage/v1/b/${bucketName}/o?uploadType=media&name=${currentUser.id}/${entropy}-${file.name}`)
         },
         accept: "image/*",

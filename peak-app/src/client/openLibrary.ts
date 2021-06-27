@@ -1,11 +1,6 @@
 import axios from 'axios';
 import React, {useCallback} from "react";
 import {debounce} from "lodash";
-import {PeakNote} from "../redux/slices/noteSlice";
-import {PeakNodeSelectListItem} from "../common/rich-text-editor/utils/node-content-select/types";
-import {ELEMENT_PEAK_BOOK} from "../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
-import {ReadOutlined} from "@ant-design/icons/lib";
-import {insertBookElementCallback} from "../common/rich-text-editor/utils/node-content-select/utils";
 
 interface OpenLibraryResponse {
     numFound: number

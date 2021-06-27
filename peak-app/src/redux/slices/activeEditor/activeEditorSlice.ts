@@ -1,8 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {PeakEditorState, PeakHyperlinkState} from "../../../constants/wiki-types";
 import {INITIAL_EDITING_STATE, INITIAL_LINK_STATE, INITIAL_PAGE_STATE} from "../../../constants/editor";
 import {useSelector} from "react-redux";
 import {AppState} from "../../index";
+import {PeakEditorState, PeakHyperlinkState} from "../../../types/editor-state";
 
 export const activeEditorSlice = createSlice({
     name: 'activeEditorState',

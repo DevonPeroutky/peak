@@ -3,12 +3,13 @@ import {FutureRead} from "./slices/readingListSlice";
 import {QuickSwitcherState} from "./slices/quickSwitcherSlice";
 import {ElectronState} from "./slices/electronSlice";
 import {DisplayPeaker} from "./slices/userAccountsSlice";
-import {PeakNote} from "./slices/noteSlice";
-import {PeakEditorState, PeakWikiState} from "../constants/wiki-types";
 import {Peaker, PeakTag} from "../types";
 import {HelpModalState} from "./slices/helpModal/helpModalSlice";
 import {BlogConfiguration} from "./slices/blog/types";
 import {PeakAccessToken} from "../client/tokens";
+import {PeakWikiState} from "../types/editors";
+import {PeakEditorState} from "../types/editor-state";
+import {PeakExternalNote} from "../types/notes";
 
 export const GLOBAL_APP_KEYS = ["electron", "quickSwitcher", "userAccounts", "activeEditorState", "helpModal"]
 
@@ -22,7 +23,7 @@ export interface AppState {
     activeEditorState: PeakEditorState,
     electron: ElectronState,
     tags: PeakTag[],
-    notes: PeakNote[],
+    notes: PeakExternalNote[],
     helpModal: HelpModalState,
     blogConfiguration: BlogConfiguration,
     tokens: PeakAccessToken[]

@@ -102,15 +102,11 @@
             align-items: center;
             justify-content: space-between;
 
-            .space-holder {
-              width: 20px;
-              height: 20px;
-            }
-
             .peak-timeline-item-body {
               display: flex;
               flex-direction: column;
               flex-grow: 1;
+              padding-right: 25px;
 
               .title {
                 font-size: 1.25rem;

@@ -1,20 +1,19 @@
 import styles from "../../../styles/Home.module.css";
-import React, {useEffect} from "react";
-import Head from "next/head";
-import {useAppContext} from "../../data/context";
+import React from "react";
+import {SUBDOMAIN_LOADING_STATE} from "../../data/subdomain/types";
+import {InitialLoader} from "../loaders/InitialLoader";
 
-export const MainLayout = ({children}) => {
+export const MainLayout = (props: {children, subdomainLoadingState: SUBDOMAIN_LOADING_STATE}) => {
+    const { children, subdomainLoadingState } = props
+
+    const content = (subdomainLoadingState === SUBDOMAIN_LOADING_STATE.LOADING) ? <InitialLoader/> :
+        <div className={styles.contentContainer}>
+            {children}
+        </div>
+
     return (
-        <>
-            <Head>
-                <title>Peak</title>
-                <link rel="icon" href={"/default-peak-favicon.svg"} />
-            </Head>
-            <div className={styles.container}>
-                <div className={styles.contentContainer}>
-                    {children}
-                </div>
-            </div>
-        </>
+        <div className={styles.container}>
+            {content}
+        </div>
     )
 }

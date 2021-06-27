@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import PeakSidebar from "../../common/sidebar/PeakSidebar";
 import {Layout} from 'antd';
 import 'antd/dist/antd.css';
@@ -16,9 +16,6 @@ import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {loadEntireWorldForAllAccounts} from "../../utils/loading-util";
 import {establishSocketConnection, socket, subscribeToUserNoteChannel} from "../../utils/socketUtil";
-import {PeakBookListView} from "../notes/notes-list/NoteListView";
-import {PeakNoteView} from "../notes/note-view/NoteView";
-import {DraftLearningNoteView, PeakDraftNoteView} from "../notes/note-view/DraftNoteView";
 import { ELEMENT_PEAK_BOOK } from "../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
 import {isElectron} from "../../utils/environment";
 import cn from "classnames"
@@ -27,8 +24,10 @@ import {Peaker} from "../../types";
 import {Plugins} from "../scratchpad/playground/Playground";
 import {BlogHome} from "../blog/BlogHome";
 import {BlogSetup} from "../blog/setup/BlogSetup";
-import {BlogSettings} from "../blog/settings/BlogConfiguration";
 import {BlogCreateSuccess} from "../blog/setup/result/BlogSuccess";
+import {PeakBookListView} from "../notes/list/PeakBookListView";
+import {PeakNoteView} from "../notes/view/NoteView";
+import {DraftLearningNoteView, PeakDraftBookView} from "../notes/view/DraftBookView";
 
 const { Content } = Layout;
 
@@ -97,7 +96,7 @@ const PeakLayout = (props: { currentUser: Peaker }) => {
                                 <Route path={`${match.path}/playground`} render={(props) => <Plugins />} />
                                 <Route path={`${match.path}/scratchpad`} render={(props) => <PeakScratchpad />} />
                                 <Route path={`${match.path}/draft-note`} render={(props) => <DraftLearningNoteView />} />
-                                <Route path={`${match.path}/draft-book`} render={(props) => <PeakDraftNoteView />} />
+                                <Route path={`${match.path}/draft-book`} render={(props) => <PeakDraftBookView/>} />
                                 <Route path={`${match.path}/notes/:id`} render={(props) => {
                                     if (props.match.params && props.match.params.id) {
                                         return <PeakNoteView key={props.match.params.id} {...props} />

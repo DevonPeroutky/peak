@@ -1,5 +1,3 @@
-import exp from "constants";
-
 export enum Visibility {
     private,
     protected,
@@ -13,21 +11,6 @@ export enum ReactionType {
 export enum Published {
     draft,
     published
-}
-
-export interface BlogPost {
-    id: string
-    title: string
-    subtitle: string
-    cover_image_url: string
-    description: string
-    author_id: string
-    body: Node[]
-    tag_ids: string[]
-    inserted_at: Date
-    updated_at: Date
-    visibility: Visibility
-    publish_state: Published
 }
 
 export interface Reaction {

@@ -7,6 +7,7 @@ import {BlogPostPreview} from "../post/post-preview";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import {useAppContext} from "../../../data/context";
 import {notify} from "../../../utils/toast";
+import {EmptyBlogPosts} from "./blog-empty-posts";
 
 export const BlogHome = (props) => {
     const { subdomain, author } = useAppContext()
@@ -48,7 +49,11 @@ export const BlogHome = (props) => {
                             className={"mr-5 cursor-pointer rounded-full px-4 py-2 text-sm border border-gray-400 hover:border-blue-400 hover:text-blue-400 accessible-button"}>
                             Follow
                         </button>
-                        <span className={"mr-5 cursor-pointer hover:text-blue-400"}>255 Followers</span>
+                        <span
+                            onClick={() => notify("More or less", "mas-y-menos")}
+                            className={"mr-5 cursor-pointer hover:text-blue-400"}>
+                            255 Followers
+                        </span>
                         <span
                             onClick={() => notify("About me coming soon", "about-me")}
                             className={"mr-5 cursor-pointer hover:text-blue-400"}>
@@ -79,7 +84,7 @@ export const BlogHome = (props) => {
                 </div>
             </div>
             <div className={"py-24"}>
-                { posts.map(post => <BlogPostPreview key={post.id} post={post}/>) }
+                { (posts && posts.length > 0) ? posts.map(post => <BlogPostPreview key={post.id} post={post}/>) : <EmptyBlogPosts/> }
             </div>
         </div>
     )

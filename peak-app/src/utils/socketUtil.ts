@@ -3,10 +3,11 @@ import peakAxiosClient from "../client/axiosConfig";
 import {AxiosResponse} from "axios";
 import config from "../constants/environment-vars"
 import {store} from "../redux/store";
-import {deleteNote, PeakNote, upsertNote} from "../redux/slices/noteSlice";
+import {deleteNote, upsertNote} from "../redux/slices/noteSlice";
 import {PeakTag} from "../types";
 import {batch} from "react-redux";
 import {addTags} from "../redux/slices/tags/tagSlice";
+import {PeakExternalNote} from "../types/notes";
 
 interface SocketTokenPayload {
     id: string
@@ -95,7 +96,7 @@ export const subscribeToUserNoteChannel = (userId: string) => {
             console.log(`Received nodes of web_note from backend broadcast`, res)
             console.log(`Current Active user (${userId}) `)
 
-            const newlyCreatedNote: PeakNote = res.note
+            const newlyCreatedNote: PeakExternalNote = res.note
             const newlyCreatedTag: PeakTag[] = res.tags
             batch(() => {
                 store.dispatch(upsertNote(newlyCreatedNote))

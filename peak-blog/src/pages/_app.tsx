@@ -1,5 +1,6 @@
 import '../../styles/globals.css'
 import 'component-library/dist/index.css'
+import 'prismjs/themes/prism-okaidia.css';
 import {QueryClient, QueryClientProvider, useQueryClient} from "react-query";
 import React, {useEffect, useState} from "react";
 import {parseSubdomain} from "../utils/subdomains";
@@ -13,6 +14,7 @@ import nprogress from 'nprogress/nprogress.js'
 import {useRouter} from "next/router";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify';
+import Head from 'next/head';
 
 // Create a client
 const baseQueryClient = new QueryClient({
@@ -55,14 +57,20 @@ function MyApp({ Component, pageProps }) {
     if (subdomainState === SUBDOMAIN_LOADING_STATE.FAILED_TO_LOAD || subdomainState === SUBDOMAIN_LOADING_STATE.FAILED_TO_DERIVE) return <Error statusCode={404} />
 
     return (
-        <AppWrapper value={subdomainData}>
-            <QueryClientProvider client={baseQueryClient}>
-                <MainLayout>
-                    <ToastContainer />
-                    <Component {...pageProps} />
-                </MainLayout>
-            </QueryClientProvider>
-        </AppWrapper>
+        <>
+            <Head>
+                <title>Powered by Peak</title>
+                <link rel="icon" href={"/default-peak-favicon.svg"} />
+            </Head>
+            <AppWrapper value={subdomainData}>
+                <QueryClientProvider client={baseQueryClient}>
+                    <MainLayout subdomainLoadingState={subdomainState}>
+                        <ToastContainer />
+                        <Component {...pageProps} />
+                    </MainLayout>
+                </QueryClientProvider>
+            </AppWrapper>
+        </>
     )
 }
 

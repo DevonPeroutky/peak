@@ -19,18 +19,17 @@ import {
     updatePageTitleInSidebar
 } from "../redux/slices/topicSlice";
 import {useUpdatePageInHierarchy} from "./hierarchy";
-import {getCurrentFormattedDate} from "./time";
 import {updatePage} from "./requests";
 import {useQuery} from "./urls";
 import {FutureRead} from "../redux/slices/readingListSlice";
 import {CHROME_EXTENSION} from "../common/rich-text-editor/editors/chrome-extension/constants";
-import {PeakWikiPage, PeakWikiState, ScratchPad} from "../constants/wiki-types";
 import {Peaker} from "../types";
 import {PeakTopicNode} from "../redux/slices/user/types";
 import {endSavingPage, setEditing, useActiveEditorState} from "../redux/slices/activeEditor/activeEditorSlice";
 import {useNotes} from "../client/notes";
-import {PeakNote} from "../redux/slices/noteSlice";
 import {SCRATCHPAD_ID} from "../common/rich-text-editor/editors/scratchpad/constants";
+import {PeakExternalNote, PeakWikiPage, ScratchPad} from "../types/notes";
+import {PeakWikiState} from "../types/editors";
 const R = require('ramda');
 
 // --------------------------------------------------
@@ -102,7 +101,7 @@ export function useCurrentPageId() {
  * Use this for getting the current wiki page. Do not use this externally for just getting the page id, as this will come
  * back null for pages that are not wiki Pages.
  */
-export function useCurrentPage(): PeakWikiPage | PeakNote {
+export function useCurrentPage(): PeakWikiPage | PeakExternalNote {
     const history = useHistory()
     const location = useLocation();
     const notes = useNotes()
@@ -112,7 +111,7 @@ export function useCurrentPage(): PeakWikiPage | PeakNote {
     const pageType = url.pop()!;
 
     if (pageType === "notes") {
-        const note: PeakNote = notes.find(n => n.id === currentPageId)
+        const note: PeakExternalNote = notes.find(n => n.id === currentPageId)
 
         if (!note) {
             console.log(`That note seems to no longer exist`)
@@ -120,7 +119,7 @@ export function useCurrentPage(): PeakWikiPage | PeakNote {
             return
         }
 
-        return { id: note.id, body: note.body, title: note.title }
+        return note
     } else {
         return peakWikiState[currentPageId];
     }

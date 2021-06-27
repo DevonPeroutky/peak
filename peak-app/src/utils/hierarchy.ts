@@ -12,7 +12,6 @@ import {
     ELEMENT_H6,
     KEYS_HEADING
 } from "@udecode/slate-plugins";
-import {PeakNote} from "../redux/slices/noteSlice";
 import {buildNoteUrl} from "./notes";
 import {
     ELEMENT_PEAK_BOOK,
@@ -22,6 +21,7 @@ import {
 import {deriveHostname} from "./urls";
 import {sort} from "ramda";
 import { ELEMENT_TITLE } from "component-library";
+import {PeakBook, PeakExternalNote, PeakNote} from "../types/notes";
 
 const orderByUpdated = (a: PeakDisplayNode, b: PeakDisplayNode) => {
     return (a.updated_at <= b.updated_at) ? 1 : -1
@@ -125,9 +125,9 @@ export function convertHierarchyToSearchableList(hierarchy: PeakTopicNode[], not
             case PEAK_LEARNING:
                 return "My Note"
             case ELEMENT_PEAK_BOOK:
-                return capitalize(note.author)
+                return capitalize((note as PeakBook).author)
             case ELEMENT_WEB_NOTE:
-                return deriveHostname(note.url)
+                return deriveHostname((note as PeakExternalNote).url)
         }
     }
     const scratchPadNode: PeakDisplayNode = {
@@ -139,6 +139,7 @@ export function convertHierarchyToSearchableList(hierarchy: PeakTopicNode[], not
     const noteNodes: PeakDisplayNode[] = notes.map(n => ({
         title: n.title,
         url: buildNoteUrl(n.id),
+        // @ts-ignore
         icon_url: n.icon_url,
         updated_at: Date.parse(n.updated_at), // This is broken
         path: choosePath(n),

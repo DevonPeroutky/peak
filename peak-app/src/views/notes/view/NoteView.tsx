@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {useCurrentNote, useDebouncePeakNoteSaver} from "../../../client/notes";
-import {PeakNote} from "../../../redux/slices/noteSlice";
 import {useHistory} from "react-router-dom";
 import "./note-view.scss"
 import {
+    ELEMENT_PEAK_BOOK,
     ELEMENT_WEB_NOTE,
     PEAK_LEARNING
 } from "../../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
@@ -16,15 +16,16 @@ import {WebNoteHeaderSection} from "./note-header/web-note-header/WebNoteHeader"
 import {BookHeaderSection} from "./note-header/book-header/BookHeader";
 import {NextGenNoteView} from "../../note-view-v2/NextGenNoteView";
 import {PublishModal} from "../../../common/modals/publish/PublishModal";
+import {PeakBook, PeakExternalNote, PeakLearningNote, PeakNote} from "../../../types/notes";
 
 export const PeakNoteView = (props) => {
     const history = useHistory()
     const currentNote: PeakNote | undefined = useCurrentNote()
     const noteSaver = useDebouncePeakNoteSaver()
     const currentUser = useCurrentUser()
-    const selected_tags: PeakTag[] = useLoadTags((currentNote) ? currentNote.tag_ids : [])
+    const selected_tags: PeakTag[] = useLoadTags((currentNote && currentNote.tag_ids) ? currentNote.tag_ids : [])
     const [title, setTitle] = useState((currentNote) ? currentNote.title : "")
-    const [author, setAuthor] = useState((currentNote) ? currentNote.author : "")
+    const [author, setAuthor] = useState((currentNote && currentNote.note_type === ELEMENT_PEAK_BOOK) ? (currentNote as PeakBook).author : "")
 
     if (!currentNote) {
         history.push(`/home/notes`)
@@ -42,7 +43,7 @@ export const PeakNoteView = (props) => {
     }
 
     if (currentNote.note_type === PEAK_LEARNING) {
-        return <NextGenNoteView note={currentNote} selected_tags={selected_tags}/>
+        return <NextGenNoteView currentNote={currentNote as PeakLearningNote} selected_tags={selected_tags}/>
     }
 
     return (
@@ -50,7 +51,7 @@ export const PeakNoteView = (props) => {
             {renderHeader({ currentNote, selected_tags, title, author, onAuthorChange, onTitleChange})}
             <Divider className={"note-divider"}/>
             <PeakNoteEditor note_id={currentNote.id}/>
-            <PublishModal/>
+            <PublishModal artifact={{...currentNote, user_id: currentUser.id, artifact_type: currentNote.note_type}}/>
         </div>
     )
 }
@@ -69,7 +70,7 @@ const renderHeader = (props: NoteHeaderProps) => {
 
     return (currentNote.note_type === ELEMENT_WEB_NOTE) ?
         <WebNoteHeaderSection
-            note={currentNote}
+            note={currentNote as PeakExternalNote}
             title={title}
             onTitleChange={onTitleChange}
             selected_tags={selected_tags}/>

@@ -15,10 +15,12 @@ export const DisplayEditor = ({
                                   postId,
                                   value
                               }: DisplayEditorProps) => {
+    console.log(`COMPONENTS: `, useReadOnlyComponents())
+    console.log(`BODY: `, value)
     return (
         <SlatePlugins
             id={postId}
-            plugins={basePlugins}
+            plugins={[...basePlugins, ]}
             options={pluginOptions}
             components={useReadOnlyComponents()}
             editableProps={readOnlyProps}

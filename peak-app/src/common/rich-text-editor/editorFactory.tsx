@@ -2,7 +2,8 @@ import React, {useMemo} from "react";
 import {usePeakPlugins} from "./plugins";
 import {defaultOptions} from "./options";
 import {
-    Options, PlaceholderProps,
+    Options,
+    PlaceholderProps,
     SlatePlugin,
     SlatePlugins,
 } from "@udecode/slate-plugins";
@@ -16,13 +17,14 @@ import {useComponents} from "./components";
 import {DEFAULT_PLACEHOLDERS} from "./constants";
 import {contains, includes} from "ramda";
 import {editorStyle} from "component-library";
+import { EditableProps } from "slate-react/dist/components/editable";
 
-export const defaultEditableProps = {
+export const defaultEditableProps: EditableProps = {
     // placeholder: 'Enter some rich text…',
     spellCheck: true,
     autoFocus: true,
-    style: editorStyle
-};
+    style: editorStyle,
+}
 
 export interface PeakEditorProps {
     additionalPlugins?: SlatePlugin[],
@@ -62,7 +64,7 @@ export const PeakEditor = ({
         <div className={cn("peak-rich-text-editor-container", (className) ? className : "")}>
             <SlatePlugins
                 id={currentPageId}
-                plugins={usePeakPlugins(additionalPlugins)}
+                plugins={usePeakPlugins([...additionalPlugins])}
                 components={useComponents(dragAndDrop, nodePlaceholders)}
                 options={defaultOptions}
                 editableProps={defaultEditableProps}

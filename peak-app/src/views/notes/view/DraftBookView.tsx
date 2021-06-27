@@ -8,11 +8,11 @@ import {useCurrentUser } from "../../../utils/hooks";
 import { Divider, message, Skeleton} from "antd";
 import {useQuery} from "../../../utils/urls";
 import {getCoverImageUrl} from "../../../client/openLibrary";
-import {PeakNote} from "../../../redux/slices/noteSlice";
 import {buildNoteUrl} from "../../../utils/notes";
 import {NoteSkeleton} from "./note-skeleton/NoteSkeleton";
+import {PeakBook, PeakExternalNote} from "../../../types/notes";
 
-export const PeakDraftNoteView = (props) => {
+export const PeakDraftBookView = (props) => {
     const history = useHistory()
     const query = useQuery();
     const currentUser = useCurrentUser();
@@ -30,7 +30,7 @@ export const PeakDraftNoteView = (props) => {
     const author = (authorParam === "undefined") ? "" : authorParam
 
     useEffect(() => {
-        const existingBook: PeakNote | undefined = (books.find(b => b.title.toLowerCase() === titleParam.toLowerCase() && b.author.toLowerCase() === authorParam.toLowerCase()))
+        const existingBook: PeakBook | undefined = (books.find(b => b.title.toLowerCase() === titleParam.toLowerCase() && b.author.toLowerCase() === authorParam.toLowerCase()))
 
         if (existingBook) {
             // setCurrentNote(existingBook)

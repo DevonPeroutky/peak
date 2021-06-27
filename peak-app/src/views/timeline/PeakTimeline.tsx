@@ -1,14 +1,13 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useCurrentUser} from "../../utils/hooks";
-import {PeakNote} from "../../redux/slices/noteSlice";
 import {loadPeakNotes, useNotes} from "../../client/notes";
-import {Empty, message, Popconfirm, Timeline} from "antd";
+import {Button, Empty, message, Popconfirm, Timeline} from "antd";
 import {ELEMENT_WEB_NOTE, PEAK_LEARNING} from "../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
 import {Link} from "react-router-dom";
 import {buildNoteUrl} from "../../utils/notes";
 import {PeakTagDisplay} from "../../common/peak-tag-display/PeakTagDisplay";
 import {
-    CalendarOutlined,
+    CalendarOutlined, CheckOutlined,
     DeleteOutlined,
     EditFilled,
     EditOutlined,
@@ -24,15 +23,18 @@ import {groupBy, head} from "ramda";
 import cn from "classnames";
 import {useBottomScrollListener} from "react-bottom-scroll-listener/dist";
 import {DeleteNoteConfirm} from "../../common/delete-note-popconfirm/DeleteNoteConfirm";
+import {POST_VISIBILITY} from "component-library";
+import {PeakExternalNote, PeakNote} from "../../types/notes";
+import {NoteItemMetadataContainer} from "../../common/notes/list/note-item-metadata-container/NoteItemMetadataContainer";
 
-const groupByDate = groupBy(function (note: PeakNote) {
-    return formatStringAsDate(note.inserted_at)
+const groupByDate = groupBy(function (note: PeakExternalNote) {
+    return formatStringAsDate(note.inserted_at.toString())
 })
 
 export const PeakTimeline = (props: { }) => {
     const currentUser = useCurrentUser()
-    const notesFromRedux: PeakNote[] = useNotes().filter(n => n.note_type === ELEMENT_WEB_NOTE || n.note_type === PEAK_LEARNING)
-    const [notes, setNotes] = useState<PeakNote[]>([])
+    const notesFromRedux: PeakExternalNote[] = useNotes().filter(n => n.note_type === ELEMENT_WEB_NOTE || n.note_type === PEAK_LEARNING)
+    const [notes, setNotes] = useState<PeakExternalNote[]>([])
     const [cursor, setCursor] = useState<string | null>(null)
     const [atBeginning, setAtBeginning] = useState<boolean>(false)
     const [loadingMore, setLoadingMore] = useState<boolean>(false)
@@ -98,16 +100,16 @@ export const PeakTimeline = (props: { }) => {
                                 )
                             }
                             return (
-                                <>
+                                <div key={date}>
                                     <Timeline.Item key={date} dot={dateTimelineIcon(isFirst)} className={cn("peak-timeline-date-item", (isFirst) ? "first" : "normal")}>
                                         {<h1 className={"date-header"}>{date}</h1>}
                                     </Timeline.Item>
                                     {
                                         notes.map(n =>
-                                            <NoteTimelineItem n={n}/>
+                                            <NoteTimelineItem key={n.id} n={n}/>
                                         )
                                     }
-                                </>
+                                </div>
                             )
                         })
                     }
@@ -117,7 +119,7 @@ export const PeakTimeline = (props: { }) => {
     )
 }
 
-const NoteAvatar = (props: { item: PeakNote }) => {
+const NoteAvatar = (props: { item: PeakExternalNote }) => {
     const { item } = props
 
     if (item.note_type == PEAK_LEARNING) {
@@ -143,7 +145,7 @@ const dateTimelineIcon = (isFirst: boolean) => {
     return (isFirst) ? <CalendarOutlined className={"timeline-icon"} color={"#f0f0f0"}/> : <div className={"v-bar-icon"}/>
 }
 
-const NoteTimelineItem = (props: { n: PeakNote} ) => {
+const NoteTimelineItem = (props: { n: PeakExternalNote} ) => {
     const { n } = props
 
     const [hovered, setHovered] = useState(false)
@@ -160,8 +162,9 @@ const NoteTimelineItem = (props: { n: PeakNote} ) => {
                         {n.tag_ids.map(id => <PeakTagDisplay key={id} tagId={id}/>)}
                     </div>
                 </div>
-                {(hovered) ? <DeleteNoteConfirm item={n}/> : <div className={"space-holder"}/>}
+                <NoteItemMetadataContainer note={n} hovered={hovered}/>
             </div>
         </Timeline.Item>
     )
 }
+

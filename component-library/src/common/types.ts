@@ -1,11 +1,15 @@
 import {Node} from "slate";
 
 export enum POST_TYPE {
-  blog_post
+  blog_post,
+  note_post,
+  book_post
 }
 
 export enum POST_VISIBILITY {
-  public
+  draft,
+  public,
+  private
 }
 
 export interface PeakPost {
@@ -19,10 +23,10 @@ export interface PeakPost {
   user_id: string
 
   // TODO: Enum
-  post_type: string
+  post_type: POST_TYPE
 
   // TODO: Enum
-  visibility?: string
+  privacy_level?: string
   created_at?: string
   updated_at?: string
 }

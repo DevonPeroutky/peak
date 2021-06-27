@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useCurrentNote, useDebouncePeakNoteSaver, useSpecificNote} from "../../client/notes";
 import {useCurrentUser} from "../../utils/hooks";
-import {PeakNote, STUB_BOOK_ID} from "../../redux/slices/noteSlice";
+import {STUB_BOOK_ID} from "../../redux/slices/noteSlice";
 import {PeakTag} from "../../types";
 import {useDispatch} from "react-redux";
 import {beginSavingPage, useActiveEditorState} from "../../redux/slices/activeEditor/activeEditorSlice";
@@ -15,11 +15,13 @@ import {NoteTagSelect} from "../../common/rich-text-editor/plugins/peak-knowledg
 import "./next-gen-note-view.scss"
 import {ELEMENT_TITLE} from "component-library";
 import {PublishModal} from "../../common/modals/publish/PublishModal";
+import {PeakLearningNote} from "../../types/notes";
 
-export const NextGenNoteView = (props: { note: PeakNote, selected_tags: PeakTag[] }) => {
-    const { note, selected_tags } = props
-    const currentNote: PeakNote | undefined = useSpecificNote(note.id)
+// Used exclusively for Learnings
+export const NextGenNoteView = (props: { currentNote: PeakLearningNote, selected_tags: PeakTag[] }) => {
+    const { currentNote, selected_tags } = props
     const dispatch = useDispatch()
+
     const editorState = useActiveEditorState()
     const currentUser = useCurrentUser()
     const noteSaver = useDebouncePeakNoteSaver()
@@ -58,7 +60,7 @@ export const NextGenNoteView = (props: { note: PeakNote, selected_tags: PeakTag[
 
     return (
         <div className={"peak-note-view-container"}>
-            <NoteTagSelect selected_tags={selected_tags} note_id={note.id}/>
+            <NoteTagSelect selected_tags={selected_tags} note_id={currentNote.id}/>
             <PeakEditor
                 additionalPlugins={[nodeSelectPlugin, wikiTitleEnforcer]}
                 onChange={updateNoteContent}
@@ -71,7 +73,7 @@ export const NextGenNoteView = (props: { note: PeakNote, selected_tags: PeakTag[
                     hideOnBlur: false,
                 }]}
             />
-            <PublishModal/>
+            <PublishModal artifact={currentNote}/>
         </div>
     )
 }

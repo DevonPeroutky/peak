@@ -10,8 +10,8 @@ import {
 import {Editor, Node, Range} from "slate";
 import {closeLinkMenu, openEditLinkMenu, openEmptyLinkMenu} from "../../../../redux/slices/activeEditor/activeEditorSlice";
 import {store} from "../../../../redux/store";
-import {PeakHyperlinkState} from "../../../../constants/wiki-types";
 import {UghEditorType} from "../../types";
+import {PeakHyperlinkState} from "../../../../types/editor-state";
 
 const peakLinkOnKeyDownHandler: KeyboardHandler = (editor: UghEditorType) => (event) => {
     if (event.metaKey && event.key == 'l') {
