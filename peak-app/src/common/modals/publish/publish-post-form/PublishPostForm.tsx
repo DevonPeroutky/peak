@@ -17,7 +17,11 @@ import {useDispatch} from "react-redux";
 import {PeakExternalNote, PublishableArtifact} from "../../../../types/notes";
 import {WIKI_PAGE} from "../../../../types/editors";
 import { startCase } from 'lodash';
-import {ELEMENT_PEAK_BOOK, PEAK_LEARNING} from "../../../rich-text-editor/plugins/peak-knowledge-plugin/constants";
+import {
+    ELEMENT_PEAK_BOOK,
+    ELEMENT_WEB_NOTE,
+    PEAK_LEARNING
+} from "../../../rich-text-editor/plugins/peak-knowledge-plugin/constants";
 
 export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
     const { artifact, userId, blogConfiguration, setLoading, setUrl } = props
@@ -26,6 +30,19 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
     const [selectedTags, setTags] = useState<PeakTag[]>([]) // TODO: MAKE THESE use the artifact TAG_IDS
     const [imageUrl, setImageUrl] = useState<string | undefined>(artifact.cover_image_url)
 
+    const determinePostType = (): POST_TYPE => {
+        switch (artifact.artifact_type) {
+            case ELEMENT_PEAK_BOOK:
+                return POST_TYPE.book_post
+            case ELEMENT_WEB_NOTE:
+                return POST_TYPE.note_post
+            case PEAK_LEARNING:
+            case WIKI_PAGE:
+            default:
+                return POST_TYPE.note_post
+
+        }
+    }
     const createPublishPost = (title: string, subtitle: string, post_type: POST_TYPE): PeakPost => {
         return {
             id: artifact.id,
@@ -42,8 +59,7 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
     }
     const publishPost = (values: { title: string, subtitle: string }) => {
         setLoading("publishing")
-        const post_type: POST_TYPE = ("note_type" in artifact) ? POST_TYPE.note_post : POST_TYPE.blog_post
-        const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle, post_type)
+        const blog_post_payload: PeakPost = createPublishPost(values.title, values.subtitle, determinePostType())
 
         createPeakPost(userId, blogConfiguration.subdomain, blog_post_payload, artifact.artifact_type).then(res => {
             console.log(`RES `, res)

@@ -2,7 +2,8 @@ import {Node} from "slate";
 
 export enum POST_TYPE {
   blog_post,
-  note_post
+  note_post,
+  book_post
 }
 
 export enum POST_VISIBILITY {
