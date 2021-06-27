@@ -19,8 +19,8 @@ export const BookPost = (props: { post: PeakPost }) => {
     return (
         <div className={"py-12"}>
             <div className={"flex mb-4"}>
-                <ConditionalImageLoader src={post.cover_image} width={"auto"} height={"150px"} layout={"intrinsic"}/>
-                <h1 className={"pl-8 mb-2 text-4xl"}>{title}</h1>
+                <ConditionalImageLoader src={post.cover_image} width={"auto"} height={"150px"} layout={"intrinsic"} className={"mr-8"}/>
+                <h1 className={"mb-2 text-4xl"}>{title}</h1>
             </div>
             <h2 className={"text-gray-500 text-xl font-light leading-normal mb-4"}>{post.subtitle}</h2>
             <div className={"text-gray-500 text-sm mb-10"}>

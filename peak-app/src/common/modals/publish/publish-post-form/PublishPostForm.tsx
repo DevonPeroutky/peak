@@ -44,6 +44,7 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
         }
     }
     const createPublishPost = (title: string, subtitle: string, post_type: POST_TYPE): PeakPost => {
+        // @ts-ignore
         return {
             id: artifact.id,
             title: title,
@@ -52,7 +53,7 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
             cover_image: imageUrl,
             tag_ids: selectedTags.map(t => t.id),
             subdomain_id: blogConfiguration.subdomain,
-            post_type: post_type,
+            post_type: post_type.valueOf(),
             privacy_level: POST_VISIBILITY.public.toString(),
             user_id: userId
         } as PeakPost
@@ -138,11 +139,20 @@ interface InternalFormProps {
 }
 
 const setupInitialFormValues = (artifact: PublishableArtifact) => {
-    const title = (artifact.artifact_type === ELEMENT_PEAK_BOOK) ? `My thoughts on '${startCase(artifact.title)}' by ${startCase(artifact.author)}` : startCase(artifact.title)
-    return {
-        title: startCase(title),
-        subtitle: "",
-        tags: []
+    if (artifact.artifact_type === ELEMENT_PEAK_BOOK) {
+        const authorText = (artifact.author && artifact.author.length > 0) ? ` by ${artifact.author}` : ``
+        const title = `My thoughts on '${startCase(artifact.title)}'${authorText}`
+        return {
+            title: startCase(title),
+            subtitle: "",
+            tags: []
+        }
+    } else {
+        return {
+            title: startCase(artifact.title),
+            subtitle: "",
+            tags: []
+        }
     }
 }
 

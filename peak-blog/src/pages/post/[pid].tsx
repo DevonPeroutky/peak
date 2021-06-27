@@ -47,7 +47,7 @@ const Post: NextPage<{}> = (props) => {
         <div className={"w-screen flex flex-col justify-center items-center"}>
             <PostHeaderBar/>
             <div className={styles.postContainer}>
-                {(data.post_type === POST_TYPE.book_post.toString()) ? <BookPost post={data}/> : <BlogPost post={data}/> }
+                {(data.post_type === POST_TYPE.book_post) ? <BookPost post={data}/> : <BlogPost post={data}/> }
             </div>
         </div>
     )
