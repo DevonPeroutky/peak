@@ -1,8 +1,8 @@
 import {Node} from "slate";
-import {PeakPost} from "component-library";
+import {PeakPost, POST_TYPE} from "component-library";
 
 export const deriveTitleFromPost = (post: PeakPost): string => {
-    if (post.post_type === "page") {
+    if (post.post_type === POST_TYPE.blog_post.toString()) {
         const titleNode = post.body[0]
         return Node.string(titleNode)
     } else {

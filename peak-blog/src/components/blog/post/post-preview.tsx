@@ -28,7 +28,7 @@ export const BlogPostPreview = (props: { post: PeakPost }) => {
                 </div>
             </div>
             <div className={"flex justify-center min-w-1/4 max-w-1/4"}>
-                <ConditionalImageLoader src={post.cover_image} width={"auto"} height={"150px"} layout={"intrinsic"} className={""}/>
+                <ConditionalImageLoader src={post.cover_image} width={"auto"} height={"150px"} layout={"intrinsic"}/>
             </div>
         </div>
     )

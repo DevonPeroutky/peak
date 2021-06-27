@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import React from "react";
 import {useRouter} from "next/router";
 import {useQuery, useQueryClient} from "react-query";
-import {PeakPost, PeakPostListResponse} from "component-library";
+import {PeakPost, PeakPostListResponse, POST_TYPE} from "component-library";
 import {fetch_post} from "../../data/posts/posts";
 import {BlogPost} from "../../components/blog/post/post";
 import {POST_KEY_PREFIX, POSTS_KEY} from "../../data/posts/types";
@@ -11,6 +11,7 @@ import styles from "../../../styles/Home.module.css";
 import {useAppContext} from "../../data/context";
 import PostHeaderBar from "../../components/blog/post/header/post-header";
 import {InitialLoader} from "../../components/loaders/InitialLoader";
+import {BookPost} from "../../components/blog/post/book-post";
 
 // TODO: Load the subdomain / author / posts if not done already?
 const Post: NextPage<{}> = (props) => {
@@ -46,7 +47,7 @@ const Post: NextPage<{}> = (props) => {
         <div className={"w-screen flex flex-col justify-center items-center"}>
             <PostHeaderBar/>
             <div className={styles.postContainer}>
-                <BlogPost post={data}/>
+                {(data.post_type === POST_TYPE.book_post.toString()) ? <BookPost post={data}/> : <BlogPost post={data}/> }
             </div>
         </div>
     )

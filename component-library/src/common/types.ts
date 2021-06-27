@@ -23,7 +23,7 @@ export interface PeakPost {
   user_id: string
 
   // TODO: Enum
-  post_type: string
+  post_type: POST_TYPE
 
   // TODO: Enum
   privacy_level?: string

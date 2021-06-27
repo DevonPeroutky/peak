@@ -52,7 +52,7 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
             cover_image: imageUrl,
             tag_ids: selectedTags.map(t => t.id),
             subdomain_id: blogConfiguration.subdomain,
-            post_type: post_type.toString(),
+            post_type: post_type,
             privacy_level: POST_VISIBILITY.public.toString(),
             user_id: userId
         } as PeakPost
