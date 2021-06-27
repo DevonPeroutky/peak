@@ -5,7 +5,7 @@ import {ShareAltOutlined} from "@ant-design/icons/lib";
 import {createPeakPost} from "../../../../redux/slices/posts/postsSlice";
 import {BlogConfiguration} from "../../../../redux/slices/blog/types";
 import {PeakTag} from "../../../../types";
-import {PeakPost, POST_TYPE, POST_VISIBILITY} from "component-library";
+import {PeakPost, POST_VISIBILITY, POST_TYPE} from "component-library";
 import {sleep} from "../../../../chrome-extension/utils/generalUtil";
 import cn from "classnames"
 import {blogUrlFromSubdomain} from "../../../../utils/urls";
@@ -39,7 +39,7 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
             case PEAK_LEARNING:
             case WIKI_PAGE:
             default:
-                return POST_TYPE.note_post
+                return POST_TYPE.blog_post
 
         }
     }
