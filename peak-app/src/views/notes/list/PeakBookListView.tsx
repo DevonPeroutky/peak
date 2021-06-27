@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {loadPeakNotes, useNotes} from "../../../client/notes";
 import {List, message, Popconfirm} from "antd";
 import {ReadFilled} from "@ant-design/icons/lib";
@@ -13,6 +13,7 @@ import {buildNoteUrl} from "../../../utils/notes";
 import {useCurrentUser} from "../../../utils/hooks";
 import {DeleteNoteConfirm} from "../../../common/delete-note-popconfirm/DeleteNoteConfirm";
 import {PeakBook} from "../../../types/notes";
+import {NoteItemMetadataContainer} from "../../../common/notes/list/note-item-metadata-container/NoteItemMetadataContainer";
 
 export const PeakBookListView = (props: { page_header: string, note_type: PeakKnowledgeKeyOption }) => {
     const { page_header, note_type } = props
@@ -45,8 +46,9 @@ export const PeakBookListView = (props: { page_header: string, note_type: PeakKn
 
 const PeakBookListItem = (props: { item: PeakBook }) => {
     const { item } = props
+    const [hovered, setHovered] = useState(false)
     return (
-        <List.Item key={item.title}>
+        <List.Item key={item.title} onMouseOver={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
             <List.Item.Meta
                 className={"peak-note-book-container"}
                 avatar={ (item.note_type === ELEMENT_PEAK_BOOK ) ? <NoteAvatar item={item}/> : null }
@@ -63,7 +65,7 @@ const PeakBookListItem = (props: { item: PeakBook }) => {
                                 {item.tag_ids.map(id => <PeakTagDisplay key={id} tagId={id}/>)}
                             </div>
                         </div>
-                        <NoteIconSection item={item}/>
+                        <NoteItemMetadataContainer note={item} hovered={hovered}/>
                     </div>
                 }
             />
@@ -91,9 +93,6 @@ const NoteAvatar = (props: { item: PeakBook }) => {
 
 const NoteIconSection = (props: { item: PeakBook }) => {
     const { item } = props
-    const mockOut = () => {
-        message.info("Not implemented yet")
-    }
     return (
         <div className={"icon-section"}>
             <DeleteNoteConfirm item={item}/>

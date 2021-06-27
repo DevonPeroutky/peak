@@ -34,7 +34,7 @@ export const DeleteNoteConfirm = (props: { item: PeakNote, className?: string })
     }
     return (
         <Popconfirm
-            title="Are you sure"
+            title="Are you sure? This will remove the post from your blog and delete the book from your Peak app"
             visible={visible}
             onConfirm={deleteNote}
             onCancel={close}

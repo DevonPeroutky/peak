@@ -24,7 +24,8 @@ import cn from "classnames";
 import {useBottomScrollListener} from "react-bottom-scroll-listener/dist";
 import {DeleteNoteConfirm} from "../../common/delete-note-popconfirm/DeleteNoteConfirm";
 import {POST_VISIBILITY} from "component-library";
-import {PeakExternalNote} from "../../types/notes";
+import {PeakExternalNote, PeakNote} from "../../types/notes";
+import {NoteItemMetadataContainer} from "../../common/notes/list/note-item-metadata-container/NoteItemMetadataContainer";
 
 const groupByDate = groupBy(function (note: PeakExternalNote) {
     return formatStringAsDate(note.inserted_at.toString())
@@ -161,27 +162,9 @@ const NoteTimelineItem = (props: { n: PeakExternalNote} ) => {
                         {n.tag_ids.map(id => <PeakTagDisplay key={id} tagId={id}/>)}
                     </div>
                 </div>
-                <MetadataContainer note={n} hovered={hovered}/>
+                <NoteItemMetadataContainer note={n} hovered={hovered}/>
             </div>
         </Timeline.Item>
     )
 }
 
-const MetadataContainer = (props: { note: PeakExternalNote, hovered }) => {
-    const { note, hovered } = props
-    const deleteIcon = (hovered) ? <DeleteNoteConfirm item={note} className={"space-holder"}/> : <div className={"space-holder"}/>
-    const published = (note.privacy_level && note.privacy_level === POST_VISIBILITY.public.toString()) ?
-        <Button
-            className={"publish-tag"}
-            type="primary"
-            shape="round"
-            icon={<CheckOutlined />}
-            ghost={true}>Published</Button>
-        : null
-    return (
-        <div className={"metadata-container"}>
-            {published}
-            {deleteIcon}
-        </div>
-    )
-}
