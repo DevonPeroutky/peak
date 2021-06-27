@@ -9,21 +9,22 @@ import {PeakPost, POST_TYPE, POST_VISIBILITY} from "component-library";
 import {sleep} from "../../../../chrome-extension/utils/generalUtil";
 import cn from "classnames"
 import {blogUrlFromSubdomain} from "../../../../utils/urls";
-import {OG_ARTIFACT_TYPE, WIKI_PAGE} from "../../../../redux/slices/posts/types";
 import {updateNote} from "../../../../redux/slices/noteSlice";
 import {ImageInput} from "../../../image-input/ImageInput";
 import {deletePage} from "../../../../redux/slices/wikiPageSlice";
 import {removePageFromTopic} from "../../../../redux/slices/topicSlice";
 import {useDispatch} from "react-redux";
-import {PeakExternalNote, PeakWikiPage, PublishableArtifact} from "../../../../types/notes";
+import {PeakExternalNote, PublishableArtifact} from "../../../../types/notes";
+import {WIKI_PAGE} from "../../../../types/editors";
+import { startCase } from 'lodash';
+import {ELEMENT_PEAK_BOOK} from "../../../rich-text-editor/plugins/peak-knowledge-plugin/constants";
 
 export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConfiguration: BlogConfiguration, userId: string, setLoading: any, setUrl: any }) => {
     const { artifact, userId, blogConfiguration, setLoading, setUrl } = props
 
-    // TODO: MAKE THESE use the artifact TAG_IDS
-    const [selectedTags, setTags] = useState<PeakTag[]>()
-    const [imageUrl, setImageUrl] = useState<string | undefined>(artifact.cover_image_url)
     const dispatch = useDispatch()
+    const [selectedTags, setTags] = useState<PeakTag[]>() // TODO: MAKE THESE use the artifact TAG_IDS
+    const [imageUrl, setImageUrl] = useState<string | undefined>(artifact.cover_image_url)
 
     const createPublishPost = (title: string, subtitle: string, post_type: POST_TYPE): PeakPost => {
         return {
@@ -40,8 +41,10 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
         } as PeakPost
     }
 
+    const title = (artifact.artifact_type === ELEMENT_PEAK_BOOK) ? `My thoughts on '${startCase(artifact.title)}' by ${startCase(artifact.author)}` : startCase(artifact.title)
+
     const initialPostValues = {
-        title: artifact.title,
+        title: startCase(title),
         subtitle: "",
         tags: []
     }
@@ -133,10 +136,6 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
                         <h3>Add a cover Image</h3>
                         <ImageInput imageUrl={artifact.cover_image_url} setImageUrl={setImageUrl}/>
                     </div>
-                    {/*<div className={"form-row"}>*/}
-                    {/*    <h3>Post Organization</h3>*/}
-                    {/*    <NoteTagSelect selected_tags={[]} note_id={"TBD"} input_className={"minimal-text-input"}/>*/}
-                    {/*</div>*/}
                 </>
                 <Form.Item hasFeedback className={"form-row"}>
                     <Button
@@ -152,4 +151,99 @@ export const PublishPostForm = (props: { artifact: PublishableArtifact, blogConf
             </Form>
         </div>
     )
+}
+
+interface InternalFormProps {
+    artifact: PublishableArtifact
+    setImageUrl: any
+}
+
+/**
+ * Don't show Title? Or Subtitle?
+ * @constructor
+ */
+export const PagePublishForm = (props: InternalFormProps) => {
+    const { artifact, setImageUrl } = props
+    return (
+        <>
+            <h3>Story Preview</h3>
+            <Form.Item
+                name={"subtitle"}
+                rules={[
+                    {
+                        required: true,
+                        type: "string",
+                        max: 1000,
+                        message: "Required. Give people a quick overview of what you will be covering! ",
+                    },
+                ]}
+                className={"form-row"}>
+                <Input
+                    className={"minimal-text-input publish-text-input"}
+                    placeholder="Write a preview snippet we'll use a subtitle"
+                    bordered={false}
+                />
+            </Form.Item>
+            <div className={"form-row"} style={{minHeight: "200px", marginBottom: "25px"}}>
+                <h3>Add a cover Image</h3>
+                <ImageInput imageUrl={artifact.cover_image_url} setImageUrl={setImageUrl}/>
+            </div>
+        </>
+    )
+}
+
+export const DefaultPublishForm = (props: InternalFormProps) => {
+    const { artifact, setImageUrl } = props
+    return (
+        <>
+            <h3>Story Preview</h3>
+            <Form.Item
+                name={"title"}
+                rules={[
+                    {
+                        required: true,
+                        type: "string",
+                        max: 255,
+                        message: 'We need a title for your post! Keep it under 255',
+                    },
+                ]}
+                className={"form-row"}>
+                <Input
+                    className={"minimal-text-input publish-text-input"}
+                    placeholder="Write a preview title"
+                    bordered={false}
+                />
+            </Form.Item>
+            <Form.Item
+                name={"subtitle"}
+                rules={[
+                    {
+                        required: true,
+                        type: "string",
+                        max: 1000,
+                        message: "Required. Give people a quick overview of what you will be covering! ",
+                    },
+                ]}
+                className={"form-row"}>
+                <Input
+                    className={"minimal-text-input publish-text-input"}
+                    placeholder="Write a preview snippet we'll use a subtitle"
+                    bordered={false}
+                />
+            </Form.Item>
+            <div className={"form-row"} style={{minHeight: "200px", marginBottom: "25px"}}>
+                <h3>Add a cover Image</h3>
+                <ImageInput imageUrl={artifact.cover_image_url} setImageUrl={setImageUrl}/>
+            </div>
+        </>
+    )
+}
+
+
+/**
+ * Publish Tweet-style or blog-style?
+ * @constructor
+ */
+export const TweetPublishForm = () => {
+
 }

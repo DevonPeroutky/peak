@@ -9,6 +9,7 @@ import TextArea from "antd/es/input/TextArea";
 
 export const BookHeaderSection = (props: {note_id: string, cover_image_url: string, selected_tags: PeakTag[], title: string, author: string, onAuthorChange, onTitleChange}) => {
     const { note_id, cover_image_url, title, author, onAuthorChange, onTitleChange, selected_tags } = props
+    console.log(`THE TITLE `, title)
     return (
         <div className={"note-header-section peak_book"}>
             <div className={"note-subheader-section"}>

@@ -18,7 +18,7 @@ import {wikiTitleEnforcer} from "../../common/rich-text-editor/editors/wiki/conf
 import {PublishModal} from "../../common/modals/publish/PublishModal";
 import {PublishableArtifact} from "../../types/notes";
 import {Peaker} from "../../types";
-import {WIKI_PAGE} from "../../redux/slices/posts/types";
+import {WIKI_PAGE} from "../../types/editors";
 
 const TopicWiki = (props: {topic_id: string}) => {
     const { topic_id } = props;

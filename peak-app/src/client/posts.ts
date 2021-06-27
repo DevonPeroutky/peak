@@ -1,6 +1,6 @@
 import peakAxiosClient from "./axiosConfig";
 import {PeakPost} from "component-library";
-import {OG_ARTIFACT_TYPE} from "../redux/slices/posts/types";
+import {OG_ARTIFACT_TYPE} from "../types/notes";
 
 export const createPeakPostRequest = (userId: string, subdomain: string, post_payload: PeakPost, artifact_type: OG_ARTIFACT_TYPE): Promise<PeakPost> => {
     return peakAxiosClient

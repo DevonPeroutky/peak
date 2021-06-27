@@ -20,7 +20,6 @@ export const PublishModal = (props: { artifact: PublishableArtifact } ) => {
     const history = useHistory()
     const [visible, setVisible] = useState(false);
     const [loadingState, setLoading] = useState<PUBLISHING_STATE>("publish")
-    console.log(`THE ARTIFACT: `, artifact)
 
     const alreadyPublished: boolean = (artifact.privacy_level) ? artifact.privacy_level === POST_VISIBILITY.public.toString() : false
 

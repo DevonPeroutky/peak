@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {store} from "../../store";
 import {createPeakPostRequest} from "../../../client/posts";
 import {PeakPost} from "component-library";
-import {OG_ARTIFACT_TYPE} from "./types";
+import {OG_ARTIFACT_TYPE} from "../../../types/notes";
 
 export const postSlice = createSlice({
     name: 'posts',

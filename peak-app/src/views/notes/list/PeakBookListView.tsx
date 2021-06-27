@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import {loadPeakNotes, useNotes} from "../../../client/notes";
 import {List, message, Popconfirm} from "antd";
 import {ReadFilled} from "@ant-design/icons/lib";
-import "./note-list-view.scss"
+import "./book-list-view.scss"
 import {Link} from "react-router-dom";
 import { ELEMENT_PEAK_BOOK } from "../../../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
 import {ImageLoader} from "../../../common/image-loader/ImageLoader";

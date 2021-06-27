@@ -1,7 +1,8 @@
 import {Node} from "slate";
 import {PeakKnowledgeKeyOption} from "../common/rich-text-editor/plugins/peak-knowledge-plugin/types";
-import {ELEMENT_PEAK_BOOK} from "../common/rich-text-editor/plugins/peak-knowledge-plugin/constants";
-import {WIKI_PAGE} from "../redux/slices/posts/types";
+import {WIKI_PAGE} from "./editors";
+
+export type OG_ARTIFACT_TYPE = WIKI_PAGE | PeakKnowledgeKeyOption
 
 interface EditableNote {
     id: string,
@@ -13,7 +14,7 @@ interface EditableNote {
 
 interface Publishable {
     user_id: string
-    artifact_type: PeakKnowledgeKeyOption | WIKI_PAGE
+    artifact_type: OG_ARTIFACT_TYPE
 
     // The metadata subtitle to be displayed on the blog
     description?: string
@@ -51,7 +52,6 @@ export interface PeakExternalNote extends Note, Publishable {
 
 export type PeakNote = PeakBook | PeakLearningNote | PeakExternalNote
 
-
 export interface PublishableArtifact extends EditableNote, Publishable {
-
+    author?: string
 }
