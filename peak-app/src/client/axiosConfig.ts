@@ -6,8 +6,6 @@ const defaultConfig = {
     baseURL: `${config.web_protocol}://${config.backend_domain}`
 }
 const authedAxiosClient = axios.create(defaultConfig);
-export const blogAxiosClient = axios.create(defaultConfig);
-export const BASE_URL = defaultConfig.baseURL
 
 authedAxiosClient.interceptors.response.use(function (response) {
     return response;
