@@ -5,5 +5,4 @@
 export * from "./App.test";
 export * from "./App";
 export * from "./index";
-export * from "./react-app-env";
 export * from "./setupTests";
