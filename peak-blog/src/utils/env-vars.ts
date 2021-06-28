@@ -14,14 +14,12 @@ const dev: PeakBlogConfig = {
 
 const prod: PeakBlogConfig = {
     web_protocol: "https",
-    blog_domain: process.env.REACT_APP_BLOG_ADDRESS || "you-need-to-set-this.com",
-    backend_domain: process.env.REACT_APP_BACKEND_SERVER_ADDRESS || "you-need-to-set-this.com",
+    blog_domain: process.env.NEXT_PUBLIC_BLOG_ADDRESS || "you-need-to-set-this.com",
+    backend_domain: process.env.NEXT_PUBLIC_BACKEND_SERVER_ADDRESS || "you-need-to-set-this.com",
     env: "prod",
 }
 
 console.log(`General: `, process.env)
-console.log(`ENV: `, process.env.ENV)
-console.log(`NEXT_PUBLIC_ENV:: `, process.env.NEXT_PUBLIC_ENV)
 const config = process.env.NEXT_PUBLIC_ENV === 'dev' ? dev : prod
 
 console.log(`THE CONFIG `, config)
