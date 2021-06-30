@@ -2,8 +2,8 @@ import {app, BrowserWindow, shell, globalShortcut, ipcMain, session} from 'elect
 import * as isDev from 'electron-is-dev';
 import * as path from 'path';
 import config from "../src/constants/environment-vars"
-import { autoUpdater } from "electron-updater"
 
+const { autoUpdater } = require('electron-updater');
 const { Deeplink } = require('electron-deeplink');
 const protocol = config.electron_protocol;
 
@@ -81,9 +81,11 @@ const createWindow = (): void => {
 
   mainWindow.webContents.on("did-finish-load", () => {
     log.info("Checking for updates")
+      // @ts-ignore
       autoUpdater.checkForUpdatesAndNotify().then((res) => {
         log.info(`Update response `)
         log.info(res)
+        // @ts-ignore
       }).catch((err) => {
         log.error(`Checking for updates failed`)
         log.error(err.toString())
