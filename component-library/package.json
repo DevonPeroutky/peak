@@ -60,14 +60,14 @@
     "dist"
   ],
   "peerDependencies": {
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react": "link:../peak-app/node_modules/react",
+    "react-dom": "link:../peak-app/node_modules/react-dom"
   },
   "dependencies": {
+    "@udecode/slate-plugins": "^1.0.0-next.39",
     "@types/classnames": "^2.3.1",
     "@types/lodash": "^4.14.170",
     "@types/prismjs": "^1.16.5",
-    "@udecode/slate-plugins": "^1.0.0-next.31",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
     "prismjs": "^1.23.0",
