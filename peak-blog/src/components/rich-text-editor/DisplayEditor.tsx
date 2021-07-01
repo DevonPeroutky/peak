@@ -15,8 +15,6 @@ export const DisplayEditor = ({
                                   postId,
                                   value
                               }: DisplayEditorProps) => {
-    console.log(`COMPONENTS: `, useReadOnlyComponents())
-    console.log(`BODY: `, value)
     return (
         <SlatePlugins
             id={postId}

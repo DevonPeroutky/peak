@@ -75,7 +75,7 @@ defmodule DataFetcher.WebPage do
             og_title    = parse_metadata_from_html(html, "meta[property='og:title']")
             fallback_description = parse_metadata_from_html(html, "meta[name='description']")
             fallback_title  = parse_element_from_html(html, "title")
-            fav_icon = parse_favicon_from_html(html, "link[rel='icon']") |> IO.inspect
+            fav_icon = parse_favicon_from_html(html, "link[rel='icon']")
             fall_back_fav_icon = parse_favicon_from_html(html, "link[rel='shortcut icon']")
 
             title = if(og_title != nil, do: og_title, else: fallback_title)

@@ -14,7 +14,6 @@ export const BookPost = (props: { post: PeakPost }) => {
     const { subdomain, author } = useAppContext()
 
     const title = deriveTitleFromPost(post)
-    const bodySanTitle: Node[] = (post.body) ? post.body.slice(1) : []
 
     return (
         <div className={"py-12"}>
@@ -22,7 +21,7 @@ export const BookPost = (props: { post: PeakPost }) => {
                 <ConditionalImageLoader src={post.cover_image} width={"auto"} height={"150px"} layout={"intrinsic"} className={"mr-8"}/>
                 <h1 className={"mb-2 text-4xl"}>{title}</h1>
             </div>
-            <h2 className={"text-gray-500 text-xl font-light leading-normal mb-4"}>{post.subtitle}</h2>
+            {/*<h2 className={"text-gray-500 text-xl font-light leading-normal mb-4"}>{post.subtitle}</h2>*/}
             <div className={"text-gray-500 text-sm mb-10"}>
                 <Link href={"/about"}>
                     <span className={"mr-1 cursor-pointer hover:text-blue-400"}>{author.given_name} {author.family_name}</span>
@@ -32,7 +31,7 @@ export const BookPost = (props: { post: PeakPost }) => {
                 •
                 <EstimateReadTime className={"mx-1"} body={post.body}/>
             </div>
-            <DisplayEditor value={bodySanTitle} postId={post.id}/>
+            <DisplayEditor value={post.body} postId={post.id}/>
         </div>
     )
 }

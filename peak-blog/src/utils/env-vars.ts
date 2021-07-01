@@ -19,10 +19,7 @@ const prod: PeakBlogConfig = {
     env: "prod",
 }
 
-console.log(`General: `, process.env)
 const config = process.env.NEXT_PUBLIC_ENV === 'dev' ? dev : prod
-
-console.log(`THE CONFIG `, config)
 
 export default {
     ...config
