@@ -1,6 +1,6 @@
 import {EstimateReadTime} from "../read-time/EstimatedReadTime";
 import {useAppContext} from "../../../../data/context";
-import {PeakPost} from "component-library/dist/src";
+import {PeakPost} from "component-library";
 import Link from "next/link";
 import moment from "moment";
 
