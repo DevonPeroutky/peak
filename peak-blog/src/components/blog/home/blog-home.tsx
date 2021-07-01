@@ -83,7 +83,7 @@ export const BlogHome = (props) => {
                     </div>
                 </div>
             </div>
-            <div className={"py-24"}>
+            <div className={"py-12"}>
                 { (posts && posts.length > 0) ? posts.map(post => <BlogPostPreview key={post.id} post={post}/>) : <EmptyBlogPosts/> }
             </div>
         </div>
