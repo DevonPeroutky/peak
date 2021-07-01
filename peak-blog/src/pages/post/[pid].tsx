@@ -12,6 +12,7 @@ import {useAppContext} from "../../data/context";
 import PostHeaderBar from "../../components/blog/post/header/post-header";
 import {InitialLoader} from "../../components/loaders/InitialLoader";
 import {BookPost} from "../../components/blog/post/book-post";
+import {NotePost} from "../../components/blog/post/note-post";
 
 // TODO: Load the subdomain / author / posts if not done already?
 const Post: NextPage<{}> = (props) => {
@@ -43,11 +44,23 @@ const Post: NextPage<{}> = (props) => {
         return <InitialLoader/>
     }
 
+    const derivePost = () => {
+        switch(data.post_type) {
+            case POST_TYPE.book_post:
+                return <BookPost post={data}/>
+            case POST_TYPE.note_post:
+                return <NotePost post={data}/>
+            case POST_TYPE.blog_post:
+            default:
+                return <BlogPost post={data}/>
+    }
+}
+
     return (
         <div className={"w-screen flex flex-col justify-center items-center"}>
             <PostHeaderBar/>
             <div className={styles.postContainer}>
-                {(data.post_type === POST_TYPE.book_post) ? <BookPost post={data}/> : <BlogPost post={data}/> }
+                {derivePost()}
             </div>
         </div>
     )

@@ -19,7 +19,7 @@ export const BlogPost = (props: { post: PeakPost }) => {
     return (
         <div className={"py-12"}>
             <h1 className={"mb-2 text-4xl"}>{title}</h1>
-            <h2 className={"text-gray-500 text-xl font-light leading-normal mb-4"}>{post.subtitle}</h2>
+            {/*<h2 className={"text-gray-500 text-xl font-light leading-normal mb-4"}>{post.subtitle}</h2>*/}
             <div className={"text-gray-500 text-sm mb-10"}>
                 <Link href={"/about"}>
                     <span className={"mr-1 cursor-pointer hover:text-blue-400"}>{author.given_name} {author.family_name}</span>

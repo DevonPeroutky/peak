@@ -9,7 +9,7 @@ defmodule DataFetcher.WebPage do
   defp fetch_html_from_url(url) do
     case Api.PeakTelsaClient.fetch(url) do
       {:ok, %Tesla.Env{status: success_code, body: body}} when success_code in 200..399 ->
-        Logger.debug("Successfully fetched the html for #{url} with status code #{success_code}}")
+        Logger.debug("Successfully fetched the html for #{url} with status code #{success_code}")
         {:ok, body}
       {:ok, %Tesla.Env{status: success_code, body: body}} ->
         Logger.debug("Received an error code from the server at #{url}. Usually a private link")
@@ -28,10 +28,8 @@ defmodule DataFetcher.WebPage do
     node = Floki.find(html_document, selector)
     case node do
       [] -> nil
-      [{"meta", payload_list, []}] ->
-        payload_list
-        |> Enum.find(fn n -> elem(n, 0) == "content" end)
-        |> elem(1)
+      [{"meta", [{"content", content}, {"property", property}], []}] ->
+        content
       _ -> nil
     end
   end
@@ -77,7 +75,7 @@ defmodule DataFetcher.WebPage do
             og_title    = parse_metadata_from_html(html, "meta[property='og:title']")
             fallback_description = parse_metadata_from_html(html, "meta[name='description']")
             fallback_title  = parse_element_from_html(html, "title")
-            fav_icon = parse_favicon_from_html(html, "link[rel='icon']") |> IO.inspect
+            fav_icon = parse_favicon_from_html(html, "link[rel='icon']")
             fall_back_fav_icon = parse_favicon_from_html(html, "link[rel='shortcut icon']")
 
             title = if(og_title != nil, do: og_title, else: fallback_title)

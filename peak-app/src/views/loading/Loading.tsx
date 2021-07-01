@@ -8,6 +8,21 @@ import {useAnimationData} from "./constants";
 import "./loading.scss"
 
 export const useAppLoadingAnimation = () => {
+    // Add this in your component file
+    require('react-dom');
+    // @ts-ignore
+    window.ReactDom2 = require('react-dom');
+    // @ts-ignore
+    console.log(window.ReactDom2)
+    // @ts-ignore
+    window.React2 = require('react');
+    // @ts-ignore
+    console.log(window.React1)
+    // @ts-ignore
+    console.log(window.React2)
+    // @ts-ignore
+    console.log(`Multiple versions of react???? ${(window.React1 === window.React2) ? "No" : "Yes"}`);
+
     const query = useQuery();
     const history = useHistory();
     const [isLoading, setLoading] = useState(true);

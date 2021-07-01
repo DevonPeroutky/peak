@@ -2,6 +2,7 @@ defmodule MyApp.CORS do
   use Corsica.Router,
       origins: [
         "https://peak-app-server.onrender.com",
+        "https://peak-app-server-02be.onrender.com",
         "file://peak-electron-app",
         "chrome-extension://jdenmafkllgoggagbbbcahkdjhdednpf",
         ~r{^https?://(.*\.)?localhost\:(3|5)00(1|0)$},
