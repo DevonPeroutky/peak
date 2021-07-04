@@ -6,11 +6,11 @@ defmodule MyApp.Repo.Migrations.CreateSubscribers do
       add :id, :binary_id, primary_key: true
       add :email, :string, null: false
       add :peak_user_id, :binary, null: true
-      add :subdomain, references(:subdomains, on_delete: :nothing, type: :binary_id)
+      add :subdomain_id, references(:subdomains, on_delete: :nothing, type: :binary_id), null: false
 
       timestamps()
     end
 
-    create index(:subscribers, [:subdomain])
+    create index(:subscribers, [:subdomain_id])
   end
 end

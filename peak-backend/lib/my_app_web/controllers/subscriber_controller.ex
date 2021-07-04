@@ -15,7 +15,7 @@ defmodule MyAppWeb.SubscriberController do
     with {:ok, %Subscriber{} = subscriber} <- Blog.create_subscriber(subscriber_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.subscriber_path(conn, :show, subscriber))
+#      |> put_resp_header("location", Routes.subscriber_path(conn, :show, subscriber))
       |> render("show.json", subscriber: subscriber)
     end
   end

@@ -15,7 +15,7 @@ defmodule MyApp.Blog.Subscriber do
   @doc false
   def changeset(subscriber, attrs) do
     subscriber
-    |> cast(attrs, [:email, :peak_user_id])
-    |> validate_required([:email])
+    |> cast(attrs, [:email, :peak_user_id, :subdomain_id])
+    |> validate_required([:email, :subdomain_id])
   end
 end
