@@ -12,5 +12,6 @@ defmodule MyApp.Repo.Migrations.CreateSubscribers do
     end
 
     create index(:subscribers, [:subdomain_id])
+    create unique_index(:subscribers, [:email], name: :unique_email_subscriber)
   end
 end

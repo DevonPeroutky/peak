@@ -17,5 +17,6 @@ defmodule MyApp.Blog.Subscriber do
     subscriber
     |> cast(attrs, [:email, :peak_user_id, :subdomain_id])
     |> validate_required([:email, :subdomain_id])
+    |> unique_constraint(:unique_email, name: :unique_email_subscriber)
   end
 end
