@@ -6,8 +6,8 @@ defmodule MyApp.Blog.Subscriber do
   @foreign_key_type :binary_id
   schema "subscribers" do
     field :email, :string
-    field :peak_user_id, :binary
-    field :subdomain, :binary_id
+    field :peak_user_id, :binary_id
+    belongs_to :subdomain, MyApp.Blog.Subdomain, [foreign_key: :subdomain_id, type: :binary_id]
 
     timestamps()
   end
@@ -16,6 +16,6 @@ defmodule MyApp.Blog.Subscriber do
   def changeset(subscriber, attrs) do
     subscriber
     |> cast(attrs, [:email, :peak_user_id])
-    |> validate_required([:email, :peak_user_id])
+    |> validate_required([:email])
   end
 end
