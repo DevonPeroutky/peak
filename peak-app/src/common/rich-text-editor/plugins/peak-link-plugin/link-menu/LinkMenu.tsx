@@ -18,6 +18,21 @@ interface LinkMenuProps {
     linkState: PeakHyperlinkState
 }
 const LinkMenu = (props: LinkMenuProps) => {
+    // Add this in your component file
+    require('react-dom');
+    // @ts-ignore
+    window.ReactDom2 = require('react-dom');
+    // @ts-ignore
+    console.log(window.ReactDom2)
+    // @ts-ignore
+    window.React2 = require('react');
+    // @ts-ignore
+    console.log(`React 1: `, window.React1)
+    // @ts-ignore
+    console.log(`React 2: `, window.React2)
+    // @ts-ignore
+    console.log(`Multiple versions of react???? ${(window.React1 === window.React2) ? "No" : "Yes"}`);
+
     const { showLinkMenu, linkState } = props
     const dispatch = useDispatch()
     const searchInputEl = useRef(null);

@@ -17,6 +17,7 @@ export const DisplayEditor = ({
                               }: DisplayEditorProps) => {
     return (
         <SlatePlugins
+            className={"flex flex-col flex-grow"}
             id={postId}
             plugins={[...basePlugins, ]}
             options={pluginOptions}

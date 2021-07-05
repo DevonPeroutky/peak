@@ -36,6 +36,7 @@ defmodule MyAppWeb.Router do
   scope "/blog/v1", MyAppWeb do
     pipe_through [:public]
     get "/", SubdomainController, :fetch_subdomain
+    post "/subscribe", SubscriberController, :create
     resources "/posts", PostController, only: [:index, :show]
   end
 

@@ -13,6 +13,9 @@ import PostHeaderBar from "../../components/blog/post/header/post-header";
 import {InitialLoader} from "../../components/loaders/InitialLoader";
 import {BookPost} from "../../components/blog/post/book-post";
 import {NotePost} from "../../components/blog/post/note-post";
+import {FooterCTA} from "../../components/blog/post/footer/subscribe-footer";
+import cn from 'classnames';
+import {CircleIndicator} from "../../components/primitives/indicators/CircleInidicator";
 
 // TODO: Load the subdomain / author / posts if not done already?
 const Post: NextPage<{}> = (props) => {
@@ -57,10 +60,12 @@ const Post: NextPage<{}> = (props) => {
 }
 
     return (
-        <div className={"w-screen flex flex-col justify-center items-center"}>
+        <div className={"w-screen flex flex-col items-center min-h-screen"}>
             <PostHeaderBar/>
-            <div className={styles.postContainer}>
+            <CircleIndicator/>
+            <div className={cn(styles.postContainer, "pt-12 flex flex-col justify-between")}>
                 {derivePost()}
+                <FooterCTA post={data}/>
             </div>
         </div>
     )

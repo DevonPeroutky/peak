@@ -59,6 +59,7 @@ export const PeakEditor = ({
     //         ReactEditor.focus(editor)
     //     })
     // }, [])
+    // Add this in your component file
 
     return (
         <div className={cn("peak-rich-text-editor-container", (className) ? className : "")}>

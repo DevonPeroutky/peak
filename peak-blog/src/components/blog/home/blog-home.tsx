@@ -1,5 +1,5 @@
 import {fetch_posts_for_subdomain} from "../../../data/posts/posts";
-import {useInfiniteQuery, useQuery, useQueryClient} from "react-query";
+import {useInfiniteQuery} from "react-query";
 import {PeakPost, PeakPostListResponse} from "component-library";
 import React from "react";
 import {POSTS_KEY} from "../../../data/posts/types";
@@ -11,6 +11,7 @@ import {EmptyBlogPosts} from "./blog-empty-posts";
 
 export const BlogHome = (props) => {
     const { subdomain, author } = useAppContext()
+    console.log(`SUBDOMAIN `, subdomain)
 
     // Move this to satke more advantage of SSR?
     const { isLoading, isError, status, data, fetchNextPage, hasNextPage, error, isFetchingNextPage } = useInfiniteQuery<PeakPostListResponse, Error>(
@@ -83,7 +84,7 @@ export const BlogHome = (props) => {
                     </div>
                 </div>
             </div>
-            <div className={"py-24"}>
+            <div className={"py-12"}>
                 { (posts && posts.length > 0) ? posts.map(post => <BlogPostPreview key={post.id} post={post}/>) : <EmptyBlogPosts/> }
             </div>
         </div>

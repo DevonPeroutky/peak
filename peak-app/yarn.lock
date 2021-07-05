@@ -2999,7 +2999,7 @@
     "@uifabric/styling" "^7.18.0"
     "@uifabric/utilities" "^7.33.4"
 
-"@udecode/slate-plugins@^1.0.0-next.31", "@udecode/slate-plugins@^1.0.0-next.39":
+"@udecode/slate-plugins@^1.0.0-next.39":
   version "1.0.0-next.39"
   resolved "https://registry.yarnpkg.com/@udecode/slate-plugins/-/slate-plugins-1.0.0-next.39.tgz#eda9c8e50aad829567f580e9e3190a25b274be31"
   integrity sha512-hcuskr9fGuieWArrvuEDOqh/zD7CNWoZAP0nINkOYHPl0ZZw+2ZQ7AT0ekfLAiVMLqDBOo1AMVppcOyal3psyA==
